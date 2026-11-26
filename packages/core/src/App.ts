@@ -6,7 +6,7 @@ import type { NamespacedResourceMeta, Resource, Scope } from './resource/Resourc
 
 /**
  * Identifies a resource the way Kubernetes does: group, kind, namespace and name
- * (the version doesn't matter). Formatted like kubectl, e.g. `deployment.apps web/nginx`.
+ * (the version doesn't matter), e.g. `Deployment.apps web/nginx`.
  */
 function describe(resource: Resource): string {
     const kind = kindWithGroup(resource.apiVersion, resource.kind);
@@ -84,6 +84,19 @@ export class App implements Scope {
                 files.set(file, r);
             }
 
+            // The output directory is deleted below; never let that be the working directory or a parent.
+            const outDir = path.resolve(this.outputName);
+            const cwdFromOut = path.relative(outDir, process.cwd());
+            if (
+                cwdFromOut !== '..' &&
+                !cwdFromOut.startsWith(`..${path.sep}`) &&
+                !path.isAbsolute(cwdFromOut)
+            ) {
+                throw new Error(
+                    `App '${this.outputName}' would save to ${outDir}, which contains the current directory. ` +
+                        `Pick a dedicated output directory, e.g. 'dist/${path.basename(outDir) || 'app'}'.`,
+                );
+            }
             if (fs.existsSync(this.outputName)) {
                 fs.rmSync(this.outputName, { recursive: true });
             }

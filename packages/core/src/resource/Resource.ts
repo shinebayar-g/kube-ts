@@ -47,9 +47,8 @@ export interface NamespacedResourceArgs extends ResourceArgs {
  * depending on the scope of the resource.
  *
  * Contract with @kube-ts/k8s: the generated models extend ClusterResource and
- * NamespacedResource and call their constructors. Changing these constructors or
- * the metadata types is a breaking change: bump core's minor version (0.x) and
- * republish @kube-ts/k8s with the new peer range.
+ * NamespacedResource and call their constructors, so changes to these constructors
+ * or the metadata types affect every generated model.
  *
  * Can also be used directly as an escape hatch, e.g. for CRDs without generated code.
  */
@@ -67,8 +66,8 @@ export class Resource {
         this.apiVersion = apiVersion;
         this.kind = kind;
         // Keep the caller's key order when it set a name (e.g. Helm output); otherwise put `name` first.
-        const resourceMeta = metadata?.name ? { ...metadata } : { name, ...metadata };
-        this.metadata = { ...resourceMeta, name: resourceMeta.name || name };
+        const { name: metaName, ...otherMeta }: NamespacedResourceMeta = metadata ?? {};
+        this.metadata = metaName ? { ...metadata, name: metaName } : { name, ...otherMeta };
         // Everything else (spec, data, rules, ...) is copied as-is.
         Object.assign(this, rest);
         scope.addResource(this);
