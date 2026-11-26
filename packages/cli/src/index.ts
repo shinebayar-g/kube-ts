@@ -10,7 +10,7 @@ async function main() {
     ).version;
     const program = new Command();
     program
-        .name('@k8skonf/cli')
+        .name('kube-ts')
         .argument('[crd-path-or-url]', 'CRD path or URL')
         .version(version)
         .parse();
@@ -19,7 +19,7 @@ async function main() {
     if (crdPathOrUrl) {
         await generateCRDs(crdPathOrUrl);
     } else {
-        const config = readConfig('./k8skonfig.yaml');
+        const config = readConfig('./kube-ts.yaml');
         await generateCRDs(crdPathOrUrl, config);
     }
 }

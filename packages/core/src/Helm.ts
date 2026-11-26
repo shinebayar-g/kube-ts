@@ -91,7 +91,7 @@ export class Helm {
                         schema: 'yaml-1.1',
                         aliasDuplicateObjects: false,
                     });
-                    tmpValuesDir = fs.mkdtempSync(path.join(os.tmpdir(), 'k8skonf-helm-values-'), {
+                    tmpValuesDir = fs.mkdtempSync(path.join(os.tmpdir(), 'kube-ts-helm-values-'), {
                         encoding: 'utf-8',
                     });
                     fs.writeFileSync(path.join(tmpValuesDir, 'values.yaml'), content);

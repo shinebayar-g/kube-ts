@@ -1,23 +1,23 @@
 {
-  "name": "@k8skonf/k8s",
+  "name": "@kube-ts/k8s",
   "version": "1.25.0",
   "author": {
-    "name": "konfjs",
-    "url": "https://github.com/konfjs"
+    "name": "shinebayar-g",
+    "url": "https://github.com/shinebayar-g"
   },
   "license": "MPL-2.0",
-  "homepage": "https://github.com/konfjs/k8skonf",
+  "homepage": "https://github.com/shinebayar-g/kube-ts",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/konfjs/k8skonf.git",
+    "url": "git+https://github.com/shinebayar-g/kube-ts.git",
     "directory": "packages/k8s"
   },
   "bugs": {
-    "url": "https://github.com/konfjs/k8skonf/issues"
+    "url": "https://github.com/shinebayar-g/kube-ts/issues"
   },
   "keywords": [
-    "konfjs",
-    "k8skonf",
+    "kube-ts",
+    "typescript",
     "kubernetes",
     "cdk8s",
     "cdk",
@@ -61,6 +61,6 @@
   "dependencies": {
     "picocolors": "^1.1.1",
     "yaml": "^2.8.3",
-    "@k8skonf/core": "workspace:*"
+    "@kube-ts/core": "workspace:*"
   }
 }

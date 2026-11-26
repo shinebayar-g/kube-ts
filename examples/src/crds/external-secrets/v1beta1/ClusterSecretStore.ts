@@ -1,5 +1,5 @@
-import type { K8sApp } from '@k8skonf/core';
-import { ApiObject, type ObjectMeta } from '@k8skonf/core';
+import type { K8sApp } from '@kube-ts/core';
+import { ApiObject, type ObjectMeta } from '@kube-ts/core';
 
 /**
  * ClusterSecretStore represents a secure external location for storing secrets, which can be referenced as part of `storeRef` fields.

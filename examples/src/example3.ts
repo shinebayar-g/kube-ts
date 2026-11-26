@@ -1,14 +1,14 @@
-import { K8sApp } from '@k8skonf/core';
+import { K8sApp } from '@kube-ts/core';
 import { Application } from './crds/argocd/v1alpha1/Application.ts';
 import { v1alpha1 } from './crds/argocd/index.ts';
 import { AppProject } from './crds/argocd/v1alpha1.ts';
 
-import * as k8s from '@k8skonf/core';
-import { core } from '@k8skonf/core';
-import { Deployment } from '@k8skonf/core/apps/v1';
-import { DaemonSet } from '@k8skonf/core/apps/v1/DaemonSet';
-import { Namespace } from '@k8skonf/core/core/v1';
-import { ClusterRole } from '@k8skonf/core/rbac/v1';
+import * as k8s from '@kube-ts/core';
+import { core } from '@kube-ts/core';
+import { Deployment } from '@kube-ts/core/apps/v1';
+import { DaemonSet } from '@kube-ts/core/apps/v1/DaemonSet';
+import { Namespace } from '@kube-ts/core/core/v1';
+import { ClusterRole } from '@kube-ts/core/rbac/v1';
 
 const app = new K8sApp('example3', { namespace: 'example3' });
 

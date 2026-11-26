@@ -1,5 +1,5 @@
-import type { K8sApp } from '@k8skonf/core';
-import { NamespacedApiObject, type NamespacedObjectMeta } from '@k8skonf/core';
+import type { K8sApp } from '@kube-ts/core';
+import { NamespacedApiObject, type NamespacedObjectMeta } from '@kube-ts/core';
 
 /**
  * Password generates a random password based on the

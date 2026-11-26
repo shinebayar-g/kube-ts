@@ -33,10 +33,10 @@
   ],
   "packages": {
     "packages/cli": {
-      "package-name": "@k8skonf/cli"
+      "package-name": "@kube-ts/cli"
     },
     "packages/core": {
-      "package-name": "@k8skonf/core"
+      "package-name": "@kube-ts/core"
     }
   }
 }
