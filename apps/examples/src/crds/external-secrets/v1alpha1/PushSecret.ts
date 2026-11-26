@@ -63,6 +63,9 @@ export interface PushSecretArgs {
       labelSelector?: {
         /**
          * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+         *
+         * Items: A label selector requirement is a selector that contains values, a key, and an operator that
+         * relates the key and values.
          */
         matchExpressions?: {
           /**

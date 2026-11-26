@@ -4,7 +4,7 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import { compile } from 'json-schema-to-typescript';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import {
     type ClassDeclarationStructure,
     IndentationText,
@@ -85,12 +85,12 @@ async function fetchAndParseCRDs(crds: CRD[], url: string, cacheDir: string) {
     const cacheId = crypto.createHash('sha1').update(url).digest('hex');
     const yamlSavePath = path.join(cacheDir, `${cacheId}-${path.basename(url)}`);
     if (!fs.existsSync(yamlSavePath)) {
-        log(`Fetching CRDs from ${pc.yellowBright(url.toString())}`);
+        log(`Fetching CRDs from ${styleText('yellowBright', url.toString())}`);
         const req = await fetch(url);
         const data = await req.text();
         fs.writeFileSync(yamlSavePath, data);
     } else {
-        log(`Reading CRDs from ${pc.yellowBright(url)} (cached)`);
+        log(`Reading CRDs from ${styleText('yellowBright', url)} (cached)`);
     }
     parseCRDs(crds, fs.readFileSync(yamlSavePath, 'utf-8'));
 }
@@ -117,7 +117,7 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
             const url = new URL(crdPathOrUrl);
             await fetchAndParseCRDs(output[''], url.toString(), cacheHome);
         } catch (_e) {
-            log(`Reading CRDs from ${pc.yellowBright(crdPathOrUrl)}`);
+            log(`Reading CRDs from ${styleText('yellowBright', crdPathOrUrl)}`);
             parseCRDs(output[''], fs.readFileSync(crdPathOrUrl, 'utf-8'));
         }
     } else if (config) {
@@ -130,7 +130,7 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                     new URL(url);
                     await fetchAndParseCRDs(output[pkg], url, cacheDir);
                 } catch (_e) {
-                    log(`Reading CRDs from ${pc.yellowBright(url)} (local)`);
+                    log(`Reading CRDs from ${styleText('yellowBright', url)} (local)`);
                     parseCRDs(output[pkg], fs.readFileSync(url, 'utf-8'));
                 }
             }
@@ -247,7 +247,7 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
         }
     }
 
-    log(`Saving generated files to the ${pc.yellowBright(outDir)} directory`);
+    log(`Saving generated files to the ${styleText('yellowBright', outDir)} directory`);
     project.saveSync();
 
     for (const crdDir of fs.readdirSync(outDir)) {

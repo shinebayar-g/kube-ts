@@ -16,6 +16,9 @@ export interface AppProjectArgs {
   readonly spec: {
     /**
      * ClusterResourceBlacklist contains list of blacklisted cluster level resources
+     *
+     * Items: GroupKind specifies a Group and a Kind, but does not force a version.  This is useful for identifying
+     * concepts during lookup stages without having partially valid types
      */
     clusterResourceBlacklist?: {
       group: string;
@@ -23,6 +26,9 @@ export interface AppProjectArgs {
     }[];
     /**
      * ClusterResourceWhitelist contains list of whitelisted cluster level resources
+     *
+     * Items: GroupKind specifies a Group and a Kind, but does not force a version.  This is useful for identifying
+     * concepts during lookup stages without having partially valid types
      */
     clusterResourceWhitelist?: {
       group: string;
@@ -34,6 +40,8 @@ export interface AppProjectArgs {
     description?: string;
     /**
      * DestinationServiceAccounts holds information about the service accounts to be impersonated for the application sync operation for each destination.
+     *
+     * Items: ApplicationDestinationServiceAccount holds information about the service account to be impersonated for the application sync operation.
      */
     destinationServiceAccounts?: {
       /**
@@ -51,6 +59,8 @@ export interface AppProjectArgs {
     }[];
     /**
      * Destinations contains list of destinations available for deployment
+     *
+     * Items: ApplicationDestination holds information about the application's destination
      */
     destinations?: {
       /**
@@ -69,6 +79,9 @@ export interface AppProjectArgs {
     }[];
     /**
      * NamespaceResourceBlacklist contains list of blacklisted namespace level resources
+     *
+     * Items: GroupKind specifies a Group and a Kind, but does not force a version.  This is useful for identifying
+     * concepts during lookup stages without having partially valid types
      */
     namespaceResourceBlacklist?: {
       group: string;
@@ -76,6 +89,9 @@ export interface AppProjectArgs {
     }[];
     /**
      * NamespaceResourceWhitelist contains list of whitelisted namespace level resources
+     *
+     * Items: GroupKind specifies a Group and a Kind, but does not force a version.  This is useful for identifying
+     * concepts during lookup stages without having partially valid types
      */
     namespaceResourceWhitelist?: {
       group: string;
@@ -87,6 +103,8 @@ export interface AppProjectArgs {
     orphanedResources?: {
       /**
        * Ignore contains a list of resources that are to be excluded from orphaned resources monitoring
+       *
+       * Items: OrphanedResourceKey is a reference to a resource to be ignored from
        */
       ignore?: {
         group?: string;
@@ -104,6 +122,8 @@ export interface AppProjectArgs {
     permitOnlyProjectScopedClusters?: boolean;
     /**
      * Roles are user defined RBAC roles associated with this project
+     *
+     * Items: ProjectRole represents a role that has access to a project
      */
     roles?: {
       /**
@@ -116,6 +136,8 @@ export interface AppProjectArgs {
       groups?: string[];
       /**
        * JWTTokens are a list of generated JWT tokens bound to this role
+       *
+       * Items: JWTToken holds the issuedAt and expiresAt values of a token
        */
       jwtTokens?: {
         exp?: number;
@@ -133,6 +155,8 @@ export interface AppProjectArgs {
     }[];
     /**
      * SignatureKeys contains a list of PGP key IDs that commits in Git must be signed with in order to be allowed for sync
+     *
+     * Items: SignatureKey is the specification of a key required to verify commit signatures with
      */
     signatureKeys?: {
       /**
@@ -150,6 +174,8 @@ export interface AppProjectArgs {
     sourceRepos?: string[];
     /**
      * SyncWindows controls when syncs can be run for apps in this project
+     *
+     * Items: SyncWindow contains the kind, time, duration and attributes that are used to assign the syncWindows to apps
      */
     syncWindows?: {
       /**

@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import { IndentationText, Project, QuoteKind } from 'ts-morph';
 import { targetPackagePath } from './paths.ts';
 
@@ -24,7 +24,7 @@ function main() {
         if (sourceFile.getDirectoryPath().startsWith(modelsPath)) {
             const i = sourceFile.getInterfaces()[0];
             if (i?.findReferencesAsNodes().length === 0) {
-                log(`Found unused interface ${pc.cyan(i.getName())}`);
+                log(`Found unused interface ${styleText('cyan', i.getName())}`);
                 unusedInterfaceFiles.push(sourceFile.getFilePath());
             }
         }

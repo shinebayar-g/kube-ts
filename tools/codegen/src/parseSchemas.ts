@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 
 export interface K8sOpenApiSpec {
     components: {
@@ -230,7 +230,7 @@ function main() {
         parseSchemas(file.name, spec, schemas);
     }
 
-    log(`Saving to ${pc.blueBright('schemas.json')}`);
+    log(`Saving to ${styleText('blueBright', 'schemas.json')}`);
     saveSchemas(schemas, 'schemas.json');
 }
 

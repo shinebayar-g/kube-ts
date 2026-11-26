@@ -1,6 +1,6 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import { kindWithGroup } from './resource/clusterScopedKinds.ts';
 import type { NamespacedResourceMeta, Resource, Scope } from './resource/Resource.ts';
 
@@ -65,7 +65,7 @@ export class App implements Scope {
 
     save() {
         if (this.args?.outputType === 'singleFile') {
-            console.log(pc.blueBright(`Saving to ${this.outputName}.yaml`));
+            console.log(styleText('blueBright', `Saving to ${this.outputName}.yaml`));
             fs.writeFileSync(`${this.outputName}.yaml`, this.toYaml());
         } else {
             // Check file names before touching the output directory, so a failed save
@@ -102,7 +102,7 @@ export class App implements Scope {
             }
             fs.mkdirSync(this.outputName, { recursive: true });
             for (const [file, r] of files) {
-                console.log(pc.blueBright(`Saving to ${file}`));
+                console.log(styleText('blueBright', `Saving to ${file}`));
                 fs.writeFileSync(file, r.toYaml());
             }
         }

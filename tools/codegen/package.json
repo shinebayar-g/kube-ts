@@ -9,8 +9,7 @@
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "catalog:",
     "@types/node": "catalog:",
-    "picocolors": "^1.1.1",
-    "ts-morph": "^27.0.2",
+    "ts-morph": "catalog:",
     "typescript": "catalog:"
   }
 }

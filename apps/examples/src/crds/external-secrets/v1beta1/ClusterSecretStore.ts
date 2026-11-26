@@ -11,6 +11,9 @@ export interface ClusterSecretStoreArgs {
   readonly spec?: {
     /**
      * Used to constraint a ClusterSecretStore to specific namespaces. Relevant only to ClusterSecretStore
+     *
+     * Items: ClusterSecretStoreCondition describes a condition by which to choose namespaces to process ExternalSecrets in
+     * for a ClusterSecretStore instance.
      */
     conditions?: {
       /**
@@ -23,6 +26,9 @@ export interface ClusterSecretStoreArgs {
       namespaceSelector?: {
         /**
          * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+         *
+         * Items: A label selector requirement is a selector that contains values, a key, and an operator that
+         * relates the key and values.
          */
         matchExpressions?: {
           /**

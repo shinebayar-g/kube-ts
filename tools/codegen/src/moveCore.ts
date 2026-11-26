@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import { IndentationText, Project, QuoteKind } from 'ts-morph';
 import { targetPackagePath } from './paths.ts';
 import type { Schemas } from './parseSchemas.ts';
@@ -54,13 +54,15 @@ function main() {
                 }
 
                 if (!fs.existsSync(destDir)) {
-                    log(`Creating directory ${pc.blueBright(destDir)}`);
+                    log(`Creating directory ${styleText('blueBright', destDir)}`);
                     fs.mkdirSync(destDir, { recursive: true });
                 }
 
                 const destFile = path.join(destDir, `${schema.kind}.ts`);
 
-                log(`Moving ${pc.gray(`${fileName}.ts`)} to ${pc.cyan(destFile)}`);
+                log(
+                    `Moving ${styleText('gray', `${fileName}.ts`)} to ${styleText('cyan', destFile)}`,
+                );
                 sourceFile.move(destFile);
             }
         }
