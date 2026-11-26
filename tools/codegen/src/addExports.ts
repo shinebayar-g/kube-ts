@@ -14,13 +14,15 @@ interface ApiResources {
 function getApiResources(modelsPath: string, apiResources: ApiResources): void {
     for (const apiGroup of fs.readdirSync(modelsPath, { withFileTypes: true })) {
         if (apiGroup.isDirectory()) {
-            apiResources[apiGroup.name] = {};
+            const versions: ApiResources[string] = {};
+            apiResources[apiGroup.name] = versions;
 
             for (const apiVersion of fs.readdirSync(path.join(apiGroup.parentPath, apiGroup.name), {
                 withFileTypes: true,
             })) {
                 if (apiVersion.isDirectory()) {
-                    apiResources[apiGroup.name][apiVersion.name] = [];
+                    const files: string[] = [];
+                    versions[apiVersion.name] = files;
 
                     for (const file of fs.readdirSync(
                         path.join(apiVersion.parentPath, apiVersion.name),
@@ -29,7 +31,7 @@ function getApiResources(modelsPath: string, apiResources: ApiResources): void {
                         },
                     )) {
                         if (file.isFile()) {
-                            apiResources[apiGroup.name][apiVersion.name].push(file.name);
+                            files.push(file.name);
                         }
                     }
                 }
@@ -58,10 +60,9 @@ function main() {
     // Runtime pieces (App, base classes, Helm, ObjectMeta) live in @kube-ts/core.
     let indexFileContent = '';
 
-    for (const apiGroup of Object.keys(apiResources)) {
+    for (const [apiGroup, versions] of Object.entries(apiResources)) {
         let apiGroupFileContent = '';
-        for (const apiVersion of Object.keys(apiResources[apiGroup])) {
-            const apiResourceList = apiResources[apiGroup][apiVersion];
+        for (const [apiVersion, apiResourceList] of Object.entries(versions)) {
             if (apiResourceList.length > 0) {
                 apiGroupFileContent += `export * as ${apiVersion} from './${apiGroup}/${apiVersion}.ts';\n`;
 

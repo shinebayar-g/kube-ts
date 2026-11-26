@@ -161,13 +161,15 @@ function main() {
                  * Clean up the default generated class structure.
                  */
                 cleanupDefaultClass(sourceFile, classDeclaration, className);
-                if (schemas.classes[className]) {
+                const classSchema = schemas.classes[className];
+                const interfaceSchema = schemas.interfaces[className];
+                if (classSchema) {
                     /**
                      * Resource classes extend the base classes from @kube-ts/core (peer dependency).
                      * Every property is `declare`d: the base constructor assigns the values,
                      * and the subclass only narrows the types (and keeps the docs).
                      */
-                    const { group, version, kind, namespaced } = schemas.classes[className];
+                    const { group, version, kind, namespaced } = classSchema;
                     /**
                      * Kubernetes core API group has no group prefix.
                      */
@@ -255,19 +257,20 @@ function main() {
                     };
                     classDeclaration.addConstructor(c);
                     classDeclaration.rename(kind);
-                } else if (schemas.interfaces[className]) {
-                    classDeclaration.rename(schemas.interfaces[className].kind);
+                } else if (interfaceSchema) {
+                    classDeclaration.rename(interfaceSchema.kind);
 
                     const i: InterfaceDeclarationStructure = {
                         kind: StructureKind.Interface,
-                        name: schemas.interfaces[className].kind,
+                        name: interfaceSchema.kind,
                         isExported: true,
                         docs: [
                             {
                                 kind: StructureKind.JSDoc,
                                 description: `\n${classDeclaration
                                     .getJsDocs()
-                                    .map((doc) => doc.getInnerText())}`,
+                                    .map((doc) => doc.getInnerText())
+                                    .join(',')}`,
                             },
                         ],
                         properties: classDeclaration.getProperties().map((prop) => {
@@ -279,9 +282,10 @@ function main() {
                                 docs: [
                                     {
                                         kind: StructureKind.JSDoc,
-                                        description: `\n${prop.getJsDocs().map((doc) => {
-                                            return doc.getInnerText();
-                                        })}`,
+                                        description: `\n${prop
+                                            .getJsDocs()
+                                            .map((doc) => doc.getInnerText())
+                                            .join(',')}`,
                                     },
                                 ],
                             };

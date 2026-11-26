@@ -83,7 +83,7 @@ export class Resource {
 
     toYaml(): string {
         return yaml.stringify(
-            { ...this },
+            this,
             // lineWidth: 0 turns off folding, so long values (commands, annotations) stay on one line.
             { schema: 'yaml-1.1', aliasDuplicateObjects: false, lineWidth: 0 },
         );
