@@ -19,10 +19,6 @@ export class DeviceClass extends ClusterResource {
    */
   declare readonly kind: 'DeviceClass';
   /**
-   * Standard object metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Spec defines what can be allocated and how to configure it.  This is mutable. Consumers have to be prepared for classes changing at any time, either because they get updated or replaced. Claim allocations are done once based on whatever was set in classes at the time of allocation.  Changing the spec automatically increments the metadata.generation number.
    */
   declare readonly spec: DeviceClassSpec;

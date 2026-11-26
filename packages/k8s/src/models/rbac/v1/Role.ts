@@ -19,10 +19,6 @@ export class Role extends NamespacedResource {
    */
   declare readonly kind: 'Role';
   /**
-   * Standard object\'s metadata.
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Rules holds all the PolicyRules for this Role
    */
   declare readonly rules?: Array<PolicyRule>;

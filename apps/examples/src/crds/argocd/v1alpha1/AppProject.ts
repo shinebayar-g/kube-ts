@@ -191,7 +191,6 @@ export interface AppProjectArgs {
 export class AppProject extends NamespacedResource {
   declare readonly apiVersion: 'argoproj.io/v1alpha1';
   declare readonly kind: 'AppProject';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: AppProjectArgs['spec'];
 
   constructor(scope: Scope, name: string, args: AppProjectArgs) {

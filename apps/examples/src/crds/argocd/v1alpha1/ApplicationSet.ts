@@ -7208,7 +7208,6 @@ export interface ApplicationSetArgs {
 export class ApplicationSet extends NamespacedResource {
   declare readonly apiVersion: 'argoproj.io/v1alpha1';
   declare readonly kind: 'ApplicationSet';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: ApplicationSetArgs['spec'];
 
   constructor(scope: Scope, name: string, args: ApplicationSetArgs) {

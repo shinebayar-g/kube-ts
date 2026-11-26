@@ -212,7 +212,6 @@ export interface PushSecretArgs {
 export class PushSecret extends NamespacedResource {
   declare readonly apiVersion: 'external-secrets.io/v1alpha1';
   declare readonly kind: 'PushSecret';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: PushSecretArgs['spec'];
 
   constructor(scope: Scope, name: string, args: PushSecretArgs = {}) {

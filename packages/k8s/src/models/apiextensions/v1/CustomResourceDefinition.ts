@@ -19,10 +19,6 @@ export class CustomResourceDefinition extends ClusterResource {
    */
   declare readonly kind: 'CustomResourceDefinition';
   /**
-   * Standard object\'s metadata More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec describes how the user wants the resources to appear
    */
   declare readonly spec: CustomResourceDefinitionSpec;

@@ -3008,7 +3008,6 @@ export interface SecretStoreArgs {
 export class SecretStore extends NamespacedResource {
   declare readonly apiVersion: 'external-secrets.io/v1beta1';
   declare readonly kind: 'SecretStore';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: SecretStoreArgs['spec'];
 
   constructor(scope: Scope, name: string, args: SecretStoreArgs = {}) {

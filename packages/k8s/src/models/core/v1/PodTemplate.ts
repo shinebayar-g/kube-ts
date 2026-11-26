@@ -19,10 +19,6 @@ export class PodTemplate extends NamespacedResource {
    */
   declare readonly kind: 'PodTemplate';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Template defines the pods that will be created from this pod template. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    */
   declare readonly template?: PodTemplateSpec;

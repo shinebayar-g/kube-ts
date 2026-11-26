@@ -19,10 +19,6 @@ export class ResourceClaimTemplate extends NamespacedResource {
    */
   declare readonly kind: 'ResourceClaimTemplate';
   /**
-   * Standard object metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Describes the ResourceClaim that is to be generated.  This field is immutable. A ResourceClaim will get created by the control plane for a Pod when needed and then not get updated anymore.
    */
   declare readonly spec: ResourceClaimTemplateSpec;

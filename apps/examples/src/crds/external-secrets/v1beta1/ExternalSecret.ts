@@ -367,7 +367,6 @@ export interface ExternalSecretArgs {
 export class ExternalSecret extends NamespacedResource {
   declare readonly apiVersion: 'external-secrets.io/v1beta1';
   declare readonly kind: 'ExternalSecret';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: ExternalSecretArgs['spec'];
 
   constructor(scope: Scope, name: string, args: ExternalSecretArgs = {}) {

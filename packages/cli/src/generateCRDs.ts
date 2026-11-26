@@ -211,12 +211,6 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                                 isReadonly: true,
                                 hasDeclareKeyword: true,
                             },
-                            {
-                                name: 'metadata',
-                                type: metaType,
-                                isReadonly: true,
-                                hasDeclareKeyword: true,
-                            },
                             ...(spec
                                 ? [
                                       {

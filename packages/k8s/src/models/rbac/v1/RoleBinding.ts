@@ -21,10 +21,6 @@ export class RoleBinding extends NamespacedResource {
    */
   declare readonly kind: 'RoleBinding';
   /**
-   * Standard object\'s metadata.
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * RoleRef can reference a Role in the current namespace or a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.
    */
   declare readonly roleRef: RoleRef;

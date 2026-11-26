@@ -3,7 +3,13 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import * as yaml from 'yaml';
-import { Resource, type Scope } from './resource/Resource.ts';
+import { clusterScopedKinds, kindWithGroup } from './resource/clusterScopedKinds.ts';
+import {
+    type NamespacedResourceMeta,
+    Resource,
+    type ResourceArgs,
+    type Scope,
+} from './resource/Resource.ts';
 
 /**
  * A rendered chart object. Any top-level field (e.g. `webhooks`, `rules`) is accessible.
@@ -28,8 +34,10 @@ export interface HelmArgs {
      */
     readonly version?: string;
     /**
-     * Namespace scope for this request.
-     * Equivalent to `helm template --namespace`.
+     * Namespace to render the chart into. Equivalent to `helm template --namespace`.
+     * Many charts don't set `metadata.namespace` (`helm install` adds it when applying),
+     * so it's also filled in on rendered namespaced objects that don't have one.
+     * @default the scope's namespace (e.g. the App's)
      */
     readonly namespace?: string;
     /**
@@ -70,6 +78,20 @@ export interface HelmArgs {
      */
     readonly valuesObject?: { [key: string]: any };
     /**
+     * Kinds from this chart that are cluster-scoped but unknown to kube-ts, as `Kind.group`
+     * (like kubectl). Built-in kinds and kinds whose CRD is in the chart's output are
+     * detected automatically; any other kind is treated as namespaced.
+     * @example ["ClusterIssuer.cert-manager.io"]
+     */
+    readonly clusterScopedKinds?: string[];
+    /**
+     * Decides which rendered objects are kept. Return `false` to leave an object out,
+     * e.g. a Namespace you create yourself or the chart's test pods.
+     * Runs before namespace defaulting.
+     * @example (obj) => obj.kind !== 'Namespace'
+     */
+    readonly filter?: (obj: ResourceArgs) => boolean;
+    /**
      * Additional arguments for `helm template`, one item per argument.
      * @example ["--set", "key1=val1", "--set", "key2=val2", "--no-hooks"]
      */
@@ -81,13 +103,20 @@ export interface HelmArgs {
  * @link https://helm.sh/docs/helm/helm_template/
  */
 export class Helm {
-    readonly resources: HelmResource[] = [];
+    /**
+     * The rendered objects that were kept, in chart order. They're the same objects the
+     * scope saves, so changing one changes the output. Use `filter` to leave objects out.
+     */
+    readonly resources: readonly HelmResource[];
 
     /**
      * Renders the chart with `helm template` and adds every rendered object to `scope`.
      * Throws if helm isn't installed or rendering fails.
      */
     constructor(scope: Scope, name: string, args: HelmArgs) {
+        const resources: HelmResource[] = [];
+        this.resources = resources;
+        const namespace = args.namespace ?? scope.namespace;
         const helmArgs = ['template', name, args.chart];
         if (args.repo) {
             helmArgs.push('--repo', args.repo);
@@ -95,8 +124,8 @@ export class Helm {
         if (args.version) {
             helmArgs.push('--version', args.version);
         }
-        if (args.namespace) {
-            helmArgs.push('--namespace', args.namespace);
+        if (namespace) {
+            helmArgs.push('--namespace', namespace);
         }
         if (args.kubeVersion) {
             helmArgs.push('--kube-version', args.kubeVersion);
@@ -131,18 +160,26 @@ export class Helm {
             }
             helmArgs.push(...(args.helmFlags ?? []));
 
-            const output = runHelm(helmArgs);
-            for (const doc of yaml.parseAllDocuments(output)) {
-                if (doc.errors.length) {
+            const objects = parseHelmOutput(name, runHelm(helmArgs));
+            const isClusterScoped = clusterScopeChecker(objects, args.clusterScopedKinds);
+            for (const obj of objects) {
+                if (args.filter && !args.filter(obj)) {
+                    continue;
+                }
+                if (!obj.metadata?.name) {
+                    const hint = obj.metadata?.generateName
+                        ? ` It uses generateName, which kube-ts doesn't support; leave it out with \`filter\`.`
+                        : '';
                     throw new Error(
-                        `Failed to parse helm output for '${name}': ${doc.errors.join('; ')}`,
+                        `Chart '${name}' rendered ${kindWithGroup(obj.apiVersion, obj.kind)} without metadata.name.${hint}`,
                     );
                 }
-                const helmObj = doc.toJS();
-                if (helmObj !== null) {
-                    // Plain Resource: Helm already rendered the namespace (if any), so don't default it.
-                    this.resources.push(new Resource(scope, helmObj.metadata.name, helmObj));
+                const metadata = obj.metadata as NamespacedResourceMeta;
+                if (namespace && !metadata.namespace && !isClusterScoped(obj)) {
+                    metadata.namespace = namespace;
                 }
+                // Plain Resource: the namespace is settled above, so don't default it again.
+                resources.push(new Resource(scope, obj.metadata.name, obj));
             }
         } finally {
             if (tmpValuesDir) {
@@ -150,6 +187,55 @@ export class Helm {
             }
         }
     }
+}
+
+/**
+ * Parses `helm template` output into objects. Empty documents are skipped and
+ * `kind: List` documents are flattened into their items.
+ */
+function parseHelmOutput(name: string, output: string): ResourceArgs[] {
+    const objects: ResourceArgs[] = [];
+    const add = (value: unknown) => {
+        if (value === null || value === undefined) {
+            return;
+        }
+        const obj = value as Partial<ResourceArgs>;
+        if (typeof obj !== 'object' || !obj.apiVersion || !obj.kind) {
+            throw new Error(
+                `Chart '${name}' rendered a document that isn't a Kubernetes object (missing apiVersion or kind).`,
+            );
+        }
+        if (obj.kind.endsWith('List') && Array.isArray(obj['items'])) {
+            obj['items'].forEach(add);
+        } else {
+            objects.push(obj as ResourceArgs);
+        }
+    };
+    for (const doc of yaml.parseAllDocuments(output)) {
+        if (doc.errors.length) {
+            throw new Error(`Failed to parse helm output for '${name}': ${doc.errors.join('; ')}`);
+        }
+        add(doc.toJS());
+    }
+    return objects;
+}
+
+/**
+ * Tells cluster-scoped objects apart from namespaced ones: built-in kinds, CRDs in the
+ * same output (their `spec.scope`), and kinds the user listed. Anything else is namespaced.
+ */
+function clusterScopeChecker(objects: ResourceArgs[], extra: string[] = []) {
+    const clusterScoped = new Set([...clusterScopedKinds, ...extra]);
+    for (const obj of objects) {
+        if (
+            kindWithGroup(obj.apiVersion, obj.kind) ===
+                'CustomResourceDefinition.apiextensions.k8s.io' &&
+            obj['spec']?.scope === 'Cluster'
+        ) {
+            clusterScoped.add(`${obj['spec'].names.kind}.${obj['spec'].group}`);
+        }
+    }
+    return (obj: ResourceArgs) => clusterScoped.has(kindWithGroup(obj.apiVersion, obj.kind));
 }
 
 function runHelm(args: string[]): string {

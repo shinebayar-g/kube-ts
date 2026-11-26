@@ -19,10 +19,6 @@ export class ResourceClaim extends NamespacedResource {
    */
   declare readonly kind: 'ResourceClaim';
   /**
-   * Standard object metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Spec describes what is being requested and how to configure it. The spec is immutable.
    */
   declare readonly spec: ResourceClaimSpec;

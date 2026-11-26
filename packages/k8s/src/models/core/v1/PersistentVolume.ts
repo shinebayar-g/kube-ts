@@ -19,10 +19,6 @@ export class PersistentVolume extends ClusterResource {
    */
   declare readonly kind: 'PersistentVolume';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec defines a specification of a persistent volume owned by the cluster. Provisioned by an administrator. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistent-volumes
    */
   declare readonly spec?: PersistentVolumeSpec;

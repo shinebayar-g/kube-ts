@@ -19,10 +19,6 @@ export class ServiceCIDR extends ClusterResource {
    */
   declare readonly kind: 'ServiceCIDR';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec is the desired state of the ServiceCIDR. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    */
   declare readonly spec?: ServiceCIDRSpec;

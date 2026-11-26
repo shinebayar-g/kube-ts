@@ -638,7 +638,6 @@ export interface VaultDynamicSecretArgs {
 export class VaultDynamicSecret extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'VaultDynamicSecret';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: VaultDynamicSecretArgs['spec'];
 
   constructor(scope: Scope, name: string, args: VaultDynamicSecretArgs = {}) {

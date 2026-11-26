@@ -19,10 +19,6 @@ export class CSINode extends ClusterResource {
    */
   declare readonly kind: 'CSINode';
   /**
-   * Standard object\'s metadata. metadata.name must be the Kubernetes node name.
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec is the specification of CSINode
    */
   declare readonly spec: CSINodeSpec;

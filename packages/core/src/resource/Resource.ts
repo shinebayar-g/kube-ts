@@ -56,7 +56,11 @@ export interface NamespacedResourceArgs extends ResourceArgs {
 export class Resource {
     readonly apiVersion: string;
     readonly kind: string;
-    readonly metadata: ClusterResourceMeta | NamespacedResourceMeta;
+    /**
+     * Standard object's metadata. `name` is always set: it defaults to the resource's `name` argument.
+     * More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+     */
+    readonly metadata: (ClusterResourceMeta | NamespacedResourceMeta) & { name: string };
 
     constructor(scope: Scope, name: string, args: ResourceArgs) {
         const { apiVersion, kind, metadata, ...rest } = args;
@@ -64,8 +68,7 @@ export class Resource {
         this.kind = kind;
         // Keep the caller's key order when it set a name (e.g. Helm output); otherwise put `name` first.
         const resourceMeta = metadata?.name ? { ...metadata } : { name, ...metadata };
-        resourceMeta.name ||= name;
-        this.metadata = resourceMeta;
+        this.metadata = { ...resourceMeta, name: resourceMeta.name || name };
         // Everything else (spec, data, rules, ...) is copied as-is.
         Object.assign(this, rest);
         scope.addResource(this);
@@ -76,7 +79,7 @@ export class Resource {
      * A getter, so it isn't serialized into the manifest.
      */
     get name(): string {
-        return this.metadata.name as string;
+        return this.metadata.name;
     }
 
     toYaml(): string {
@@ -93,7 +96,7 @@ export class Resource {
  * resources that are cluster-scoped.
  */
 export class ClusterResource extends Resource {
-    declare readonly metadata: ClusterResourceMeta;
+    declare readonly metadata: ClusterResourceMeta & { name: string };
 
     constructor(scope: Scope, name: string, args: ClusterResourceArgs) {
         super(scope, name, args);
@@ -106,7 +109,7 @@ export class ClusterResource extends Resource {
  * `metadata.namespace` defaults to the scope's namespace (e.g. the App's).
  */
 export class NamespacedResource extends Resource {
-    declare readonly metadata: NamespacedResourceMeta;
+    declare readonly metadata: NamespacedResourceMeta & { name: string };
 
     constructor(scope: Scope, name: string, args: NamespacedResourceArgs) {
         super(scope, name, {

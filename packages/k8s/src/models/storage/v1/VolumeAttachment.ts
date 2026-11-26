@@ -19,10 +19,6 @@ export class VolumeAttachment extends ClusterResource {
    */
   declare readonly kind: 'VolumeAttachment';
   /**
-   * Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec represents specification of the desired attach/detach volume behavior. Populated by the Kubernetes system.
    */
   declare readonly spec: VolumeAttachmentSpec;

@@ -21,10 +21,6 @@ export class ClusterRoleBinding extends ClusterResource {
    */
   declare readonly kind: 'ClusterRoleBinding';
   /**
-   * Standard object\'s metadata.
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * RoleRef can only reference a ClusterRole in the global namespace. If the RoleRef cannot be resolved, the Authorizer must return an error. This field is immutable.
    */
   declare readonly roleRef: RoleRef;

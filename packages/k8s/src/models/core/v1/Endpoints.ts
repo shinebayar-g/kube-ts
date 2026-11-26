@@ -19,10 +19,6 @@ export class Endpoints extends NamespacedResource {
    */
   declare readonly kind: 'Endpoints';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * The set of all endpoints is the union of all subsets. Addresses are placed into subsets according to the IPs they share. A single address with multiple ports, some of which are ready and some of which are not (because they come from different containers) will result in the address being displayed in different subsets for the different ports. No address will appear in both Addresses and NotReadyAddresses in the same subset. Sets of addresses and ports that comprise a service.
    */
   declare readonly subsets?: Array<EndpointSubset>;

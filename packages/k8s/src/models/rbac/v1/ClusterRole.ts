@@ -21,10 +21,6 @@ export class ClusterRole extends ClusterResource {
    */
   declare readonly kind: 'ClusterRole';
   /**
-   * Standard object\'s metadata.
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * AggregationRule is an optional field that describes how to build the Rules for this ClusterRole. If AggregationRule is set, then the Rules are controller managed and direct changes to Rules will be stomped by the controller.
    */
   declare readonly aggregationRule?: AggregationRule;

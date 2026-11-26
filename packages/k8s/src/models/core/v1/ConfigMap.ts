@@ -20,10 +20,6 @@ export class ConfigMap extends NamespacedResource {
    */
   declare readonly kind: 'ConfigMap';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * BinaryData contains the binary data. Each key must consist of alphanumeric characters, \'-\', \'_\' or \'.\'. BinaryData can contain byte sequences that are not in the UTF-8 range. The keys stored in BinaryData must not overlap with the ones in the Data field, this is enforced during validation process. Using this field will require 1.10+ apiserver and kubelet.
    */
   declare readonly binaryData?: { [key: string]: string };

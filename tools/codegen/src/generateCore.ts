@@ -226,13 +226,13 @@ function main() {
                             isReadonly: true,
                         };
                         if (prop.getName() === 'metadata') {
-                            prop.setType(metaType);
-                            prop.setHasQuestionToken(false);
                             interfaceProp.type = metaType;
                             interfaceProp.hasQuestionToken = true;
                         }
                         interfaceProps.push(interfaceProp);
                     }
+                    // The base class already declares `metadata` (with `name` guaranteed).
+                    classDeclaration.getProperty('metadata')?.remove();
                     sourceFile.insertInterface(classDeclaration.getChildIndex(), i);
 
                     const argsAreOptional = interfaceProps.every((prop) => prop.hasQuestionToken);

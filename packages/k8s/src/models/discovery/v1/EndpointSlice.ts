@@ -22,10 +22,6 @@ export class EndpointSlice extends NamespacedResource {
    */
   declare readonly kind: 'EndpointSlice';
   /**
-   * Standard object\'s metadata.
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * addressType specifies the type of address carried by this EndpointSlice. All addresses in this slice must be the same type. This field is immutable after creation. The following address types are currently supported: * IPv4: Represents an IPv4 Address. * IPv6: Represents an IPv6 Address. * FQDN: Represents a Fully Qualified Domain Name.
    */
   declare readonly addressType: string;

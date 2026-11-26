@@ -19,10 +19,6 @@ export class IngressClass extends ClusterResource {
    */
   declare readonly kind: 'IngressClass';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec is the desired state of the IngressClass. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    */
   declare readonly spec?: IngressClassSpec;

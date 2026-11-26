@@ -45,7 +45,6 @@ export interface PasswordArgs {
 export class Password extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'Password';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: PasswordArgs['spec'];
 
   constructor(scope: Scope, name: string, args: PasswordArgs = {}) {

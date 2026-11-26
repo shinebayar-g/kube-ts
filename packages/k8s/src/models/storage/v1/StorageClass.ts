@@ -25,10 +25,6 @@ export class StorageClass extends ClusterResource {
    */
   declare readonly kind: 'StorageClass';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * allowVolumeExpansion shows whether the storage class allow volume expand.
    */
   declare readonly allowVolumeExpansion?: boolean;

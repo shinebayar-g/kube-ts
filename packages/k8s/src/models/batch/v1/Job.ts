@@ -19,10 +19,6 @@ export class Job extends NamespacedResource {
    */
   declare readonly kind: 'Job';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Specification of the desired behavior of a job. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    */
   declare readonly spec?: JobSpec;

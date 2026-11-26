@@ -19,10 +19,6 @@ export class NetworkPolicy extends NamespacedResource {
    */
   declare readonly kind: 'NetworkPolicy';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * spec represents the specification of the desired behavior for this NetworkPolicy.
    */
   declare readonly spec?: NetworkPolicySpec;
