@@ -16,7 +16,7 @@ export interface MySQLClusterArgs {
     /**
      * The name of BackupPolicy custom resource in the sa
      */
-    backupPolicyName?: string;
+    backupPolicyName?: string | null;
     /**
      * Collectors is the list of collector flag names of
      */
@@ -44,7 +44,7 @@ export interface MySQLClusterArgs {
     /**
      * MySQLConfigMapName is a `ConfigMap` name of MySQL
      */
-    mysqlConfigMapName?: string;
+    mysqlConfigMapName?: string | null;
     /**
      * Offline sets the cluster offline, releasing comput
      */
@@ -76,6 +76,8 @@ export interface MySQLClusterArgs {
       };
       /**
        * OverwriteContainers overwrites the container defin
+       *
+       * Items: OverwriteContainer defines the container spec used
        */
       overwriteContainers?: {
         /**
@@ -86,6 +88,9 @@ export interface MySQLClusterArgs {
          * Resources is the container resource to be overwrit
          */
         resources?: {
+          /**
+           * Items: ResourceClaimApplyConfiguration represents a decla
+           */
           claims?: {
             name?: string;
             request?: string;
@@ -117,11 +122,17 @@ export interface MySQLClusterArgs {
            * NodeAffinityApplyConfiguration represents a declar
            */
           nodeAffinity?: {
+            /**
+             * Items: PreferredSchedulingTermApplyConfiguration represen
+             */
             preferredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * NodeSelectorTermApplyConfiguration represents a de
                */
               preference?: {
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -130,6 +141,9 @@ export interface MySQLClusterArgs {
                   operator?: string;
                   values?: string[];
                 }[];
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchFields?: {
                   key?: string;
                   /**
@@ -145,7 +159,13 @@ export interface MySQLClusterArgs {
              * NodeSelectorApplyConfiguration represents a declar
              */
             requiredDuringSchedulingIgnoredDuringExecution?: {
+              /**
+               * Items: NodeSelectorTermApplyConfiguration represents a de
+               */
               nodeSelectorTerms?: {
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -154,6 +174,9 @@ export interface MySQLClusterArgs {
                   operator?: string;
                   values?: string[];
                 }[];
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchFields?: {
                   key?: string;
                   /**
@@ -169,6 +192,9 @@ export interface MySQLClusterArgs {
            * PodAffinityApplyConfiguration represents a declara
            */
           podAffinity?: {
+            /**
+             * Items: WeightedPodAffinityTermApplyConfiguration represen
+             */
             preferredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * PodAffinityTermApplyConfiguration represents a dec
@@ -178,6 +204,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -196,6 +225,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 namespaceSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -213,11 +245,17 @@ export interface MySQLClusterArgs {
               };
               weight?: number;
             }[];
+            /**
+             * Items: PodAffinityTermApplyConfiguration represents a dec
+             */
             requiredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * LabelSelectorApplyConfiguration represents a decla
                */
               labelSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -236,6 +274,9 @@ export interface MySQLClusterArgs {
                * LabelSelectorApplyConfiguration represents a decla
                */
               namespaceSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -256,6 +297,9 @@ export interface MySQLClusterArgs {
            * PodAntiAffinityApplyConfiguration represents a dec
            */
           podAntiAffinity?: {
+            /**
+             * Items: WeightedPodAffinityTermApplyConfiguration represen
+             */
             preferredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * PodAffinityTermApplyConfiguration represents a dec
@@ -265,6 +309,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -283,6 +330,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 namespaceSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -300,11 +350,17 @@ export interface MySQLClusterArgs {
               };
               weight?: number;
             }[];
+            /**
+             * Items: PodAffinityTermApplyConfiguration represents a dec
+             */
             requiredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * LabelSelectorApplyConfiguration represents a decla
                */
               labelSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -323,6 +379,9 @@ export interface MySQLClusterArgs {
                * LabelSelectorApplyConfiguration represents a decla
                */
               namespaceSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -341,9 +400,15 @@ export interface MySQLClusterArgs {
           };
         };
         automountServiceAccountToken?: boolean;
+        /**
+         * Items: ContainerApplyConfiguration represents a declarati
+         */
         containers?: {
           args?: string[];
           command?: string[];
+          /**
+           * Items: EnvVarApplyConfiguration represents a declarative
+           */
           env?: {
             name?: string;
             value?: string;
@@ -384,6 +449,9 @@ export interface MySQLClusterArgs {
               };
             };
           }[];
+          /**
+           * Items: EnvFromSourceApplyConfiguration represents a decla
+           */
           envFrom?: {
             /**
              * ConfigMapEnvSourceApplyConfiguration represents a
@@ -425,6 +493,9 @@ export interface MySQLClusterArgs {
                */
               httpGet?: {
                 host?: string;
+                /**
+                 * Items: HTTPHeaderApplyConfiguration represents a declarat
+                 */
                 httpHeaders?: {
                   name?: string;
                   value?: string;
@@ -465,6 +536,9 @@ export interface MySQLClusterArgs {
                */
               httpGet?: {
                 host?: string;
+                /**
+                 * Items: HTTPHeaderApplyConfiguration represents a declarat
+                 */
                 httpHeaders?: {
                   name?: string;
                   value?: string;
@@ -514,6 +588,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -539,6 +616,9 @@ export interface MySQLClusterArgs {
             timeoutSeconds?: number;
           };
           name?: string;
+          /**
+           * Items: ContainerPortApplyConfiguration represents a decla
+           */
           ports?: {
             containerPort?: number;
             hostIP?: string;
@@ -572,6 +652,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -596,6 +679,9 @@ export interface MySQLClusterArgs {
             terminationGracePeriodSeconds?: number;
             timeoutSeconds?: number;
           };
+          /**
+           * Items: ContainerResizePolicyApplyConfiguration represents
+           */
           resizePolicy?: {
             /**
              * ResourceName is the name identifying various resou
@@ -610,6 +696,9 @@ export interface MySQLClusterArgs {
            * ResourceRequirementsApplyConfiguration represents
            */
           resources?: {
+            /**
+             * Items: ResourceClaimApplyConfiguration represents a decla
+             */
             claims?: {
               name?: string;
               request?: string;
@@ -647,7 +736,13 @@ export interface MySQLClusterArgs {
              * CapabilitiesApplyConfiguration represents a declar
              */
             capabilities?: {
+              /**
+               * Items: Capability represent POSIX capabilities type
+               */
               add?: string[];
+              /**
+               * Items: Capability represent POSIX capabilities type
+               */
               drop?: string[];
             };
             privileged?: boolean;
@@ -708,6 +803,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -740,10 +838,16 @@ export interface MySQLClusterArgs {
            */
           terminationMessagePolicy?: string;
           tty?: boolean;
+          /**
+           * Items: VolumeDeviceApplyConfiguration represents a declar
+           */
           volumeDevices?: {
             devicePath?: string;
             name?: string;
           }[];
+          /**
+           * Items: VolumeMountApplyConfiguration represents a declara
+           */
           volumeMounts?: {
             mountPath?: string;
             /**
@@ -766,6 +870,9 @@ export interface MySQLClusterArgs {
          */
         dnsConfig?: {
           nameservers?: string[];
+          /**
+           * Items: PodDNSConfigOptionApplyConfiguration represents a
+           */
           options?: {
             name?: string;
             value?: string;
@@ -777,9 +884,15 @@ export interface MySQLClusterArgs {
          */
         dnsPolicy?: string;
         enableServiceLinks?: boolean;
+        /**
+         * Items: EphemeralContainerApplyConfiguration represents a
+         */
         ephemeralContainers?: {
           args?: string[];
           command?: string[];
+          /**
+           * Items: EnvVarApplyConfiguration represents a declarative
+           */
           env?: {
             name?: string;
             value?: string;
@@ -820,6 +933,9 @@ export interface MySQLClusterArgs {
               };
             };
           }[];
+          /**
+           * Items: EnvFromSourceApplyConfiguration represents a decla
+           */
           envFrom?: {
             /**
              * ConfigMapEnvSourceApplyConfiguration represents a
@@ -861,6 +977,9 @@ export interface MySQLClusterArgs {
                */
               httpGet?: {
                 host?: string;
+                /**
+                 * Items: HTTPHeaderApplyConfiguration represents a declarat
+                 */
                 httpHeaders?: {
                   name?: string;
                   value?: string;
@@ -901,6 +1020,9 @@ export interface MySQLClusterArgs {
                */
               httpGet?: {
                 host?: string;
+                /**
+                 * Items: HTTPHeaderApplyConfiguration represents a declarat
+                 */
                 httpHeaders?: {
                   name?: string;
                   value?: string;
@@ -950,6 +1072,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -975,6 +1100,9 @@ export interface MySQLClusterArgs {
             timeoutSeconds?: number;
           };
           name?: string;
+          /**
+           * Items: ContainerPortApplyConfiguration represents a decla
+           */
           ports?: {
             containerPort?: number;
             hostIP?: string;
@@ -1008,6 +1136,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -1032,6 +1163,9 @@ export interface MySQLClusterArgs {
             terminationGracePeriodSeconds?: number;
             timeoutSeconds?: number;
           };
+          /**
+           * Items: ContainerResizePolicyApplyConfiguration represents
+           */
           resizePolicy?: {
             /**
              * ResourceName is the name identifying various resou
@@ -1046,6 +1180,9 @@ export interface MySQLClusterArgs {
            * ResourceRequirementsApplyConfiguration represents
            */
           resources?: {
+            /**
+             * Items: ResourceClaimApplyConfiguration represents a decla
+             */
             claims?: {
               name?: string;
               request?: string;
@@ -1083,7 +1220,13 @@ export interface MySQLClusterArgs {
              * CapabilitiesApplyConfiguration represents a declar
              */
             capabilities?: {
+              /**
+               * Items: Capability represent POSIX capabilities type
+               */
               add?: string[];
+              /**
+               * Items: Capability represent POSIX capabilities type
+               */
               drop?: string[];
             };
             privileged?: boolean;
@@ -1144,6 +1287,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -1177,10 +1323,16 @@ export interface MySQLClusterArgs {
            */
           terminationMessagePolicy?: string;
           tty?: boolean;
+          /**
+           * Items: VolumeDeviceApplyConfiguration represents a declar
+           */
           volumeDevices?: {
             devicePath?: string;
             name?: string;
           }[];
+          /**
+           * Items: VolumeMountApplyConfiguration represents a declara
+           */
           volumeMounts?: {
             mountPath?: string;
             /**
@@ -1198,6 +1350,9 @@ export interface MySQLClusterArgs {
           }[];
           workingDir?: string;
         }[];
+        /**
+         * Items: HostAliasApplyConfiguration represents a declarati
+         */
         hostAliases?: {
           hostnames?: string[];
           ip?: string;
@@ -1207,12 +1362,21 @@ export interface MySQLClusterArgs {
         hostPID?: boolean;
         hostUsers?: boolean;
         hostname?: string;
+        /**
+         * Items: LocalObjectReferenceApplyConfiguration represents
+         */
         imagePullSecrets?: {
           name?: string;
         }[];
+        /**
+         * Items: ContainerApplyConfiguration represents a declarati
+         */
         initContainers?: {
           args?: string[];
           command?: string[];
+          /**
+           * Items: EnvVarApplyConfiguration represents a declarative
+           */
           env?: {
             name?: string;
             value?: string;
@@ -1253,6 +1417,9 @@ export interface MySQLClusterArgs {
               };
             };
           }[];
+          /**
+           * Items: EnvFromSourceApplyConfiguration represents a decla
+           */
           envFrom?: {
             /**
              * ConfigMapEnvSourceApplyConfiguration represents a
@@ -1294,6 +1461,9 @@ export interface MySQLClusterArgs {
                */
               httpGet?: {
                 host?: string;
+                /**
+                 * Items: HTTPHeaderApplyConfiguration represents a declarat
+                 */
                 httpHeaders?: {
                   name?: string;
                   value?: string;
@@ -1334,6 +1504,9 @@ export interface MySQLClusterArgs {
                */
               httpGet?: {
                 host?: string;
+                /**
+                 * Items: HTTPHeaderApplyConfiguration represents a declarat
+                 */
                 httpHeaders?: {
                   name?: string;
                   value?: string;
@@ -1383,6 +1556,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -1408,6 +1584,9 @@ export interface MySQLClusterArgs {
             timeoutSeconds?: number;
           };
           name?: string;
+          /**
+           * Items: ContainerPortApplyConfiguration represents a decla
+           */
           ports?: {
             containerPort?: number;
             hostIP?: string;
@@ -1441,6 +1620,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -1465,6 +1647,9 @@ export interface MySQLClusterArgs {
             terminationGracePeriodSeconds?: number;
             timeoutSeconds?: number;
           };
+          /**
+           * Items: ContainerResizePolicyApplyConfiguration represents
+           */
           resizePolicy?: {
             /**
              * ResourceName is the name identifying various resou
@@ -1479,6 +1664,9 @@ export interface MySQLClusterArgs {
            * ResourceRequirementsApplyConfiguration represents
            */
           resources?: {
+            /**
+             * Items: ResourceClaimApplyConfiguration represents a decla
+             */
             claims?: {
               name?: string;
               request?: string;
@@ -1516,7 +1704,13 @@ export interface MySQLClusterArgs {
              * CapabilitiesApplyConfiguration represents a declar
              */
             capabilities?: {
+              /**
+               * Items: Capability represent POSIX capabilities type
+               */
               add?: string[];
+              /**
+               * Items: Capability represent POSIX capabilities type
+               */
               drop?: string[];
             };
             privileged?: boolean;
@@ -1577,6 +1771,9 @@ export interface MySQLClusterArgs {
              */
             httpGet?: {
               host?: string;
+              /**
+               * Items: HTTPHeaderApplyConfiguration represents a declarat
+               */
               httpHeaders?: {
                 name?: string;
                 value?: string;
@@ -1609,10 +1806,16 @@ export interface MySQLClusterArgs {
            */
           terminationMessagePolicy?: string;
           tty?: boolean;
+          /**
+           * Items: VolumeDeviceApplyConfiguration represents a declar
+           */
           volumeDevices?: {
             devicePath?: string;
             name?: string;
           }[];
+          /**
+           * Items: VolumeMountApplyConfiguration represents a declara
+           */
           volumeMounts?: {
             mountPath?: string;
             /**
@@ -1655,12 +1858,18 @@ export interface MySQLClusterArgs {
         preemptionPolicy?: string;
         priority?: number;
         priorityClassName?: string;
+        /**
+         * Items: PodReadinessGateApplyConfiguration represents a de
+         */
         readinessGates?: {
           /**
            * PodConditionType is a valid value for PodCondition
            */
           conditionType?: string;
         }[];
+        /**
+         * Items: PodResourceClaimApplyConfiguration represents a de
+         */
         resourceClaims?: {
           name?: string;
           resourceClaimName?: string;
@@ -1672,6 +1881,9 @@ export interface MySQLClusterArgs {
         restartPolicy?: string;
         runtimeClassName?: string;
         schedulerName?: string;
+        /**
+         * Items: PodSchedulingGateApplyConfiguration represents a d
+         */
         schedulingGates?: {
           name?: string;
         }[];
@@ -1718,6 +1930,9 @@ export interface MySQLClusterArgs {
            * SupplementalGroupsPolicy defines how supplemental
            */
           supplementalGroupsPolicy?: string;
+          /**
+           * Items: SysctlApplyConfiguration represents a declarative
+           */
           sysctls?: {
             name?: string;
             value?: string;
@@ -1738,6 +1953,9 @@ export interface MySQLClusterArgs {
         shareProcessNamespace?: boolean;
         subdomain?: string;
         terminationGracePeriodSeconds?: number;
+        /**
+         * Items: TolerationApplyConfiguration represents a declarat
+         */
         tolerations?: {
           effect?: string;
           key?: string;
@@ -1748,11 +1966,17 @@ export interface MySQLClusterArgs {
           tolerationSeconds?: number;
           value?: string;
         }[];
+        /**
+         * Items: TopologySpreadConstraintApplyConfiguration represe
+         */
         topologySpreadConstraints?: {
           /**
            * LabelSelectorApplyConfiguration represents a decla
            */
           labelSelector?: {
+            /**
+             * Items: LabelSelectorRequirementApplyConfiguration represe
+             */
             matchExpressions?: {
               key?: string;
               /**
@@ -1779,6 +2003,9 @@ export interface MySQLClusterArgs {
           topologyKey?: string;
           whenUnsatisfiable?: string;
         }[];
+        /**
+         * Items: VolumeApplyConfiguration represents a declarative
+         */
         volumes?: {
           /**
            * AWSElasticBlockStoreVolumeSourceApplyConfiguration
@@ -1843,6 +2070,9 @@ export interface MySQLClusterArgs {
            */
           configMap?: {
             defaultMode?: number;
+            /**
+             * Items: KeyToPathApplyConfiguration represents a declarati
+             */
             items?: {
               key?: string;
               mode?: number;
@@ -1873,6 +2103,9 @@ export interface MySQLClusterArgs {
            */
           downwardAPI?: {
             defaultMode?: number;
+            /**
+             * Items: DownwardAPIVolumeFileApplyConfiguration represents
+             */
             items?: {
               /**
                * ObjectFieldSelectorApplyConfiguration represents a
@@ -1929,6 +2162,9 @@ export interface MySQLClusterArgs {
                 };
                 name?: string;
                 namespace?: string;
+                /**
+                 * Items: OwnerReferenceApplyConfiguration represents a decl
+                 */
                 ownerReferences?: {
                   apiVersion?: string;
                   blockOwnerDeletion?: boolean;
@@ -1989,6 +2225,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 selector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -2144,6 +2383,9 @@ export interface MySQLClusterArgs {
            */
           projected?: {
             defaultMode?: number;
+            /**
+             * Items: VolumeProjectionApplyConfiguration represents a de
+             */
             sources?: {
               /**
                * ClusterTrustBundleProjectionApplyConfiguration rep
@@ -2153,6 +2395,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -2174,6 +2419,9 @@ export interface MySQLClusterArgs {
                * ConfigMapProjectionApplyConfiguration represents a
                */
               configMap?: {
+                /**
+                 * Items: KeyToPathApplyConfiguration represents a declarati
+                 */
                 items?: {
                   key?: string;
                   mode?: number;
@@ -2186,6 +2434,9 @@ export interface MySQLClusterArgs {
                * DownwardAPIProjectionApplyConfiguration represents
                */
               downwardAPI?: {
+                /**
+                 * Items: DownwardAPIVolumeFileApplyConfiguration represents
+                 */
                 items?: {
                   /**
                    * ObjectFieldSelectorApplyConfiguration represents a
@@ -2210,6 +2461,9 @@ export interface MySQLClusterArgs {
                * SecretProjectionApplyConfiguration represents a de
                */
               secret?: {
+                /**
+                 * Items: KeyToPathApplyConfiguration represents a declarati
+                 */
                 items?: {
                   key?: string;
                   mode?: number;
@@ -2282,6 +2536,9 @@ export interface MySQLClusterArgs {
            */
           secret?: {
             defaultMode?: number;
+            /**
+             * Items: KeyToPathApplyConfiguration represents a declarati
+             */
             items?: {
               key?: string;
               mode?: number;
@@ -2360,6 +2617,9 @@ export interface MySQLClusterArgs {
          * ServiceInternalTrafficPolicy describes how nodes d
          */
         internalTrafficPolicy?: string;
+        /**
+         * Items: IPFamily represents the IP Family (IPv4 or IPv6).
+         */
         ipFamilies?: string[];
         /**
          * IPFamilyPolicy represents the dual-stack-ness requ
@@ -2368,6 +2628,9 @@ export interface MySQLClusterArgs {
         loadBalancerClass?: string;
         loadBalancerIP?: string;
         loadBalancerSourceRanges?: string[];
+        /**
+         * Items: ServicePortApplyConfiguration represents a declara
+         */
         ports?: {
           appProtocol?: string;
           name?: string;
@@ -2448,6 +2711,9 @@ export interface MySQLClusterArgs {
          * ServiceInternalTrafficPolicy describes how nodes d
          */
         internalTrafficPolicy?: string;
+        /**
+         * Items: IPFamily represents the IP Family (IPv4 or IPv6).
+         */
         ipFamilies?: string[];
         /**
          * IPFamilyPolicy represents the dual-stack-ness requ
@@ -2456,6 +2722,9 @@ export interface MySQLClusterArgs {
         loadBalancerClass?: string;
         loadBalancerIP?: string;
         loadBalancerSourceRanges?: string[];
+        /**
+         * Items: ServicePortApplyConfiguration represents a declara
+         */
         ports?: {
           appProtocol?: string;
           name?: string;
@@ -2500,7 +2769,7 @@ export interface MySQLClusterArgs {
     /**
      * ReplicationSourceSecretName is a `Secret` name whi
      */
-    replicationSourceSecretName?: string;
+    replicationSourceSecretName?: string | null;
     /**
      * Restore is the specification to perform Point-in-T
      */
@@ -2517,11 +2786,17 @@ export interface MySQLClusterArgs {
            * NodeAffinityApplyConfiguration represents a declar
            */
           nodeAffinity?: {
+            /**
+             * Items: PreferredSchedulingTermApplyConfiguration represen
+             */
             preferredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * NodeSelectorTermApplyConfiguration represents a de
                */
               preference?: {
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -2530,6 +2805,9 @@ export interface MySQLClusterArgs {
                   operator?: string;
                   values?: string[];
                 }[];
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchFields?: {
                   key?: string;
                   /**
@@ -2545,7 +2823,13 @@ export interface MySQLClusterArgs {
              * NodeSelectorApplyConfiguration represents a declar
              */
             requiredDuringSchedulingIgnoredDuringExecution?: {
+              /**
+               * Items: NodeSelectorTermApplyConfiguration represents a de
+               */
               nodeSelectorTerms?: {
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -2554,6 +2838,9 @@ export interface MySQLClusterArgs {
                   operator?: string;
                   values?: string[];
                 }[];
+                /**
+                 * Items: NodeSelectorRequirementApplyConfiguration represen
+                 */
                 matchFields?: {
                   key?: string;
                   /**
@@ -2569,6 +2856,9 @@ export interface MySQLClusterArgs {
            * PodAffinityApplyConfiguration represents a declara
            */
           podAffinity?: {
+            /**
+             * Items: WeightedPodAffinityTermApplyConfiguration represen
+             */
             preferredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * PodAffinityTermApplyConfiguration represents a dec
@@ -2578,6 +2868,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -2596,6 +2889,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 namespaceSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -2613,11 +2909,17 @@ export interface MySQLClusterArgs {
               };
               weight?: number;
             }[];
+            /**
+             * Items: PodAffinityTermApplyConfiguration represents a dec
+             */
             requiredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * LabelSelectorApplyConfiguration represents a decla
                */
               labelSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -2636,6 +2938,9 @@ export interface MySQLClusterArgs {
                * LabelSelectorApplyConfiguration represents a decla
                */
               namespaceSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -2656,6 +2961,9 @@ export interface MySQLClusterArgs {
            * PodAntiAffinityApplyConfiguration represents a dec
            */
           podAntiAffinity?: {
+            /**
+             * Items: WeightedPodAffinityTermApplyConfiguration represen
+             */
             preferredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * PodAffinityTermApplyConfiguration represents a dec
@@ -2665,6 +2973,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -2683,6 +2994,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 namespaceSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -2700,11 +3014,17 @@ export interface MySQLClusterArgs {
               };
               weight?: number;
             }[];
+            /**
+             * Items: PodAffinityTermApplyConfiguration represents a dec
+             */
             requiredDuringSchedulingIgnoredDuringExecution?: {
               /**
                * LabelSelectorApplyConfiguration represents a decla
                */
               labelSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -2723,6 +3043,9 @@ export interface MySQLClusterArgs {
                * LabelSelectorApplyConfiguration represents a decla
                */
               namespaceSelector?: {
+                /**
+                 * Items: LabelSelectorRequirementApplyConfiguration represe
+                 */
                 matchExpressions?: {
                   key?: string;
                   /**
@@ -2772,9 +3095,11 @@ export interface MySQLClusterArgs {
         /**
          * CPU is the amount of CPU requested for the Pod.
          */
-        cpu?: number | string;
+        cpu?: (number | string) | null;
         /**
          * List of environment variables to set in the contai
+         *
+         * Items: EnvVarApplyConfiguration is the type defined to im
          */
         env?: {
           name?: string;
@@ -2818,6 +3143,8 @@ export interface MySQLClusterArgs {
         }[];
         /**
          * List of sources to populate environment variables
+         *
+         * Items: EnvFromSourceApplyConfiguration is the type define
          */
         envFrom?: {
           /**
@@ -2839,15 +3166,15 @@ export interface MySQLClusterArgs {
         /**
          * MaxCPU is the amount of maximum CPU for the Pod.
          */
-        maxCpu?: number | string;
+        maxCpu?: (number | string) | null;
         /**
          * MaxMemory is the amount of maximum memory for the
          */
-        maxMemory?: number | string;
+        maxMemory?: (number | string) | null;
         /**
          * Memory is the amount of memory requested for the P
          */
-        memory?: number | string;
+        memory?: (number | string) | null;
         /**
          * ServiceAccountName specifies the ServiceAccount to
          */
@@ -2858,6 +3185,8 @@ export interface MySQLClusterArgs {
         threads?: number;
         /**
          * VolumeMounts describes a list of volume mounts tha
+         *
+         * Items: VolumeMountApplyConfiguration is the type defined
          */
         volumeMounts?: {
           mountPath?: string;
@@ -2876,6 +3205,8 @@ export interface MySQLClusterArgs {
         }[];
         /**
          * Volumes defines the list of volumes that can be mo
+         *
+         * Items: VolumeApplyConfiguration is the type defined to im
          */
         volumes?: {
           /**
@@ -2941,6 +3272,9 @@ export interface MySQLClusterArgs {
            */
           configMap?: {
             defaultMode?: number;
+            /**
+             * Items: KeyToPathApplyConfiguration represents a declarati
+             */
             items?: {
               key?: string;
               mode?: number;
@@ -2971,6 +3305,9 @@ export interface MySQLClusterArgs {
            */
           downwardAPI?: {
             defaultMode?: number;
+            /**
+             * Items: DownwardAPIVolumeFileApplyConfiguration represents
+             */
             items?: {
               /**
                * ObjectFieldSelectorApplyConfiguration represents a
@@ -3027,6 +3364,9 @@ export interface MySQLClusterArgs {
                 };
                 name?: string;
                 namespace?: string;
+                /**
+                 * Items: OwnerReferenceApplyConfiguration represents a decl
+                 */
                 ownerReferences?: {
                   apiVersion?: string;
                   blockOwnerDeletion?: boolean;
@@ -3087,6 +3427,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 selector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -3242,6 +3585,9 @@ export interface MySQLClusterArgs {
            */
           projected?: {
             defaultMode?: number;
+            /**
+             * Items: VolumeProjectionApplyConfiguration represents a de
+             */
             sources?: {
               /**
                * ClusterTrustBundleProjectionApplyConfiguration rep
@@ -3251,6 +3597,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -3272,6 +3621,9 @@ export interface MySQLClusterArgs {
                * ConfigMapProjectionApplyConfiguration represents a
                */
               configMap?: {
+                /**
+                 * Items: KeyToPathApplyConfiguration represents a declarati
+                 */
                 items?: {
                   key?: string;
                   mode?: number;
@@ -3284,6 +3636,9 @@ export interface MySQLClusterArgs {
                * DownwardAPIProjectionApplyConfiguration represents
                */
               downwardAPI?: {
+                /**
+                 * Items: DownwardAPIVolumeFileApplyConfiguration represents
+                 */
                 items?: {
                   /**
                    * ObjectFieldSelectorApplyConfiguration represents a
@@ -3308,6 +3663,9 @@ export interface MySQLClusterArgs {
                * SecretProjectionApplyConfiguration represents a de
                */
               secret?: {
+                /**
+                 * Items: KeyToPathApplyConfiguration represents a declarati
+                 */
                 items?: {
                   key?: string;
                   mode?: number;
@@ -3380,6 +3738,9 @@ export interface MySQLClusterArgs {
            */
           secret?: {
             defaultMode?: number;
+            /**
+             * Items: KeyToPathApplyConfiguration represents a declarati
+             */
             items?: {
               key?: string;
               mode?: number;
@@ -3480,6 +3841,9 @@ export interface MySQLClusterArgs {
            */
           configMap?: {
             defaultMode?: number;
+            /**
+             * Items: KeyToPathApplyConfiguration represents a declarati
+             */
             items?: {
               key?: string;
               mode?: number;
@@ -3510,6 +3874,9 @@ export interface MySQLClusterArgs {
            */
           downwardAPI?: {
             defaultMode?: number;
+            /**
+             * Items: DownwardAPIVolumeFileApplyConfiguration represents
+             */
             items?: {
               /**
                * ObjectFieldSelectorApplyConfiguration represents a
@@ -3566,6 +3933,9 @@ export interface MySQLClusterArgs {
                 };
                 name?: string;
                 namespace?: string;
+                /**
+                 * Items: OwnerReferenceApplyConfiguration represents a decl
+                 */
                 ownerReferences?: {
                   apiVersion?: string;
                   blockOwnerDeletion?: boolean;
@@ -3626,6 +3996,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 selector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -3780,6 +4153,9 @@ export interface MySQLClusterArgs {
            */
           projected?: {
             defaultMode?: number;
+            /**
+             * Items: VolumeProjectionApplyConfiguration represents a de
+             */
             sources?: {
               /**
                * ClusterTrustBundleProjectionApplyConfiguration rep
@@ -3789,6 +4165,9 @@ export interface MySQLClusterArgs {
                  * LabelSelectorApplyConfiguration represents a decla
                  */
                 labelSelector?: {
+                  /**
+                   * Items: LabelSelectorRequirementApplyConfiguration represe
+                   */
                   matchExpressions?: {
                     key?: string;
                     /**
@@ -3810,6 +4189,9 @@ export interface MySQLClusterArgs {
                * ConfigMapProjectionApplyConfiguration represents a
                */
               configMap?: {
+                /**
+                 * Items: KeyToPathApplyConfiguration represents a declarati
+                 */
                 items?: {
                   key?: string;
                   mode?: number;
@@ -3822,6 +4204,9 @@ export interface MySQLClusterArgs {
                * DownwardAPIProjectionApplyConfiguration represents
                */
               downwardAPI?: {
+                /**
+                 * Items: DownwardAPIVolumeFileApplyConfiguration represents
+                 */
                 items?: {
                   /**
                    * ObjectFieldSelectorApplyConfiguration represents a
@@ -3846,6 +4231,9 @@ export interface MySQLClusterArgs {
                * SecretProjectionApplyConfiguration represents a de
                */
               secret?: {
+                /**
+                 * Items: KeyToPathApplyConfiguration represents a declarati
+                 */
                 items?: {
                   key?: string;
                   mode?: number;
@@ -3918,6 +4306,9 @@ export interface MySQLClusterArgs {
            */
           secret?: {
             defaultMode?: number;
+            /**
+             * Items: KeyToPathApplyConfiguration represents a declarati
+             */
             items?: {
               key?: string;
               mode?: number;
@@ -3981,6 +4372,8 @@ export interface MySQLClusterArgs {
      * VolumeClaimTemplates is a list of `PersistentVolum
      *
      * @minItems 1
+     *
+     * Items: PersistentVolumeClaim is a user's request for and
      */
     volumeClaimTemplates: [
       {
@@ -4048,6 +4441,9 @@ export interface MySQLClusterArgs {
            * LabelSelectorApplyConfiguration represents a decla
            */
           selector?: {
+            /**
+             * Items: LabelSelectorRequirementApplyConfiguration represe
+             */
             matchExpressions?: {
               key?: string;
               /**
@@ -4134,6 +4530,9 @@ export interface MySQLClusterArgs {
            * LabelSelectorApplyConfiguration represents a decla
            */
           selector?: {
+            /**
+             * Items: LabelSelectorRequirementApplyConfiguration represe
+             */
             matchExpressions?: {
               key?: string;
               /**

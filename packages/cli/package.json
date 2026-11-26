@@ -23,6 +23,9 @@
     "cdk",
     "helm"
   ],
+  "engines": {
+    "node": ">=22.22.0"
+  },
   "publishConfig": {
     "access": "public",
     "bin": {
@@ -47,10 +50,8 @@
     "vite-plus": "catalog:"
   },
   "dependencies": {
-    "commander": "^14.0.3",
-    "json-schema-to-typescript": "^15.0.4",
-    "picocolors": "^1.1.1",
-    "ts-morph": "^27.0.2",
-    "yaml": "^2.8.3"
+    "json-schema-to-typescript": "^16.0.0",
+    "ts-morph": "catalog:",
+    "yaml": "catalog:"
   }
 }

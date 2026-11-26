@@ -1,6 +1,6 @@
 import { log } from 'node:console';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import { IndentationText, Project, QuoteKind } from 'ts-morph';
 import { targetPackagePath } from './paths.ts';
 
@@ -51,7 +51,7 @@ function main() {
          * Only process files in the src/models directory.
          */
         if (sourceFile.getDirectoryPath().startsWith(modelsPath)) {
-            log(`Fixing imports in file: ${pc.cyan(sourceFile.getBaseName())}`);
+            log(`Fixing imports in file: ${styleText('cyan', sourceFile.getBaseName())}`);
             for (const b of sourceFile.getImportDeclarations()) {
                 // Only relative imports need an extension; leave package imports like '@kube-ts/core' alone.
                 if (!b.getModuleSpecifierValue().startsWith('.')) {

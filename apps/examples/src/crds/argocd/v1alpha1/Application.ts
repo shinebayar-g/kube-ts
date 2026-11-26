@@ -77,6 +77,8 @@ export interface ApplicationArgs {
       prune?: boolean;
       /**
        * Resources describes which resources shall be part of the sync
+       *
+       * Items: SyncOperationResource contains resources to sync.
        */
       resources?: {
         group?: string;
@@ -121,6 +123,8 @@ export interface ApplicationArgs {
           jsonnet?: {
             /**
              * ExtVars is a list of Jsonnet External Variables
+             *
+             * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
              */
             extVars?: {
               code?: boolean;
@@ -133,6 +137,8 @@ export interface ApplicationArgs {
             libs?: string[];
             /**
              * TLAS is a list of Jsonnet Top-level Arguments
+             *
+             * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
              */
             tlas?: {
               code?: boolean;
@@ -156,6 +162,8 @@ export interface ApplicationArgs {
           apiVersions?: string[];
           /**
            * FileParameters are file parameters to the helm template
+           *
+           * Items: HelmFileParameter is a file parameter that's passed to helm template during manifest generation
            */
           fileParameters?: {
             /**
@@ -182,6 +190,8 @@ export interface ApplicationArgs {
           namespace?: string;
           /**
            * Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation
+           *
+           * Items: HelmParameter is a parameter that's passed to helm template during manifest generation
            */
           parameters?: {
             /**
@@ -265,6 +275,8 @@ export interface ApplicationArgs {
           forceCommonLabels?: boolean;
           /**
            * Images is a list of Kustomize image override specifications
+           *
+           * Items: KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>
            */
           images?: string[];
           /**
@@ -335,6 +347,8 @@ export interface ApplicationArgs {
         plugin?: {
           /**
            * Env is a list of environment variable entries
+           *
+           * Items: EnvEntry represents an entry in the application's environment
            */
           env?: {
             /**
@@ -386,6 +400,8 @@ export interface ApplicationArgs {
       /**
        * Sources overrides the source definition set in the application.
        * This is typically set in a Rollback operation and is nil during a Sync operation
+       *
+       * Items: ApplicationSource contains all required information about the source of an application
        */
       sources?: {
         /**
@@ -410,6 +426,8 @@ export interface ApplicationArgs {
           jsonnet?: {
             /**
              * ExtVars is a list of Jsonnet External Variables
+             *
+             * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
              */
             extVars?: {
               code?: boolean;
@@ -422,6 +440,8 @@ export interface ApplicationArgs {
             libs?: string[];
             /**
              * TLAS is a list of Jsonnet Top-level Arguments
+             *
+             * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
              */
             tlas?: {
               code?: boolean;
@@ -445,6 +465,8 @@ export interface ApplicationArgs {
           apiVersions?: string[];
           /**
            * FileParameters are file parameters to the helm template
+           *
+           * Items: HelmFileParameter is a file parameter that's passed to helm template during manifest generation
            */
           fileParameters?: {
             /**
@@ -471,6 +493,8 @@ export interface ApplicationArgs {
           namespace?: string;
           /**
            * Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation
+           *
+           * Items: HelmParameter is a parameter that's passed to helm template during manifest generation
            */
           parameters?: {
             /**
@@ -554,6 +578,8 @@ export interface ApplicationArgs {
           forceCommonLabels?: boolean;
           /**
            * Images is a list of Kustomize image override specifications
+           *
+           * Items: KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>
            */
           images?: string[];
           /**
@@ -624,6 +650,8 @@ export interface ApplicationArgs {
         plugin?: {
           /**
            * Env is a list of environment variable entries
+           *
+           * Items: EnvEntry represents an entry in the application's environment
            */
           env?: {
             /**
@@ -729,6 +757,8 @@ export interface ApplicationArgs {
     };
     /**
      * IgnoreDifferences is a list of resources and their fields which should be ignored during comparison
+     *
+     * Items: ResourceIgnoreDifferences contains resource filter and list of json paths which should be ignored during comparison with live state.
      */
     ignoreDifferences?: {
       group?: string;
@@ -789,6 +819,8 @@ export interface ApplicationArgs {
         jsonnet?: {
           /**
            * ExtVars is a list of Jsonnet External Variables
+           *
+           * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
            */
           extVars?: {
             code?: boolean;
@@ -801,6 +833,8 @@ export interface ApplicationArgs {
           libs?: string[];
           /**
            * TLAS is a list of Jsonnet Top-level Arguments
+           *
+           * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
            */
           tlas?: {
             code?: boolean;
@@ -824,6 +858,8 @@ export interface ApplicationArgs {
         apiVersions?: string[];
         /**
          * FileParameters are file parameters to the helm template
+         *
+         * Items: HelmFileParameter is a file parameter that's passed to helm template during manifest generation
          */
         fileParameters?: {
           /**
@@ -850,6 +886,8 @@ export interface ApplicationArgs {
         namespace?: string;
         /**
          * Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation
+         *
+         * Items: HelmParameter is a parameter that's passed to helm template during manifest generation
          */
         parameters?: {
           /**
@@ -933,6 +971,8 @@ export interface ApplicationArgs {
         forceCommonLabels?: boolean;
         /**
          * Images is a list of Kustomize image override specifications
+         *
+         * Items: KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>
          */
         images?: string[];
         /**
@@ -1003,6 +1043,8 @@ export interface ApplicationArgs {
       plugin?: {
         /**
          * Env is a list of environment variable entries
+         *
+         * Items: EnvEntry represents an entry in the application's environment
          */
         env?: {
           /**
@@ -1053,6 +1095,8 @@ export interface ApplicationArgs {
     };
     /**
      * Sources is a reference to the location of the application's manifests or chart
+     *
+     * Items: ApplicationSource contains all required information about the source of an application
      */
     sources?: {
       /**
@@ -1077,6 +1121,8 @@ export interface ApplicationArgs {
         jsonnet?: {
           /**
            * ExtVars is a list of Jsonnet External Variables
+           *
+           * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
            */
           extVars?: {
             code?: boolean;
@@ -1089,6 +1135,8 @@ export interface ApplicationArgs {
           libs?: string[];
           /**
            * TLAS is a list of Jsonnet Top-level Arguments
+           *
+           * Items: JsonnetVar represents a variable to be passed to jsonnet during manifest generation
            */
           tlas?: {
             code?: boolean;
@@ -1112,6 +1160,8 @@ export interface ApplicationArgs {
         apiVersions?: string[];
         /**
          * FileParameters are file parameters to the helm template
+         *
+         * Items: HelmFileParameter is a file parameter that's passed to helm template during manifest generation
          */
         fileParameters?: {
           /**
@@ -1138,6 +1188,8 @@ export interface ApplicationArgs {
         namespace?: string;
         /**
          * Parameters is a list of Helm parameters which are passed to the helm template command upon manifest generation
+         *
+         * Items: HelmParameter is a parameter that's passed to helm template during manifest generation
          */
         parameters?: {
           /**
@@ -1221,6 +1273,8 @@ export interface ApplicationArgs {
         forceCommonLabels?: boolean;
         /**
          * Images is a list of Kustomize image override specifications
+         *
+         * Items: KustomizeImage represents a Kustomize image definition in the format [old_image_name=]<image_name>:<image_tag>
          */
         images?: string[];
         /**
@@ -1291,6 +1345,8 @@ export interface ApplicationArgs {
       plugin?: {
         /**
          * Env is a list of environment variable entries
+         *
+         * Items: EnvEntry represents an entry in the application's environment
          */
         env?: {
           /**

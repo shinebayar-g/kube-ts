@@ -11,6 +11,8 @@ export interface ExternalSecretArgs {
   readonly spec?: {
     /**
      * Data defines the connection between the Kubernetes Secret keys and the Provider data
+     *
+     * Items: ExternalSecretData defines the connection between the Kubernetes Secret key (spec.data.<key>) and the Provider data.
      */
     data?: {
       /**
@@ -42,6 +44,8 @@ export interface ExternalSecretArgs {
     /**
      * DataFrom is used to fetch all properties from a specific Provider data
      * If multiple entries are specified, the Secret keys are merged in the specified order
+     *
+     * Items: ExternalSecretDataRemoteRef defines Provider data location.
      */
     dataFrom?: {
       /**

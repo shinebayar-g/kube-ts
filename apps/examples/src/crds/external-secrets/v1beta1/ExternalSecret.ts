@@ -11,6 +11,8 @@ export interface ExternalSecretArgs {
   readonly spec?: {
     /**
      * Data defines the connection between the Kubernetes Secret keys and the Provider data
+     *
+     * Items: ExternalSecretData defines the connection between the Kubernetes Secret key (spec.data.<key>) and the Provider data.
      */
     data?: {
       /**

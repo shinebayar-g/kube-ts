@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import {
     type ClassDeclaration,
     type ConstructorDeclarationStructure,
@@ -85,12 +85,14 @@ function replaceRefs(sourceFile: SourceFile) {
         const importRef = srcFile.getImportDeclaration(`../models/${sourceFile.getBaseName()}`);
         if (typeRef) {
             log(
-                `${pc.cyan(srcFileName)}: Replacing ${pc.gray(typeRef.getText())} with ${pc.yellowBright('number | string')}`,
+                `${styleText('cyan', srcFileName)}: Replacing ${styleText('gray', typeRef.getText())} with ${styleText('yellowBright', 'number | string')}`,
             );
             typeRef.replaceWithText('number | string');
         }
         if (importRef) {
-            log(`${pc.cyan(srcFileName)}: Removing ${pc.gray(importRef.getText())}`);
+            log(
+                `${styleText('cyan', srcFileName)}: Removing ${styleText('gray', importRef.getText())}`,
+            );
             importRef.remove();
         }
     }
@@ -154,7 +156,7 @@ function main() {
             const classDeclaration = sourceFile.getClasses()[0];
             const className = classDeclaration?.getName();
             if (classDeclaration && className) {
-                log(`Processing ${pc.cyan(sourceFile.getBaseName())}`);
+                log(`Processing ${styleText('cyan', sourceFile.getBaseName())}`);
                 /**
                  * Clean up the default generated class structure.
                  */

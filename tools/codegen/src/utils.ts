@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 
 export function upperCaseFirstLetter(val: string) {
     return val.charAt(0).toUpperCase() + val.slice(1);
@@ -94,7 +94,7 @@ export function removeUnusedFiles(modelsPath: string) {
             filename.endsWith('List.ts') ||
             unusedFiles.has(filename)
         ) {
-            log(`Removing unused file ${++counter}: ${pc.gray(filename)}`);
+            log(`Removing unused file ${++counter}: ${styleText('gray', filename)}`);
             fs.rmSync(path.join(modelsPath, filename));
         }
     }

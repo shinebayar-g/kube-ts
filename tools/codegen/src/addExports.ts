@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import pc from 'picocolors';
+import { styleText } from 'node:util';
 import { IndentationText, Project, QuoteKind } from 'ts-morph';
 import { targetPackagePath } from './paths.ts';
 
@@ -70,7 +70,7 @@ function main() {
                     apiVersionFileContent += `export * from './${apiVersion}/${apiResource}';\n`;
                 }
                 const apiVersionFilePath = path.join(modelsPath, apiGroup, `${apiVersion}.ts`);
-                log(`Creating file ${pc.cyan(apiVersionFilePath)}`);
+                log(`Creating file ${styleText('cyan', apiVersionFilePath)}`);
                 project.createSourceFile(apiVersionFilePath, apiVersionFileContent, {
                     overwrite: true,
                 });
@@ -79,7 +79,7 @@ function main() {
 
         if (apiGroupFileContent) {
             const apiGroupFilePath = path.join(modelsPath, `${apiGroup}.ts`);
-            log(`Creating file ${pc.cyan(apiGroupFilePath)}`);
+            log(`Creating file ${styleText('cyan', apiGroupFilePath)}`);
             project.createSourceFile(apiGroupFilePath, apiGroupFileContent, {
                 overwrite: true,
             });

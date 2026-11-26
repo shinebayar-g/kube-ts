@@ -31,6 +31,8 @@ export interface ClusterExternalSecretArgs {
     externalSecretSpec: {
       /**
        * Data defines the connection between the Kubernetes Secret keys and the Provider data
+       *
+       * Items: ExternalSecretData defines the connection between the Kubernetes Secret key (spec.data.<key>) and the Provider data.
        */
       data?: {
         /**
@@ -389,6 +391,9 @@ export interface ClusterExternalSecretArgs {
     namespaceSelector?: {
       /**
        * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+       *
+       * Items: A label selector requirement is a selector that contains values, a key, and an operator that
+       * relates the key and values.
        */
       matchExpressions?: {
         /**
@@ -419,10 +424,17 @@ export interface ClusterExternalSecretArgs {
     };
     /**
      * A list of labels to select by to find the Namespaces to create the ExternalSecrets in. The selectors are ORed.
+     *
+     * Items: A label selector is a label query over a set of resources. The result of matchLabels and
+     * matchExpressions are ANDed. An empty label selector matches all objects. A null
+     * label selector matches no objects.
      */
     namespaceSelectors?: {
       /**
        * matchExpressions is a list of label selector requirements. The requirements are ANDed.
+       *
+       * Items: A label selector requirement is a selector that contains values, a key, and an operator that
+       * relates the key and values.
        */
       matchExpressions?: {
         /**
