@@ -62,8 +62,10 @@ export interface ObjectMeta {
      *
      * Cannot be updated.
      * More info: https://kubernetes.io/docs/concepts/overview/working-with-objects/names#names
+     *
+     * Optional here: kube-ts fills it in from the resource's `name` argument.
      */
-    name: string;
+    name?: string;
     /**
      * List of objects depended by this object. If ALL objects in the list have been deleted,
      * this object will be garbage collected. If this object is managed by a controller, then

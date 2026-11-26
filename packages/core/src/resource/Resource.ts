@@ -1,6 +1,13 @@
 import * as yaml from 'yaml';
 import type { ObjectMeta } from './ObjectMeta.ts';
-import type { K8sApp } from '../K8sApp.ts';
+
+export interface Scope {
+    /**
+     * Default namespace for namespaced resources created in this scope.
+     */
+    readonly namespace?: string;
+    addResource(resource: Resource): void;
+}
 
 export interface NamespacedResourceMeta extends ObjectMeta {
     /**
@@ -38,33 +45,42 @@ export interface NamespacedResourceArgs extends ResourceArgs {
  * Resource is the base class for all Kubernetes API resources.
  * Kubernetes resources can be either a ClusterResource or a NamespacedResource,
  * depending on the scope of the resource.
+ *
+ * Contract with @kube-ts/k8s: the generated models extend ClusterResource and
+ * NamespacedResource and call their constructors. Changing these constructors or
+ * the metadata types is a breaking change: bump core's minor version (0.x) and
+ * republish @kube-ts/k8s with the new peer range.
+ *
+ * Can also be used directly as an escape hatch, e.g. for CRDs without generated code.
  */
 export class Resource {
     readonly apiVersion: string;
     readonly kind: string;
-    /**
-     * The `metadata.name` of the resource.
-     */
-    readonly name: string;
     readonly metadata: ClusterResourceMeta | NamespacedResourceMeta;
-    readonly spec?: any;
 
-    constructor(app: K8sApp, name: string, args: ResourceArgs) {
-        const { apiVersion, kind, metadata, spec, ...rest } = args;
+    constructor(scope: Scope, name: string, args: ResourceArgs) {
+        const { apiVersion, kind, metadata, ...rest } = args;
         this.apiVersion = apiVersion;
         this.kind = kind;
-        this.metadata = {
-            ...metadata,
-            name: metadata?.name || name,
-        };
-        this.name = this.metadata.name;
-        this.spec = spec;
+        // Keep the caller's key order when it set a name (e.g. Helm output); otherwise put `name` first.
+        const resourceMeta = metadata?.name ? { ...metadata } : { name, ...metadata };
+        resourceMeta.name ||= name;
+        this.metadata = resourceMeta;
+        // Everything else (spec, data, rules, ...) is copied as-is.
         Object.assign(this, rest);
+        scope.addResource(this);
+    }
+
+    /**
+     * The `metadata.name` of the resource.
+     * A getter, so it isn't serialized into the manifest.
+     */
+    get name(): string {
+        return this.metadata.name as string;
     }
 
     toYaml(): string {
-        const { name: _name, ...rest } = this;
-        return yaml.stringify(rest, { schema: 'yaml-1.1', aliasDuplicateObjects: false });
+        return yaml.stringify({ ...this }, { schema: 'yaml-1.1', aliasDuplicateObjects: false });
     }
 }
 
@@ -73,28 +89,25 @@ export class Resource {
  * resources that are cluster-scoped.
  */
 export class ClusterResource extends Resource {
-    override readonly metadata: ClusterResourceMeta;
-    constructor(app: K8sApp, name: string, args: ClusterResourceArgs) {
-        super(app, name, args);
-        this.metadata = {
-            ...args.metadata,
-            name: args.metadata?.name || name,
-        };
+    declare readonly metadata: ClusterResourceMeta;
+
+    constructor(scope: Scope, name: string, args: ClusterResourceArgs) {
+        super(scope, name, args);
     }
 }
 
 /**
  * NamespacedResource is the base class for all Kubernetes API
  * resources that are namespace-scoped.
+ * `metadata.namespace` defaults to the scope's namespace (e.g. the App's).
  */
 export class NamespacedResource extends Resource {
-    override readonly metadata: NamespacedResourceMeta;
-    constructor(app: K8sApp, name: string, args: NamespacedResourceArgs) {
-        super(app, name, args);
-        this.metadata = {
-            ...args.metadata,
-            name: args.metadata?.name || name,
-            namespace: args.metadata?.namespace ?? app.namespace,
-        };
+    declare readonly metadata: NamespacedResourceMeta;
+
+    constructor(scope: Scope, name: string, args: NamespacedResourceArgs) {
+        super(scope, name, {
+            ...args,
+            metadata: { ...args.metadata, namespace: args.metadata?.namespace ?? scope.namespace },
+        });
     }
 }

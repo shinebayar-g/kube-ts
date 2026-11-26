@@ -132,9 +132,7 @@ export interface JSONSchemaProps {
   /**
    *
    */
-  patternProperties?: {
-    [key: string]: JSONSchemaProps;
-  };
+  patternProperties?: { [key: string]: JSONSchemaProps };
   /**
    *
    */

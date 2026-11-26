@@ -37,6 +37,10 @@
     },
     "packages/core": {
       "package-name": "@kube-ts/core"
+    },
+    "packages/k8s": {
+      "package-name": "@kube-ts/k8s",
+      "versioning": "always-bump-patch"
     }
   }
 }

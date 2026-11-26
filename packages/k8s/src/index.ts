@@ -1,7 +1,3 @@
-export * from './ApiObject.ts';
-export * from './K8sApp.ts';
-export * from './models/meta/v1/types/ObjectMeta.ts';
-export * from './Helm.ts';
 export * as admissionregistration from './models/admissionregistration.ts';
 export * as apiextensions from './models/apiextensions.ts';
 export * as apiregistration from './models/apiregistration.ts';

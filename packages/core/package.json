@@ -1,6 +1,6 @@
 {
   "name": "@kube-ts/core",
-  "version": "1.32.13",
+  "version": "0.0.0",
   "author": {
     "name": "shinebayar-g",
     "url": "https://github.com/shinebayar-g"
@@ -27,36 +27,28 @@
     "access": "public",
     "exports": {
       ".": {
-        "import": "./dist/index.js",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.mts",
+        "import": "./dist/index.mjs"
       },
-      "./*": {
-        "import": "./dist/models/*.js",
-        "types": "./dist/models/*.d.ts"
-      }
+      "./package.json": "./package.json"
     }
   },
   "type": "module",
   "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
-    },
-    "./*": {
-      "import": "./src/models/*.ts",
-      "types": "./src/models/*.ts"
-    }
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
   },
   "scripts": {
-    "lint": "biome lint",
-    "build": "rm -rf dist && tsc",
-    "prepack": "pnpm run build"
+    "build": "vp pack",
+    "prepack": "vp run build"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
-    "typescript": "5.9.3"
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "vite-plus": "catalog:"
   },
   "dependencies": {
     "picocolors": "^1.1.1",

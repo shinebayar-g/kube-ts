@@ -5,7 +5,13 @@ import * as os from 'node:os';
 import * as path from 'node:path';
 import { compile } from 'json-schema-to-typescript';
 import pc from 'picocolors';
-import { type ClassDeclarationStructure, Project, StructureKind } from 'ts-morph';
+import {
+    type ClassDeclarationStructure,
+    IndentationText,
+    Project,
+    QuoteKind,
+    StructureKind,
+} from 'ts-morph';
 import * as yaml from 'yaml';
 
 interface CRD {
@@ -94,7 +100,12 @@ interface Output {
 }
 
 export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig) {
-    const project = new Project();
+    const project = new Project({
+        manipulationSettings: {
+            indentationText: IndentationText.TwoSpaces,
+            quoteKind: QuoteKind.Single,
+        },
+    });
     const outDir = path.resolve(config?.outDir || './crds');
     fs.rmSync(outDir, { recursive: true, force: true });
     fs.mkdirSync(cacheHome, { recursive: true });
@@ -139,7 +150,7 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                         {
                             bannerComment: '',
                             additionalProperties: false,
-                            format: false,
+                            style: { singleQuote: true, tabWidth: 2 },
                         },
                     );
                     const fileLocation = path.join(
@@ -162,81 +173,81 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                     metadata?.setHasQuestionToken(true);
                     const spec = interfaceDecleration.getProperty('spec');
                     spec?.setIsReadonly(true);
+                    const baseClass = isNamespaced ? 'NamespacedResource' : 'ClusterResource';
+                    const metaType = isNamespaced
+                        ? 'NamespacedResourceMeta'
+                        : 'ClusterResourceMeta';
+                    const apiVersion = `${crd.spec.group}/${crdVersion.name}`;
+                    const kind = crd.spec.names.kind;
+                    metadata?.setType(metaType);
                     sourceFile.addImportDeclaration({
                         moduleSpecifier: '@kube-ts/core',
-                        namedImports: ['K8sApp'],
-                        isTypeOnly: true,
+                        namedImports: ['type Scope', baseClass, `type ${metaType}`],
                     });
-                    if (isNamespaced) {
-                        metadata?.setType('NamespacedObjectMeta');
-                        sourceFile.addImportDeclaration({
-                            moduleSpecifier: '@kube-ts/core',
-                            namedImports: ['NamespacedApiObject', 'type NamespacedObjectMeta'],
-                        });
-                    } else {
-                        metadata?.setType('ObjectMeta');
-                        sourceFile.addImportDeclaration({
-                            moduleSpecifier: '@kube-ts/core',
-                            namedImports: ['ApiObject', 'type ObjectMeta'],
-                        });
-                    }
 
+                    const argsName = interfaceDecleration.getName();
+                    const argsAreOptional = interfaceDecleration
+                        .getProperties()
+                        .every((prop) => prop.hasQuestionToken());
+                    /**
+                     * Properties are `declare`d: the base constructor assigns them,
+                     * the class only narrows their types.
+                     */
                     const classDecleration: ClassDeclarationStructure = {
                         kind: StructureKind.Class,
-                        name: interfaceDecleration.getName().replace('Args', ''),
-                        extends: isNamespaced ? 'NamespacedApiObject' : 'ApiObject',
+                        name: argsName.replace('Args', ''),
+                        extends: baseClass,
                         isExported: true,
                         properties: [
                             {
                                 name: 'apiVersion',
-                                initializer: `'${crd.spec.group}/${crdVersion.name}'`,
+                                type: `'${apiVersion}'`,
                                 isReadonly: true,
+                                hasDeclareKeyword: true,
                             },
                             {
                                 name: 'kind',
-                                initializer: `'${crd.spec.names.kind}'`,
+                                type: `'${kind}'`,
                                 isReadonly: true,
+                                hasDeclareKeyword: true,
                             },
                             {
                                 name: 'metadata',
-                                type: isNamespaced ? 'NamespacedObjectMeta' : 'ObjectMeta',
+                                type: metaType,
                                 isReadonly: true,
+                                hasDeclareKeyword: true,
                             },
-                            {
-                                name: 'spec',
-                                type: `${interfaceDecleration.getName()}['spec']`,
-                                isReadonly: true,
-                            },
+                            ...(spec
+                                ? [
+                                      {
+                                          name: 'spec',
+                                          type: `${argsName}['spec']`,
+                                          isReadonly: true,
+                                          hasDeclareKeyword: true,
+                                      },
+                                  ]
+                                : []),
                         ],
                         ctors: [
                             {
                                 parameters: [
-                                    {
-                                        name: 'app',
-                                        type: 'K8sApp',
-                                    },
-                                    {
-                                        name: 'name',
-                                        type: 'string',
-                                    },
+                                    { name: 'scope', type: 'Scope' },
+                                    { name: 'name', type: 'string' },
                                     {
                                         name: 'args',
-                                        type: interfaceDecleration.getName(),
+                                        type: argsName,
+                                        initializer: argsAreOptional ? '{}' : undefined,
                                     },
                                 ],
                                 statements: [
-                                    'super(args.metadata?.name || name);',
-                                    'this.metadata = {',
-                                    '  name: args.metadata?.name || name,',
-                                    '  ...args.metadata,',
-                                    '};',
-                                    'this.spec = args.spec;',
-                                    'app.addResource(this);',
+                                    `super(scope, name, { apiVersion: '${apiVersion}', kind: '${kind}', ...args });`,
                                 ],
                             },
                         ],
                     };
                     sourceFile.addClass(classDecleration);
+                    // Indent the class added above to match the prettier-formatted interface.
+                    sourceFile.formatText({ indentSize: 2, convertTabsToSpaces: true });
                 }
             }
         }

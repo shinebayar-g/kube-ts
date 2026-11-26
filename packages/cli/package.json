@@ -26,38 +26,25 @@
   "publishConfig": {
     "access": "public",
     "bin": {
-      "kube-ts": "./dist/index.js"
-    },
-    "exports": {
-      ".": {
-        "import": "./dist/index.js",
-        "types": "./dist/index.d.ts"
-      }
+      "kube-ts": "./dist/index.mjs"
     }
   },
   "type": "module",
-  "exports": {
-    ".": {
-      "import": "./src/index.ts",
-      "types": "./src/index.ts"
-    }
-  },
   "bin": {
     "kube-ts": "./src/index.ts"
   },
   "scripts": {
-    "lint": "biome lint",
-    "gen": "rm -rf ./gen && openapi-generator-cli generate",
-    "build": "rm -rf dist && tsc && chmod +x dist/index.js",
-    "prepack": "pnpm run build"
+    "build": "vp pack",
+    "prepack": "vp run build"
   },
   "files": [
     "dist"
   ],
   "devDependencies": {
     "@kube-ts/core": "workspace:*",
-    "@openapitools/openapi-generator-cli": "2.30.2",
-    "typescript": "5.9.3"
+    "typescript": "catalog:",
+    "@types/node": "catalog:",
+    "vite-plus": "catalog:"
   },
   "dependencies": {
     "commander": "^14.0.3",

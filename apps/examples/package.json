@@ -1,0 +1,13 @@
+{
+  "name": "@kube-ts/examples",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "crds": "vp run @kube-ts/cli#build && kube-ts"
+  },
+  "devDependencies": {
+    "@kube-ts/cli": "workspace:*",
+    "@kube-ts/core": "workspace:*",
+    "@kube-ts/k8s": "workspace:*"
+  }
+}

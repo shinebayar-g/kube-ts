@@ -1,4 +1,5 @@
 {
   "packages/cli": "0.6.3",
-  "packages/core": "1.32.13"
+  "packages/core": "0.0.0",
+  "packages/k8s": "1.32.0"
 }

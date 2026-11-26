@@ -1,9 +1,20 @@
 packages:
+  - apps/*
   - packages/*
-  - examples
+  - tools/*
 
-ignoredBuiltDependencies:
-  - "@nestjs/core"
+catalogMode: prefer
 
-onlyBuiltDependencies:
-  - "@openapitools/openapi-generator-cli"
+catalog:
+  "@openapitools/openapi-generator-cli": 2.43.0
+  "@types/node": 26.6.11
+  typescript: 7.0.2
+  vite: npm:@voidzero-dev/vite-plus-core@8.3.8001
+  vite-plus: 1.8.0
+overrides:
+  vite@*: "catalog:"
+allowBuilds:
+  "@nestjs/core": false
+  "@openapitools/openapi-generator-cli": true
+minimumReleaseAgeExclude:
+  - "@types/node@26.6.11"
