@@ -1,22 +1,22 @@
-# k8skonf
+# kube-ts
 
 Write Kubernetes manifests in TypeScript.
 
 Packages
 
-- `@k8skonf/core` - Minimal core library that provides basic building blocks for organizing your K8sKonf applications.
-- `@k8skonf/k8s` - Ready to use Kubernetes core schema in TypeScript.
-- `@k8skonf/cli` - CLI tool to generate TypeScript code for Kubernetes core schema and Custom Resource Definitions (CRDs).
+- `@kube-ts/core` - Minimal core library that provides basic building blocks for organizing your kube-ts applications.
+- `@kube-ts/k8s` - Ready to use Kubernetes core schema in TypeScript.
+- `@kube-ts/cli` - CLI tool to generate TypeScript code for Kubernetes core schema and Custom Resource Definitions (CRDs).
 
 ## Usage
 
 ### Example
 
 ```ts
-import { K8sApp } from '@k8skonf/core';
-import { Deployment } from '@k8skonf/k8s/apps/v1';
+import { K8sApp } from '@kube-ts/core';
+import { Deployment } from '@kube-ts/k8s/apps/v1';
 // Or you can import like this:
-// import { apps } from '@k8skonf/k8s';
+// import { apps } from '@kube-ts/k8s';
 // and then
 // new apps.v1.Deployment();
 
@@ -88,9 +88,9 @@ spec:
               name: http
 ```
 
-## @k8skonf/cli
+## @kube-ts/cli
 
-This package provides the command-line interface (CLI) for K8sKonf.
+This package provides the command-line interface (CLI) for kube-ts.
 
 It has 2 main functionalities:
 
@@ -100,30 +100,30 @@ It has 2 main functionalities:
 ### CLI
 
 ```sh
-npx @k8skonf/cli --help
+npx @kube-ts/cli --help
 ```
 
 Generate TypeScript code for Kubernetes core schema
 
 ```sh
-npx @k8skonf/cli k8s@1.33
+npx @kube-ts/cli k8s@1.33
 ```
 
 Generate TypeScript code for Kubernetes CRDs
 
 ```sh
 # From a YAML file
-npx @k8skonf/cli path/to/crd.yaml
+npx @kube-ts/cli path/to/crd.yaml
 
 # From a URL
-npx @k8skonf/cli https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml
+npx @kube-ts/cli https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml
 
 ```
 
 ### Configuration File
 
 ```yaml
-# k8skonfig.yaml
+# kube-ts.yaml
 crds:
   argocd:
     - https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml
@@ -141,15 +141,15 @@ outDir:
   k8s: ./src/generated/k8s
 
 # CRD yaml files are downloaded to this directory
-cacheDir: ~/.cache/k8skonf
+cacheDir: ~/.cache/kube-ts
 ```
 
 Run
 
 ```sh
-npx @k8skonf/cli # It will look for k8skonfig.yaml in the current directory
+npx @kube-ts/cli # It will look for kube-ts.yaml in the current directory
 
 # or
-npx @k8skonf/cli -c path/to/k8skonfig.yaml
-npx @k8skonf/cli --config path/to/k8skonfig.yaml
+npx @kube-ts/cli -c path/to/kube-ts.yaml
+npx @kube-ts/cli --config path/to/kube-ts.yaml
 ```

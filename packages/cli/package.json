@@ -1,23 +1,23 @@
 {
-  "name": "@k8skonf/cli",
+  "name": "@kube-ts/cli",
   "version": "0.6.3",
   "author": {
-    "name": "konfjs",
-    "url": "https://github.com/konfjs"
+    "name": "shinebayar-g",
+    "url": "https://github.com/shinebayar-g"
   },
   "license": "MPL-2.0",
-  "homepage": "https://github.com/konfjs/k8skonf",
+  "homepage": "https://github.com/shinebayar-g/kube-ts",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/konfjs/k8skonf.git",
+    "url": "git+https://github.com/shinebayar-g/kube-ts.git",
     "directory": "packages/cli"
   },
   "bugs": {
-    "url": "https://github.com/konfjs/k8skonf/issues"
+    "url": "https://github.com/shinebayar-g/kube-ts/issues"
   },
   "keywords": [
-    "konfjs",
-    "k8skonf",
+    "kube-ts",
+    "typescript",
     "kubernetes",
     "cdk8s",
     "cdk",
@@ -26,7 +26,7 @@
   "publishConfig": {
     "access": "public",
     "bin": {
-      "@k8skonf/cli": "./dist/index.js"
+      "kube-ts": "./dist/index.js"
     },
     "exports": {
       ".": {
@@ -43,7 +43,7 @@
     }
   },
   "bin": {
-    "@k8skonf/cli": "./src/index.ts"
+    "kube-ts": "./src/index.ts"
   },
   "scripts": {
     "lint": "biome lint",
@@ -55,7 +55,7 @@
     "dist"
   ],
   "devDependencies": {
-    "@k8skonf/core": "workspace:*",
+    "@kube-ts/core": "workspace:*",
     "@openapitools/openapi-generator-cli": "2.30.2",
     "typescript": "5.9.3"
   },

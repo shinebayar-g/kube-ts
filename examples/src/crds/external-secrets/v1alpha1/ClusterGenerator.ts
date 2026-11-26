@@ -1,5 +1,5 @@
-import type { K8sApp } from '@k8skonf/core';
-import { ApiObject, type ObjectMeta } from '@k8skonf/core';
+import type { K8sApp } from '@kube-ts/core';
+import { ApiObject, type ObjectMeta } from '@kube-ts/core';
 
 /**
  * ClusterGenerator represents a cluster-wide generator which can be referenced as part of `generatorRef` fields.

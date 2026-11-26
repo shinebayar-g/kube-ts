@@ -26,10 +26,10 @@ importers:
 
   examples:
     devDependencies:
-      '@k8skonf/cli':
+      '@kube-ts/cli':
         specifier: workspace:*
         version: link:../packages/cli
-      '@k8skonf/core':
+      '@kube-ts/core':
         specifier: workspace:*
         version: link:../packages/core
 
@@ -51,7 +51,7 @@ importers:
         specifier: ^2.8.3
         version: 2.8.3
     devDependencies:
-      '@k8skonf/core':
+      '@kube-ts/core':
         specifier: workspace:*
         version: link:../core
       '@openapitools/openapi-generator-cli':
@@ -76,7 +76,7 @@ importers:
 
   packages/k8s:
     dependencies:
-      '@k8skonf/core':
+      '@kube-ts/core':
         specifier: workspace:*
         version: link:../core
       picocolors:

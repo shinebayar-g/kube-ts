@@ -1,5 +1,5 @@
-import type { K8sApp } from '@k8skonf/core';
-import { NamespacedApiObject, type NamespacedObjectMeta } from '@k8skonf/core';
+import type { K8sApp } from '@kube-ts/core';
+import { NamespacedApiObject, type NamespacedObjectMeta } from '@kube-ts/core';
 
 /**
  * STSSessionToken uses the GetSessionToken API to retrieve an authorization token.

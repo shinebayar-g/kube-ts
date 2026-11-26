@@ -1,4 +1,4 @@
-# k8skonf examples
+# kube-ts examples
 
 Usage:
 

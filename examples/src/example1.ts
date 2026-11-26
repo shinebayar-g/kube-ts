@@ -1,7 +1,7 @@
 import { log } from 'node:console';
-import { K8sApp } from '@k8skonf/core';
-import { ConfigMap } from '@k8skonf/core/core/v1/ConfigMap';
-import { Deployment } from '@k8skonf/core/apps/v1/Deployment';
+import { K8sApp } from '@kube-ts/core';
+import { ConfigMap } from '@kube-ts/core/core/v1/ConfigMap';
+import { Deployment } from '@kube-ts/core/apps/v1/Deployment';
 
 const app = new K8sApp('my-k8s-app', { namespace: 'my-app-namespace' });
 

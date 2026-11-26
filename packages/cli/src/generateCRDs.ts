@@ -47,7 +47,7 @@ function isK8sList(o: any | K8sList): o is K8sList {
     return o && typeof o === 'object' && o.kind === 'List';
 }
 
-interface K8sKonfig {
+interface KubeTsConfig {
     /**
      * @default "./crds"
      */
@@ -57,10 +57,10 @@ interface K8sKonfig {
     };
 }
 
-const cacheHome = path.join(os.homedir(), '.cache', 'k8skonf');
+const cacheHome = path.join(os.homedir(), '.cache', 'kube-ts');
 
 export function readConfig(configPath: string) {
-    const config: K8sKonfig = yaml.parse(fs.readFileSync(configPath, 'utf8'));
+    const config: KubeTsConfig = yaml.parse(fs.readFileSync(configPath, 'utf8'));
     return config;
 }
 
@@ -93,7 +93,7 @@ interface Output {
     [dir: string]: CRD[];
 }
 
-export async function generateCRDs(crdPathOrUrl?: string, config?: K8sKonfig) {
+export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig) {
     const project = new Project();
     const outDir = path.resolve(config?.outDir || './crds');
     fs.rmSync(outDir, { recursive: true, force: true });
@@ -163,20 +163,20 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: K8sKonfig) {
                     const spec = interfaceDecleration.getProperty('spec');
                     spec?.setIsReadonly(true);
                     sourceFile.addImportDeclaration({
-                        moduleSpecifier: '@k8skonf/core',
+                        moduleSpecifier: '@kube-ts/core',
                         namedImports: ['K8sApp'],
                         isTypeOnly: true,
                     });
                     if (isNamespaced) {
                         metadata?.setType('NamespacedObjectMeta');
                         sourceFile.addImportDeclaration({
-                            moduleSpecifier: '@k8skonf/core',
+                            moduleSpecifier: '@kube-ts/core',
                             namedImports: ['NamespacedApiObject', 'type NamespacedObjectMeta'],
                         });
                     } else {
                         metadata?.setType('ObjectMeta');
                         sourceFile.addImportDeclaration({
-                            moduleSpecifier: '@k8skonf/core',
+                            moduleSpecifier: '@kube-ts/core',
                             namedImports: ['ApiObject', 'type ObjectMeta'],
                         });
                     }
