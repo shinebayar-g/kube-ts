@@ -19,10 +19,6 @@ export class MutatingAdmissionPolicyBinding extends ClusterResource {
    */
   declare readonly kind: 'MutatingAdmissionPolicyBinding';
   /**
-   * Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Specification of the desired behavior of the MutatingAdmissionPolicyBinding.
    */
   declare readonly spec?: MutatingAdmissionPolicyBindingSpec;

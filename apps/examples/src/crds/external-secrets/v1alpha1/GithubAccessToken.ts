@@ -56,7 +56,6 @@ export interface GithubAccessTokenArgs {
 export class GithubAccessToken extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'GithubAccessToken';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: GithubAccessTokenArgs['spec'];
 
   constructor(scope: Scope, name: string, args: GithubAccessTokenArgs = {}) {

@@ -19,10 +19,6 @@ export class APIService extends ClusterResource {
    */
   declare readonly kind: 'APIService';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Spec contains information for locating and communicating with a server
    */
   declare readonly spec?: APIServiceSpec;

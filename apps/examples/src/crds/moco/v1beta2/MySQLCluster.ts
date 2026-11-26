@@ -4162,7 +4162,6 @@ export interface MySQLClusterArgs {
 export class MySQLCluster extends NamespacedResource {
   declare readonly apiVersion: 'moco.cybozu.com/v1beta2';
   declare readonly kind: 'MySQLCluster';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: MySQLClusterArgs['spec'];
 
   constructor(scope: Scope, name: string, args: MySQLClusterArgs = {}) {

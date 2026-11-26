@@ -138,7 +138,6 @@ export interface ACRAccessTokenArgs {
 export class ACRAccessToken extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'ACRAccessToken';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: ACRAccessTokenArgs['spec'];
 
   constructor(scope: Scope, name: string, args: ACRAccessTokenArgs = {}) {

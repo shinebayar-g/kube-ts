@@ -19,10 +19,6 @@ export class ClusterTrustBundle extends ClusterResource {
    */
   declare readonly kind: 'ClusterTrustBundle';
   /**
-   * metadata contains the object metadata.
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * spec contains the signer (if any) and trust anchors.
    */
   declare readonly spec: ClusterTrustBundleSpec;

@@ -1,6 +1,7 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import pc from 'picocolors';
+import { kindWithGroup } from './resource/clusterScopedKinds.ts';
 import type { NamespacedResourceMeta, Resource, Scope } from './resource/Resource.ts';
 
 /**
@@ -8,8 +9,7 @@ import type { NamespacedResourceMeta, Resource, Scope } from './resource/Resourc
  * (the version doesn't matter). Formatted like kubectl, e.g. `deployment.apps web/nginx`.
  */
 function describe(resource: Resource): string {
-    const [group, version] = resource.apiVersion.split('/');
-    const kind = version ? `${resource.kind}.${group}` : resource.kind;
+    const kind = kindWithGroup(resource.apiVersion, resource.kind);
     const namespace = (resource.metadata as NamespacedResourceMeta).namespace;
     return `${kind} ${namespace ? `${namespace}/` : ''}${resource.name}`;
 }
@@ -27,11 +27,11 @@ export interface AppArgs {
  * So we know where to save the resources.
  */
 export class App implements Scope {
-    readonly resources: Resource[] = [];
     readonly namespace?: string;
     readonly outputName: string;
     private readonly args?: AppArgs;
-    private readonly resourceIds = new Set<string>();
+    /** Resources by `describe()` id, in creation order. */
+    private readonly byId = new Map<string, Resource>();
 
     constructor(outputName: string, args?: AppArgs) {
         this.namespace = args?.namespace;
@@ -40,20 +40,27 @@ export class App implements Scope {
     }
 
     /**
+     * Every resource added to this app, in creation order. Read-only: change the resources
+     * themselves (e.g. labels), or leave objects out up front (e.g. Helm's `filter`).
+     */
+    get resources(): readonly Resource[] {
+        return [...this.byId.values()];
+    }
+
+    /**
      * Called by the Resource constructor. You don't need to call this yourself.
      * Throws if a resource with the same group, kind, namespace and name was already added.
      */
     addResource(resource: Resource) {
         const id = describe(resource);
-        if (this.resourceIds.has(id)) {
+        if (this.byId.has(id)) {
             throw new Error(`Duplicate resource in app '${this.outputName}': ${id}`);
         }
-        this.resourceIds.add(id);
-        this.resources.push(resource);
+        this.byId.set(id, resource);
     }
 
     toYaml() {
-        return `---\n${this.resources.map((resource) => resource.toYaml()).join('---\n')}`;
+        return `---\n${[...this.byId.values()].map((resource) => resource.toYaml()).join('---\n')}`;
     }
 
     save() {
@@ -65,7 +72,7 @@ export class App implements Scope {
             // doesn't delete the previous output. Different namespaces or API groups can
             // share a kind and name, but not a file.
             const files = new Map<string, Resource>();
-            for (const r of this.resources) {
+            for (const r of this.byId.values()) {
                 const file = path.join(this.outputName, `${r.kind}.${r.name}.yaml`);
                 const existing = files.get(file);
                 if (existing) {

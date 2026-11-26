@@ -465,7 +465,6 @@ export interface ClusterExternalSecretArgs {
 export class ClusterExternalSecret extends ClusterResource {
   declare readonly apiVersion: 'external-secrets.io/v1beta1';
   declare readonly kind: 'ClusterExternalSecret';
-  declare readonly metadata: ClusterResourceMeta;
   declare readonly spec: ClusterExternalSecretArgs['spec'];
 
   constructor(scope: Scope, name: string, args: ClusterExternalSecretArgs = {}) {

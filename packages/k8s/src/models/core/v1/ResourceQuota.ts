@@ -19,10 +19,6 @@ export class ResourceQuota extends NamespacedResource {
    */
   declare readonly kind: 'ResourceQuota';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Spec defines the desired quota. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    */
   declare readonly spec?: ResourceQuotaSpec;

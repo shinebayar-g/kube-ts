@@ -19,10 +19,6 @@ export class ResourceSlice extends ClusterResource {
    */
   declare readonly kind: 'ResourceSlice';
   /**
-   * Standard object metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Contains the information published by the driver.  Changing the spec automatically increments the metadata.generation number.
    */
   declare readonly spec: ResourceSliceSpec;

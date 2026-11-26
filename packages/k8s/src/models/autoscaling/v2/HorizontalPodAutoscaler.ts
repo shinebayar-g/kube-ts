@@ -19,10 +19,6 @@ export class HorizontalPodAutoscaler extends NamespacedResource {
    */
   declare readonly kind: 'HorizontalPodAutoscaler';
   /**
-   * metadata is the standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * spec is the specification for the behaviour of the autoscaler. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status.
    */
   declare readonly spec?: HorizontalPodAutoscalerSpec;

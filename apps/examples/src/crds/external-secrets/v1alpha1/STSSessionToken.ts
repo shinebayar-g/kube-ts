@@ -141,7 +141,6 @@ export interface STSSessionTokenArgs {
 export class STSSessionToken extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'STSSessionToken';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: STSSessionTokenArgs['spec'];
 
   constructor(scope: Scope, name: string, args: STSSessionTokenArgs = {}) {

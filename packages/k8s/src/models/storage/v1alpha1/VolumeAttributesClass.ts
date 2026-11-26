@@ -19,10 +19,6 @@ export class VolumeAttributesClass extends ClusterResource {
    */
   declare readonly kind: 'VolumeAttributesClass';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Name of the CSI driver This field is immutable.
    */
   declare readonly driverName: string;

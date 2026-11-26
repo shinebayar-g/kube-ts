@@ -100,7 +100,6 @@ export interface WebhookArgs {
 export class Webhook extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'Webhook';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: WebhookArgs['spec'];
 
   constructor(scope: Scope, name: string, args: WebhookArgs = {}) {

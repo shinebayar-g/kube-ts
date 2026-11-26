@@ -21,10 +21,6 @@ export class PriorityClass extends ClusterResource {
    */
   declare readonly kind: 'PriorityClass';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * description is an arbitrary string that usually provides guidelines on when this priority class should be used.
    */
   declare readonly description?: string;

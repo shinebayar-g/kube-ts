@@ -19,10 +19,6 @@ export class ControllerRevision extends NamespacedResource {
    */
   declare readonly kind: 'ControllerRevision';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Data is the serialized representation of the state.
    */
   declare readonly data?: any;

@@ -22,10 +22,6 @@ export class ServiceAccount extends NamespacedResource {
    */
   declare readonly kind: 'ServiceAccount';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * AutomountServiceAccountToken indicates whether pods running as this service account should have an API token automatically mounted. Can be overridden at the pod level.
    */
   declare readonly automountServiceAccountToken?: boolean;

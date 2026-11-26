@@ -1266,7 +1266,6 @@ export interface ClusterGeneratorArgs {
 export class ClusterGenerator extends ClusterResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'ClusterGenerator';
-  declare readonly metadata: ClusterResourceMeta;
   declare readonly spec: ClusterGeneratorArgs['spec'];
 
   constructor(scope: Scope, name: string, args: ClusterGeneratorArgs = {}) {

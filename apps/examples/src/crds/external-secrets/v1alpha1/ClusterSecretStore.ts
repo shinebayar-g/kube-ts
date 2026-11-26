@@ -1382,7 +1382,6 @@ export interface ClusterSecretStoreArgs {
 export class ClusterSecretStore extends ClusterResource {
   declare readonly apiVersion: 'external-secrets.io/v1alpha1';
   declare readonly kind: 'ClusterSecretStore';
-  declare readonly metadata: ClusterResourceMeta;
   declare readonly spec: ClusterSecretStoreArgs['spec'];
 
   constructor(scope: Scope, name: string, args: ClusterSecretStoreArgs = {}) {

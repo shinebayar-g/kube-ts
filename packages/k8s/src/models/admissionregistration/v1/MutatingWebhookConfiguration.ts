@@ -19,10 +19,6 @@ export class MutatingWebhookConfiguration extends ClusterResource {
    */
   declare readonly kind: 'MutatingWebhookConfiguration';
   /**
-   * Standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata.
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Webhooks is a list of webhooks and the affected resources and operations.
    */
   declare readonly webhooks?: Array<MutatingWebhook>;

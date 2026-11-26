@@ -14,7 +14,6 @@ export interface UUIDArgs {
 export class UUID extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'UUID';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: UUIDArgs['spec'];
 
   constructor(scope: Scope, name: string, args: UUIDArgs = {}) {

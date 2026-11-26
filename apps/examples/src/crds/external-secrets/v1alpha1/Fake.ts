@@ -28,7 +28,6 @@ export interface FakeArgs {
 export class Fake extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'Fake';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: FakeArgs['spec'];
 
   constructor(scope: Scope, name: string, args: FakeArgs = {}) {

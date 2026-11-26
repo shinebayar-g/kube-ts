@@ -19,10 +19,6 @@ export class StorageVersionMigration extends ClusterResource {
    */
   declare readonly kind: 'StorageVersionMigration';
   /**
-   * Standard object metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: ClusterResourceMeta;
-  /**
    * Specification of the migration.
    */
   declare readonly spec?: StorageVersionMigrationSpec;

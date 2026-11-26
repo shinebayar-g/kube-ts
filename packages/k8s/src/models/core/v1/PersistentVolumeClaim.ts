@@ -19,10 +19,6 @@ export class PersistentVolumeClaim extends NamespacedResource {
    */
   declare readonly kind: 'PersistentVolumeClaim';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * spec defines the desired characteristics of a volume requested by a pod author. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistentvolumeclaims
    */
   declare readonly spec?: PersistentVolumeClaimSpec;

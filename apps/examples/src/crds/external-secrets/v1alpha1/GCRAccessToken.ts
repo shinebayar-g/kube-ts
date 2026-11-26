@@ -68,7 +68,6 @@ export interface GCRAccessTokenArgs {
 export class GCRAccessToken extends NamespacedResource {
   declare readonly apiVersion: 'generators.external-secrets.io/v1alpha1';
   declare readonly kind: 'GCRAccessToken';
-  declare readonly metadata: NamespacedResourceMeta;
   declare readonly spec: GCRAccessTokenArgs['spec'];
 
   constructor(scope: Scope, name: string, args: GCRAccessTokenArgs = {}) {

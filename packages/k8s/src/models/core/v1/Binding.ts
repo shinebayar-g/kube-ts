@@ -19,10 +19,6 @@ export class Binding extends NamespacedResource {
    */
   declare readonly kind: 'Binding';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * The target object that you want to bind to the standard object.
    */
   declare readonly target: ObjectReference;

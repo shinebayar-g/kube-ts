@@ -19,10 +19,6 @@ export class StatefulSet extends NamespacedResource {
    */
   declare readonly kind: 'StatefulSet';
   /**
-   * Standard object\'s metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-   */
-  declare readonly metadata: NamespacedResourceMeta;
-  /**
    * Spec defines the desired identities of pods in this set.
    */
   declare readonly spec?: StatefulSetSpec;
