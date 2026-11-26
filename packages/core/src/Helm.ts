@@ -37,7 +37,8 @@ export interface HelmArgs {
      * Namespace to render the chart into. Equivalent to `helm template --namespace`.
      * Many charts don't set `metadata.namespace` (`helm install` adds it when applying),
      * so it's also filled in on rendered namespaced objects that don't have one.
-     * @default the scope's namespace (e.g. the App's)
+     * @default the scope's namespace (e.g. the App's). If neither is set, the chart is rendered
+     * with `--namespace default` (never from kubeconfig) and namespaces aren't filled in.
      */
     readonly namespace?: string;
     /**
@@ -124,9 +125,9 @@ export class Helm {
         if (args.version) {
             helmArgs.push('--version', args.version);
         }
-        if (namespace) {
-            helmArgs.push('--namespace', namespace);
-        }
+        // Always pass a namespace: otherwise helm takes it from HELM_NAMESPACE or the
+        // kubeconfig context, and the output would depend on the machine.
+        helmArgs.push('--namespace', namespace ?? 'default');
         if (args.kubeVersion) {
             helmArgs.push('--kube-version', args.kubeVersion);
         }
