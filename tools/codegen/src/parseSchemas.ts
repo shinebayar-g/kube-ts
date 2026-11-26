@@ -110,21 +110,21 @@ function normalizeSchemaName(schemaName: string): string {
     return schemaName
         .replace(/-(.)/g, (_, letter) => letter.toUpperCase())
         .split('.')
-        .map((part) => part[0].toUpperCase() + part.slice(1))
+        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
         .join('');
 }
 
 function parseSchemas(fileName: string, spec: K8sOpenApiSpec, schemas: Schemas): void {
     for (const [pathName, pathBody] of Object.entries(spec.paths)) {
         if (pathBody.post?.['x-kubernetes-group-version-kind']) {
-            const schemaRef = pathBody.post?.requestBody?.content['*/*'].schema.$ref;
-            if (schemaRef?.includes('#/components/schemas/')) {
-                const schemaName = schemaRef.split('#/components/schemas/')[1];
-
+            const schemaRef = pathBody.post?.requestBody?.content['*/*']?.schema.$ref;
+            const schemaName = schemaRef?.split('#/components/schemas/')[1];
+            if (schemaName) {
                 const className = normalizeSchemaName(schemaName);
-                if (schemas.classes[className]) {
-                    schemas.classes[className].files.push(fileName);
-                    schemas.classes[className].paths.push(pathName);
+                const existing = schemas.classes[className];
+                if (existing) {
+                    existing.files.push(fileName);
+                    existing.paths.push(pathName);
                 } else {
                     schemas.classes[className] = {
                         schemaName,
@@ -139,7 +139,7 @@ function parseSchemas(fileName: string, spec: K8sOpenApiSpec, schemas: Schemas):
             }
         }
     }
-    for (const [schemaName, schemaBody] of Object.entries(spec.components.schemas)) {
+    for (const schemaName of Object.keys(spec.components.schemas)) {
         const interfaceName = normalizeSchemaName(schemaName);
         /**
          * If the schema is already considered a class, skip it
@@ -171,30 +171,18 @@ function parseSchemas(fileName: string, spec: K8sOpenApiSpec, schemas: Schemas):
 }
 
 function saveSchemas(schemas: Schemas, outputPath: string) {
-    const sortedClasses = Object.keys(schemas.classes)
-        .sort()
-        .reduce((sorted: Schemas['classes'], key) => {
-            sorted[key] = schemas.classes[key];
-            return sorted;
-        }, {});
-
-    const sortedInterfaces = Object.keys(schemas.interfaces)
-        .sort()
-        .reduce((sorted: Schemas['interfaces'], key) => {
-            sorted[key] = schemas.interfaces[key];
-            return sorted;
-        }, {});
-
+    // Same order as `Object.keys(...).sort()`: by UTF-16 code unit, not locale.
+    const byKey = ([a]: [string, unknown], [b]: [string, unknown]) => (a < b ? -1 : a > b ? 1 : 0);
     const sortedSchemas: Schemas = {
-        classes: sortedClasses,
-        interfaces: sortedInterfaces,
+        classes: Object.fromEntries(Object.entries(schemas.classes).sort(byKey)),
+        interfaces: Object.fromEntries(Object.entries(schemas.interfaces).sort(byKey)),
     };
 
     fs.writeFileSync(
         outputPath,
         JSON.stringify(
             sortedSchemas,
-            (key, value) => {
+            (_key, value) => {
                 if (value instanceof Set) {
                     return Array.from(value).map((item) => JSON.parse(item));
                 }

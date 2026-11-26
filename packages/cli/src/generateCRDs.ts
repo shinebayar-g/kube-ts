@@ -49,8 +49,8 @@ interface K8sList {
     };
 }
 
-function isK8sList(o: any | K8sList): o is K8sList {
-    return o && typeof o === 'object' && o.kind === 'List';
+function isK8sList(o: unknown): o is K8sList {
+    return typeof o === 'object' && o !== null && 'kind' in o && o.kind === 'List';
 }
 
 interface KubeTsConfig {
@@ -116,7 +116,7 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
         try {
             const url = new URL(crdPathOrUrl);
             await fetchAndParseCRDs(output[''], url.toString(), cacheHome);
-        } catch (_e) {
+        } catch {
             log(`Reading CRDs from ${styleText('yellowBright', crdPathOrUrl)}`);
             parseCRDs(output[''], fs.readFileSync(crdPathOrUrl, 'utf-8'));
         }
@@ -129,7 +129,7 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                 try {
                     new URL(url);
                     await fetchAndParseCRDs(output[pkg], url, cacheDir);
-                } catch (_e) {
+                } catch {
                     log(`Reading CRDs from ${styleText('yellowBright', url)} (local)`);
                     parseCRDs(output[pkg], fs.readFileSync(url, 'utf-8'));
                 }
@@ -165,6 +165,11 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                     const isNamespaced = crd.spec.scope === 'Namespaced';
 
                     const interfaceDecleration = sourceFile.getInterfaces()[0];
+                    if (!interfaceDecleration) {
+                        throw new Error(
+                            `json-schema-to-typescript produced no interface for ${crd.spec.names.kind} ${crdVersion.name}`,
+                        );
+                    }
                     interfaceDecleration.getProperty('apiVersion')?.remove();
                     interfaceDecleration.getProperty('kind')?.remove();
                     interfaceDecleration.getProperty('status')?.remove();
