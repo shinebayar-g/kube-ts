@@ -3,33 +3,12 @@ import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
 import * as yaml from 'yaml';
-import type { K8sApp } from './K8sApp.ts';
-import type { ObjectMeta } from './resource/ObjectMeta.ts';
-import { Resource } from './resource/Resource.ts';
+import { Resource, type Scope } from './resource/Resource.ts';
 
-interface HelmObjectArgs {
-    readonly apiVersion: string;
-    readonly kind: string;
-    readonly metadata: ObjectMeta;
-    readonly spec: any;
-    readonly [key: string]: any;
-}
-
-class HelmObject extends Resource {
-    readonly apiVersion: string;
-    readonly kind: string;
-    readonly metadata: ObjectMeta;
-    readonly spec: any;
-    readonly [key: string]: any;
-    constructor(name: string, args: HelmObjectArgs) {
-        super(name);
-        this.apiVersion = args.apiVersion;
-        this.kind = args.kind;
-        this.metadata = args.metadata;
-        this.spec = args.spec;
-        Object.assign(this, args);
-    }
-}
+/**
+ * A rendered chart object. Any top-level field (e.g. `webhooks`, `rules`) is accessible.
+ */
+export type HelmResource = Resource & { readonly [key: string]: any };
 
 export interface HelmArgs {
     /**
@@ -71,8 +50,8 @@ export interface HelmArgs {
  * @link https://helm.sh/docs/helm/helm_template/
  */
 export class Helm {
-    readonly resources: HelmObject[] = [];
-    constructor(app: K8sApp, name: string, args: HelmArgs) {
+    readonly resources: HelmResource[] = [];
+    constructor(scope: Scope, name: string, args: HelmArgs) {
         if (this.isHelmInstalled()) {
             const helmFlags = args.helmFlags || [];
             if (args.repo) {
@@ -110,9 +89,8 @@ export class Helm {
                 }
                 const helmObj = file.toJS();
                 if (helmObj !== null) {
-                    const resource = new HelmObject(helmObj.metadata.name, helmObj);
-                    this.resources.push(resource);
-                    app.addResource(resource);
+                    // Plain Resource: Helm already rendered the namespace (if any), so don't default it.
+                    this.resources.push(new Resource(scope, helmObj.metadata.name, helmObj));
                 }
             }
 

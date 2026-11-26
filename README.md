@@ -8,26 +8,33 @@ Packages
 - `@kube-ts/k8s` - Ready to use Kubernetes core schema in TypeScript.
 - `@kube-ts/cli` - CLI tool to generate TypeScript code for Kubernetes core schema and Custom Resource Definitions (CRDs).
 
+`@kube-ts/k8s` is versioned after Kubernetes (`1.32.x` contains the Kubernetes 1.32 API) and has `@kube-ts/core` as a peer dependency, so install both:
+
+```sh
+npm install @kube-ts/core @kube-ts/k8s
+npm install -D @kube-ts/cli # only if you generate CRD types
+```
+
 ## Usage
 
 ### Example
 
 ```ts
-import { K8sApp } from '@kube-ts/core';
+import { App } from '@kube-ts/core';
 import { Deployment } from '@kube-ts/k8s/apps/v1';
 // Or you can import like this:
 // import { apps } from '@kube-ts/k8s';
 // and then
 // new apps.v1.Deployment();
 
-const app = new K8sApp('my-k8s-app', { namespace: 'my-app' });
+const app = new App('my-k8s-app', { namespace: 'my-app' });
 
 new Deployment(app, 'my-nginx-deployment', {
     /**
      * Metadata is completely optional.
      * If not provided:
      * - metadata.name will be inferred from the resource id ('my-nginx-deployment' in this case).
-     * - metadata.namespace will be inferred from the K8sApp namespace ('my-app' in this case).
+     * - metadata.namespace will be inferred from the App namespace ('my-app' in this case).
      */
     spec: {
         selector: {
