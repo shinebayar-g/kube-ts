@@ -6,7 +6,7 @@ packages:
 catalogMode: prefer
 
 catalog:
-  "@openapitools/openapi-generator-cli": 2.43.0
+  "@openapitools/openapi-generator-cli": 2.44.0
   "@types/node": 26.6.11
   ts-morph: ^28.0.0
   typescript: 7.0.2
@@ -20,3 +20,4 @@ allowBuilds:
   "@openapitools/openapi-generator-cli": true
 minimumReleaseAgeExclude:
   - "@types/node@26.6.11"
+  - "@openapitools/openapi-generator-cli@2.44.0"
