@@ -10,7 +10,7 @@ const chart = new Helm(app, 'ingress-nginx', {
     repo: 'https://kubernetes.github.io/ingress-nginx',
     version: '4.11.3',
     namespace: 'nginx',
-    helmFlags: ['--set controller.service.type=NodePort'],
+    helmFlags: ['--set', 'controller.service.type=NodePort'],
     valuesObject: {
         controller: {
             metrics: {
