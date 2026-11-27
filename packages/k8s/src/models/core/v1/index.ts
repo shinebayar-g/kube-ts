@@ -1,4 +1,3 @@
-export * from './Binding.ts';
 export * from './ConfigMap.ts';
 export * from './Endpoints.ts';
 export * from './LimitRange.ts';
