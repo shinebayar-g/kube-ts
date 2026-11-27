@@ -1,6 +1,6 @@
 {
   "name": "@kube-ts/cli",
-  "version": "0.6.3",
+  "version": "0.0.0",
   "author": {
     "name": "shinebayar-g",
     "url": "https://github.com/shinebayar-g"
@@ -38,7 +38,7 @@
   },
   "scripts": {
     "build": "vp pack",
-    "prepack": "vp run build"
+    "prepack": "vp run build && cp ../../README.md ../../LICENSE ."
   },
   "files": [
     "dist"
