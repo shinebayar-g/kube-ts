@@ -3,27 +3,9 @@ import * as path from 'node:path';
 import type { JSONSchema } from 'json-schema-to-typescript';
 import { specDir } from './config.ts';
 
-export interface K8sOpenApiSpec {
+interface K8sOpenApiSpec {
     components: {
-        schemas: {
-            [model: string]: {
-                description: string;
-                properties?: {
-                    [property: string]: {
-                        description?: string;
-                        [key: string]: any;
-                    };
-                };
-                type: string;
-                required?: string[];
-                'x-kubernetes-map-type'?: string;
-                'x-kubernetes-group-version-kind'?: {
-                    group: string;
-                    kind: string;
-                    version: string;
-                }[];
-            };
-        };
+        schemas: Record<string, JSONSchema>;
     };
     paths: {
         [path: string]: {
@@ -49,11 +31,6 @@ export interface K8sOpenApiSpec {
 }
 
 interface Schema {
-    /**
-     * Schema name appears in the OpenAPI spec's components.schemas
-     * @example "io.k8s.api.apps.v1.Deployment"
-     */
-    schemaName: string;
     /**
      * API group this schema belongs to.
      * @example "apps"
@@ -117,7 +94,6 @@ function parseSchemas(spec: K8sOpenApiSpec, schemas: Schemas): void {
             if (schemaName) {
                 const className = normalizeSchemaName(schemaName);
                 schemas.resources[className] ??= {
-                    schemaName,
                     group: pathBody.post['x-kubernetes-group-version-kind'].group,
                     version: pathBody.post['x-kubernetes-group-version-kind'].version,
                     kind: pathBody.post['x-kubernetes-group-version-kind'].kind,
@@ -145,7 +121,6 @@ function parseSchemas(spec: K8sOpenApiSpec, schemas: Schemas): void {
                 group = parts.pop() || '';
             }
             schemas.types[interfaceName] = {
-                schemaName,
                 group,
                 kind,
                 version,
