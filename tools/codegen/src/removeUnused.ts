@@ -1,40 +1,28 @@
 import { log } from 'node:console';
-import * as fs from 'node:fs';
-import * as path from 'node:path';
 import { styleText } from 'node:util';
-import { IndentationText, Project, QuoteKind } from 'ts-morph';
-import { targetPackagePath } from './paths.ts';
+import type { Project } from 'ts-morph';
 
-function main() {
-    const corePath = targetPackagePath;
-    const modelsPath = path.join(corePath, 'src/models');
-
-    const project = new Project({
-        tsConfigFilePath: path.join(corePath, 'tsconfig.json'),
-        manipulationSettings: {
-            indentationText: IndentationText.TwoSpaces,
-            quoteKind: QuoteKind.Single,
-            insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces: true,
-            useTrailingCommas: true,
-        },
-    });
-
-    const unusedInterfaceFiles: string[] = [];
-    for (const sourceFile of project.getSourceFiles()) {
-        if (sourceFile.getDirectoryPath().startsWith(modelsPath)) {
-            const i = sourceFile.getInterfaces()[0];
-            if (i?.findReferencesAsNodes().length === 0) {
-                log(`Found unused interface ${styleText('cyan', i.getName())}`);
-                unusedInterfaceFiles.push(sourceFile.getFilePath());
+/**
+ * Keeps the resources (classes) and the types they reach through imports;
+ * deletes everything else in `modelsPath`, e.g. `DeploymentStatus` once `status` is removed.
+ */
+export function removeUnused(project: Project, modelsPath: string) {
+    const files = project
+        .getSourceFiles()
+        .filter((file) => file.getDirectoryPath().startsWith(modelsPath));
+    const reachable = new Set(files.filter((file) => file.getClasses().length > 0));
+    for (const file of reachable) {
+        for (const importDeclaration of file.getImportDeclarations()) {
+            const imported = importDeclaration.getModuleSpecifierSourceFile();
+            if (imported) {
+                reachable.add(imported); // a Set visits added items too
             }
         }
     }
-
-    log(`Unused interfaces: ${unusedInterfaceFiles.length}`);
-
-    for (const sourceFile of unusedInterfaceFiles) {
-        fs.rmSync(sourceFile);
+    for (const file of files) {
+        if (!reachable.has(file)) {
+            log(`Removing unused ${styleText('gray', file.getBaseName())}`);
+            file.delete();
+        }
     }
 }
-
-main();

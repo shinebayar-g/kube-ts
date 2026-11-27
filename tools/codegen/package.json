@@ -4,6 +4,7 @@
   "description": "Generates @kube-ts/k8s models from the Kubernetes OpenAPI spec. Not published.",
   "type": "module",
   "scripts": {
+    "download": "node src/download.ts",
     "gen": "node src/generate.ts"
   },
   "devDependencies": {

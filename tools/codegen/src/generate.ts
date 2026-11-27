@@ -1,79 +1,50 @@
 /**
- * Replaces the old `make models` step (openapi-generator):
- * reads openapi-spec/<version>/*.json and writes one file per schema
- * to gen/<version>/models/<Name>.ts, a flat list.
+ * `pnpm gen`: generates packages/k8s/src from openapi-spec/<version>/*.json.
  */
-import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { rmSync } from 'node:fs';
 import * as path from 'node:path';
-import { compile, type JSONSchema } from 'json-schema-to-typescript';
-import { Project, SyntaxKind } from 'ts-morph';
-import { normalizeSchemaName } from './utils.ts';
+import { IndentationText, Project, QuoteKind } from 'ts-morph';
+import { compileModels } from './compile.ts';
+import { packageDir } from './config.ts';
+import { addExports } from './exports.ts';
+import { generateModels } from './models.ts';
+import { removeUnused } from './removeUnused.ts';
+import { loadSpec } from './spec.ts';
 
-const k8sVersion = 'v1.32.0';
-const specDir = path.join(import.meta.dirname, '../openapi-spec', k8sVersion);
-const outDir = path.join(import.meta.dirname, '../gen', k8sVersion, 'models');
+async function main() {
+    const modelsPath = path.join(packageDir, 'src/models');
+    const project = new Project({
+        tsConfigFilePath: path.join(packageDir, 'tsconfig.json'),
+        skipAddingFilesFromTsConfig: true,
+        manipulationSettings: {
+            indentationText: IndentationText.TwoSpaces,
+            quoteKind: QuoteKind.Single,
+            insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces: true,
+            useTrailingCommas: true,
+        },
+    });
 
-// 1. Merge the schemas of every spec file. Shared schemas (e.g. ObjectMeta) appear in many files.
-const schemas: Record<string, JSONSchema> = {};
-for (const file of readdirSync(specDir)) {
-    const spec = JSON.parse(readFileSync(path.join(specDir, file), 'utf-8'));
-    Object.assign(schemas, spec.components?.schemas);
-}
+    // 1. Read the spec: the merged JSON schemas, and which of them are resources.
+    const { components, schemas } = loadSpec();
 
-// 2. Compile them all at once. json-schema-to-typescript resolves `$ref`s under `#/definitions/`,
-// and only generates what's reachable from the root, so the root references every schema.
-const definitions = JSON.parse(
-    JSON.stringify(schemas).replaceAll('#/components/schemas/', '#/definitions/'),
-);
-const root = {
-    title: 'Root',
-    type: 'object',
-    definitions,
-    properties: Object.fromEntries(
-        Object.keys(definitions).map((key) => [key, { $ref: `#/definitions/${key}` }]),
-    ),
-} as JSONSchema;
+    // 2. One interface or type per schema, at its final path.
+    // The old files are removed first: ts-morph won't create a file over one on disk.
+    rmSync(modelsPath, { recursive: true, force: true });
+    await compileModels(project, modelsPath, components, schemas);
 
-const output = await compile(root, 'Root', { bannerComment: '', additionalProperties: false });
+    // 3. Inline plain types, drop `status`, resources become classes.
+    generateModels(project, modelsPath, schemas);
 
-// 3. json-schema-to-typescript capitalizes letters after digits (`K8s` -> `K8S`, `V1alpha1` -> `V1Alpha1`).
-// Rename to the names the rest of the pipeline uses.
-const generatedName = (key: string) =>
-    normalizeSchemaName(key).replace(/\d+[a-z]/g, (match) => match.toUpperCase());
-const names = new Map(
-    Object.keys(schemas).map((key) => [generatedName(key), normalizeSchemaName(key)]),
-);
+    // 4. Drop what no resource uses, then write the barrel files.
+    removeUnused(project, modelsPath);
+    addExports(project, packageDir);
 
-const renamed = output
-    .replace(/\b[A-Z][A-Za-z0-9]*\b/g, (name) => names.get(name) ?? name)
-    // json-schema-to-typescript names index signatures `k`; `key` reads better and matches @kube-ts/core.
-    .replaceAll('[k: string]', '[key: string]');
-
-// 4. Split into one file per declaration, importing the declarations it references.
-const declarationNames = new Set(names.values());
-const project = new Project({ useInMemoryFileSystem: true });
-const sourceFile = project.createSourceFile('all.ts', renamed);
-
-rmSync(outDir, { recursive: true, force: true });
-mkdirSync(outDir, { recursive: true });
-let fileCount = 0;
-for (const declaration of [...sourceFile.getInterfaces(), ...sourceFile.getTypeAliases()]) {
-    const name = declaration.getName();
-    if (!declarationNames.has(name)) {
-        continue; // `Root`
+    // 5. packages/k8s/src is left out of `vp fmt`, so format here.
+    for (const file of project.getSourceFiles()) {
+        file.formatText({ indentSize: 2, convertTabsToSpaces: true });
     }
-    const referenced = new Set(
-        declaration
-            .getDescendantsOfKind(SyntaxKind.TypeReference)
-            .map((ref) => ref.getTypeName().getText())
-            .filter((ref) => ref !== name && declarationNames.has(ref)),
-    );
-    const imports = [...referenced]
-        .sort()
-        .map((ref) => `import type { ${ref} } from './${ref}.ts';\n`)
-        .join('');
-    const body = declaration.getFullText().trimStart();
-    writeFileSync(path.join(outDir, `${name}.ts`), `${imports}${imports ? '\n' : ''}${body}\n`);
-    fileCount++;
+    project.saveSync();
+    console.log(`Wrote ${project.getSourceFiles().length} files to ${modelsPath}`);
 }
-console.log(`Wrote ${fileCount} files to ${outDir}`);
+
+await main();
