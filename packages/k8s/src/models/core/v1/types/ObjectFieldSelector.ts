@@ -3,7 +3,7 @@
  */
 export interface ObjectFieldSelector {
   /**
-   * Version of the schema the FieldPath is written in terms of, defaults to \"v1\".
+   * Version of the schema the FieldPath is written in terms of, defaults to "v1".
    */
   apiVersion?: string;
   /**

@@ -17,7 +17,7 @@ export interface CSIPersistentVolumeSource {
    */
   driver: string;
   /**
-   * fsType to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\".
+   * fsType to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs".
    */
   fsType?: string;
   /**
@@ -39,7 +39,9 @@ export interface CSIPersistentVolumeSource {
   /**
    * volumeAttributes of the volume to publish.
    */
-  volumeAttributes?: { [key: string]: string };
+  volumeAttributes?: {
+    [key: string]: string;
+  };
   /**
    * volumeHandle is the unique volume name returned by the CSI volume plugin’s CreateVolume to refer to the volume on all subsequent calls. Required.
    */

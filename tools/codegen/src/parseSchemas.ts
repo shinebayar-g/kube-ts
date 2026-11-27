@@ -2,6 +2,7 @@ import { log } from 'node:console';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { styleText } from 'node:util';
+import { normalizeSchemaName } from './utils.ts';
 
 export interface K8sOpenApiSpec {
     components: {
@@ -101,17 +102,6 @@ export interface Schemas {
          */
         [interfaceName: string]: Schema;
     };
-}
-
-/**
- * @example "io.k8s.api.apps.v1.Deployment" -> "IoK8sApiAppsV1Deployment"
- */
-function normalizeSchemaName(schemaName: string): string {
-    return schemaName
-        .replace(/-(.)/g, (_, letter) => letter.toUpperCase())
-        .split('.')
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join('');
 }
 
 function parseSchemas(fileName: string, spec: K8sOpenApiSpec, schemas: Schemas): void {

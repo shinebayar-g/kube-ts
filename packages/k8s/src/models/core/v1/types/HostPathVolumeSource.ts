@@ -7,7 +7,7 @@ export interface HostPathVolumeSource {
    */
   path: string;
   /**
-   * type for HostPath Volume Defaults to \"\" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath
+   * type for HostPath Volume Defaults to "" More info: https://kubernetes.io/docs/concepts/storage/volumes#hostpath
    */
   type?: string;
 }

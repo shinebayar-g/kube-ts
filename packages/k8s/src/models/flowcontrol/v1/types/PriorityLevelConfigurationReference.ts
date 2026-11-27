@@ -1,5 +1,5 @@
 /**
- * PriorityLevelConfigurationReference contains information that points to the \"request-priority\" being used.
+ * PriorityLevelConfigurationReference contains information that points to the "request-priority" being used.
  */
 export interface PriorityLevelConfigurationReference {
   /**

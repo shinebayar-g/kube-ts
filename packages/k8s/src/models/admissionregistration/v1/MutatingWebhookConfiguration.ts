@@ -3,7 +3,7 @@ import { type Scope, ClusterResource, type ClusterResourceMeta } from '@kube-ts/
 
 export interface MutatingWebhookConfigurationArgs {
   readonly metadata?: ClusterResourceMeta;
-  readonly webhooks?: Array<MutatingWebhook>;
+  readonly webhooks?: MutatingWebhook[];
 }
 
 /**
@@ -21,7 +21,7 @@ export class MutatingWebhookConfiguration extends ClusterResource {
   /**
    * Webhooks is a list of webhooks and the affected resources and operations.
    */
-  declare readonly webhooks?: Array<MutatingWebhook>;
+  declare readonly webhooks?: MutatingWebhook[];
 
   constructor(scope: Scope, name: string, args: MutatingWebhookConfigurationArgs = {}) {
     super(scope, name, { apiVersion: 'admissionregistration.k8s.io/v1', kind: 'MutatingWebhookConfiguration', ...args });

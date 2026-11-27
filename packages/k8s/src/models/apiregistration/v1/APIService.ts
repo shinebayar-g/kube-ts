@@ -7,7 +7,7 @@ export interface APIServiceArgs {
 }
 
 /**
- * APIService represents a server for a particular GroupVersion. Name must be \"version.group\".
+ * APIService represents a server for a particular GroupVersion. Name must be "version.group".
  */
 export class APIService extends ClusterResource {
   /**

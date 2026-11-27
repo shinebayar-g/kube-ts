@@ -3,7 +3,7 @@ import type { PolicyRulesWithSubjects } from './PolicyRulesWithSubjects.ts';
 import type { PriorityLevelConfigurationReference } from './PriorityLevelConfigurationReference.ts';
 
 /**
- * FlowSchemaSpec describes how the FlowSchema\'s specification looks like.
+ * FlowSchemaSpec describes how the FlowSchema's specification looks like.
  */
 export interface FlowSchemaSpec {
   /**
@@ -21,5 +21,5 @@ export interface FlowSchemaSpec {
   /**
    * `rules` describes which requests will match this flow schema. This FlowSchema matches a request if and only if at least one member of rules matches the request. if it is an empty slice, there will be no requests matching the FlowSchema.
    */
-  rules?: Array<PolicyRulesWithSubjects>;
+  rules?: PolicyRulesWithSubjects[];
 }

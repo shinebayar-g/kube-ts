@@ -6,8 +6,8 @@ packages:
 catalogMode: prefer
 
 catalog:
-  "@openapitools/openapi-generator-cli": 2.44.0
   "@types/node": 26.6.11
+  json-schema-to-typescript: ^16.0.0
   ts-morph: ^28.0.0
   typescript: 7.0.2
   vite: npm:@voidzero-dev/vite-plus-core@8.3.8001
@@ -15,9 +15,5 @@ catalog:
   yaml: ^2.9.1
 overrides:
   vite@*: "catalog:"
-allowBuilds:
-  "@nestjs/core": false
-  "@openapitools/openapi-generator-cli": true
 minimumReleaseAgeExclude:
   - "@types/node@26.6.11"
-  - "@openapitools/openapi-generator-cli@2.44.0"

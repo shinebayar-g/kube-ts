@@ -5,9 +5,9 @@ export interface Capabilities {
   /**
    * Added capabilities
    */
-  add?: Array<string>;
+  add?: string[];
   /**
    * Removed capabilities
    */
-  drop?: Array<string>;
+  drop?: string[];
 }

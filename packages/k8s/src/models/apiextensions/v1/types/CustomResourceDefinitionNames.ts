@@ -3,15 +3,15 @@
  */
 export interface CustomResourceDefinitionNames {
   /**
-   * categories is a list of grouped resources this custom resource belongs to (e.g. \'all\'). This is published in API discovery documents, and used by clients to support invocations like `kubectl get all`.
+   * categories is a list of grouped resources this custom resource belongs to (e.g. 'all'). This is published in API discovery documents, and used by clients to support invocations like `kubectl get all`.
    */
-  categories?: Array<string>;
+  categories?: string[];
   /**
    * kind is the serialized kind of the resource. It is normally CamelCase and singular. Custom resource instances will use this value as the `kind` attribute in API calls.
    */
   kind: string;
   /**
-   * listKind is the serialized kind of the list for this resource. Defaults to \"`kind`List\".
+   * listKind is the serialized kind of the list for this resource. Defaults to "`kind`List".
    */
   listKind?: string;
   /**
@@ -21,7 +21,7 @@ export interface CustomResourceDefinitionNames {
   /**
    * shortNames are short names for the resource, exposed in API discovery documents, and used by clients to support invocations like `kubectl get <shortname>`. It must be all lowercase.
    */
-  shortNames?: Array<string>;
+  shortNames?: string[];
   /**
    * singular is the singular name of the resource. It must be all lowercase. Defaults to lowercased `kind`.
    */

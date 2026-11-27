@@ -1,5 +1,5 @@
 /**
- * SleepAction describes a \"sleep\" action.
+ * SleepAction describes a "sleep" action.
  */
 export interface SleepAction {
   /**

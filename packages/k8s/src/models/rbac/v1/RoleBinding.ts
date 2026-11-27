@@ -5,7 +5,7 @@ import { type Scope, NamespacedResource, type NamespacedResourceMeta } from '@ku
 export interface RoleBindingArgs {
   readonly metadata?: NamespacedResourceMeta;
   readonly roleRef: RoleRef;
-  readonly subjects?: Array<Subject>;
+  readonly subjects?: Subject[];
 }
 
 /**
@@ -27,7 +27,7 @@ export class RoleBinding extends NamespacedResource {
   /**
    * Subjects holds references to the objects the role applies to.
    */
-  declare readonly subjects?: Array<Subject>;
+  declare readonly subjects?: Subject[];
 
   constructor(scope: Scope, name: string, args: RoleBindingArgs) {
     super(scope, name, { apiVersion: 'rbac.authorization.k8s.io/v1', kind: 'RoleBinding', ...args });

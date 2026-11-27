@@ -5,11 +5,19 @@ import type { DeviceAttribute } from './DeviceAttribute.ts';
  */
 export interface BasicDevice {
   /**
-   * Attributes defines the set of attributes for this device. The name of each attribute must be unique in that set.  The maximum number of attributes and capacities combined is 32.
+   * Attributes defines the set of attributes for this device. The name of each attribute must be unique in that set.
+   *
+   * The maximum number of attributes and capacities combined is 32.
    */
-  attributes?: { [key: string]: DeviceAttribute };
+  attributes?: {
+    [key: string]: DeviceAttribute;
+  };
   /**
-   * Capacity defines the set of capacities for this device. The name of each capacity must be unique in that set.  The maximum number of attributes and capacities combined is 32.
+   * Capacity defines the set of capacities for this device. The name of each capacity must be unique in that set.
+   *
+   * The maximum number of attributes and capacities combined is 32.
    */
-  capacity?: { [key: string]: number | string };
+  capacity?: {
+    [key: string]: number | string;
+  };
 }

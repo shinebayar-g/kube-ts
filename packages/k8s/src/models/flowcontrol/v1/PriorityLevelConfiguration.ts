@@ -19,7 +19,7 @@ export class PriorityLevelConfiguration extends ClusterResource {
    */
   declare readonly kind: 'PriorityLevelConfiguration';
   /**
-   * `spec` is the specification of the desired behavior of a \"request-priority\". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+   * `spec` is the specification of the desired behavior of a "request-priority". More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
    */
   declare readonly spec?: PriorityLevelConfigurationSpec;
 

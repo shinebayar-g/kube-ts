@@ -7,7 +7,7 @@ export interface PersistentVolumeClaimArgs {
 }
 
 /**
- * PersistentVolumeClaim is a user\'s request for and claim to a persistent volume
+ * PersistentVolumeClaim is a user's request for and claim to a persistent volume
  */
 export class PersistentVolumeClaim extends NamespacedResource {
   /**

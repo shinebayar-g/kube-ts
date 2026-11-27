@@ -7,5 +7,5 @@ export interface TopologySelectorTerm {
   /**
    * A list of topology selector requirements by labels.
    */
-  matchLabelExpressions?: Array<TopologySelectorLabelRequirement>;
+  matchLabelExpressions?: TopologySelectorLabelRequirement[];
 }

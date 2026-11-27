@@ -14,7 +14,7 @@ export interface Mutation {
    */
   jsonPatch?: JSONPatch;
   /**
-   * patchType indicates the patch strategy used. Allowed values are \"ApplyConfiguration\" and \"JSONPatch\". Required.
+   * patchType indicates the patch strategy used. Allowed values are "ApplyConfiguration" and "JSONPatch". Required.
    */
   patchType: string;
 }

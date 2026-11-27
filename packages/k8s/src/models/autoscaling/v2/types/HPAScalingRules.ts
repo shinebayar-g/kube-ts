@@ -7,7 +7,7 @@ export interface HPAScalingRules {
   /**
    * policies is a list of potential scaling polices which can be used during scaling. At least one policy must be specified, otherwise the HPAScalingRules will be discarded as invalid
    */
-  policies?: Array<HPAScalingPolicy>;
+  policies?: HPAScalingPolicy[];
   /**
    * selectPolicy is used to specify which policy should be used. If not set, the default value Max is used.
    */

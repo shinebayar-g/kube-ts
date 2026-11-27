@@ -10,25 +10,27 @@ import type { VolumeDevice } from './VolumeDevice.ts';
 import type { VolumeMount } from './VolumeMount.ts';
 
 /**
- * An EphemeralContainer is a temporary container that you may add to an existing Pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a Pod is removed or restarted. The kubelet may evict a Pod if an ephemeral container causes the Pod to exceed its resource allocation.  To add an ephemeral container, use the ephemeralcontainers subresource of an existing Pod. Ephemeral containers may not be removed or restarted.
+ * An EphemeralContainer is a temporary container that you may add to an existing Pod for user-initiated activities such as debugging. Ephemeral containers have no resource or scheduling guarantees, and they will not be restarted when they exit or when a Pod is removed or restarted. The kubelet may evict a Pod if an ephemeral container causes the Pod to exceed its resource allocation.
+ *
+ * To add an ephemeral container, use the ephemeralcontainers subresource of an existing Pod. Ephemeral containers may not be removed or restarted.
  */
 export interface EphemeralContainer {
   /**
-   * Arguments to the entrypoint. The image\'s CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container\'s environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. \"$$(VAR_NAME)\" will produce the string literal \"$(VAR_NAME)\". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+   * Arguments to the entrypoint. The image's CMD is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
    */
-  args?: Array<string>;
+  args?: string[];
   /**
-   * Entrypoint array. Not executed within a shell. The image\'s ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container\'s environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. \"$$(VAR_NAME)\" will produce the string literal \"$(VAR_NAME)\". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
+   * Entrypoint array. Not executed within a shell. The image's ENTRYPOINT is used if this is not provided. Variable references $(VAR_NAME) are expanded using the container's environment. If a variable cannot be resolved, the reference in the input string will be unchanged. Double $$ are reduced to a single $, which allows for escaping the $(VAR_NAME) syntax: i.e. "$$(VAR_NAME)" will produce the string literal "$(VAR_NAME)". Escaped references will never be expanded, regardless of whether the variable exists or not. Cannot be updated. More info: https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/#running-a-command-in-a-shell
    */
-  command?: Array<string>;
+  command?: string[];
   /**
    * List of environment variables to set in the container. Cannot be updated.
    */
-  env?: Array<EnvVar>;
+  env?: EnvVar[];
   /**
    * List of sources to populate environment variables in the container. The keys defined within a source must be a C_IDENTIFIER. All invalid keys will be reported as an event when the container is starting. When a key exists in multiple sources, the value associated with the last source will take precedence. Values defined by an Env with a duplicate key will take precedence. Cannot be updated.
    */
-  envFrom?: Array<EnvFromSource>;
+  envFrom?: EnvFromSource[];
   /**
    * Container image name. More info: https://kubernetes.io/docs/concepts/containers/images
    */
@@ -52,7 +54,7 @@ export interface EphemeralContainer {
   /**
    * Ports are not allowed for ephemeral containers.
    */
-  ports?: Array<ContainerPort>;
+  ports?: ContainerPort[];
   /**
    * Probes are not allowed for ephemeral containers.
    */
@@ -60,7 +62,7 @@ export interface EphemeralContainer {
   /**
    * Resources resize policy for the container.
    */
-  resizePolicy?: Array<ContainerResizePolicy>;
+  resizePolicy?: ContainerResizePolicy[];
   /**
    * Resources are not allowed for ephemeral containers. Ephemeral containers use spare resources already allocated to the pod.
    */
@@ -86,11 +88,13 @@ export interface EphemeralContainer {
    */
   stdinOnce?: boolean;
   /**
-   * If set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container uses the namespaces configured in the Pod spec.  The container runtime must implement support for this feature. If the runtime does not support namespace targeting then the result of setting this field is undefined.
+   * If set, the name of the container from PodSpec that this ephemeral container targets. The ephemeral container will be run in the namespaces (IPC, PID, etc) of this container. If not set then the ephemeral container uses the namespaces configured in the Pod spec.
+   *
+   * The container runtime must implement support for this feature. If the runtime does not support namespace targeting then the result of setting this field is undefined.
    */
   targetContainerName?: string;
   /**
-   * Optional: Path at which the file to which the container\'s termination message will be written is mounted into the container\'s filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated.
+   * Optional: Path at which the file to which the container's termination message will be written is mounted into the container's filesystem. Message written is intended to be brief final status, such as an assertion failure message. Will be truncated by the node if greater than 4096 bytes. The total message length across all containers will be limited to 12kb. Defaults to /dev/termination-log. Cannot be updated.
    */
   terminationMessagePath?: string;
   /**
@@ -98,19 +102,19 @@ export interface EphemeralContainer {
    */
   terminationMessagePolicy?: string;
   /**
-   * Whether this container should allocate a TTY for itself, also requires \'stdin\' to be true. Default is false.
+   * Whether this container should allocate a TTY for itself, also requires 'stdin' to be true. Default is false.
    */
   tty?: boolean;
   /**
    * volumeDevices is the list of block devices to be used by the container.
    */
-  volumeDevices?: Array<VolumeDevice>;
+  volumeDevices?: VolumeDevice[];
   /**
-   * Pod volumes to mount into the container\'s filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated.
+   * Pod volumes to mount into the container's filesystem. Subpath mounts are not allowed for ephemeral containers. Cannot be updated.
    */
-  volumeMounts?: Array<VolumeMount>;
+  volumeMounts?: VolumeMount[];
   /**
-   * Container\'s working directory. If not specified, the container runtime\'s default will be used, which might be configured in the container image. Cannot be updated.
+   * Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. Cannot be updated.
    */
   workingDir?: string;
 }

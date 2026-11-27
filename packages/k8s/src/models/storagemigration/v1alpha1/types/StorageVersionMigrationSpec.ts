@@ -5,7 +5,7 @@ import type { GroupVersionResource } from './GroupVersionResource.ts';
  */
 export interface StorageVersionMigrationSpec {
   /**
-   * The token used in the list options to get the next chunk of objects to migrate. When the .status.conditions indicates the migration is \"Running\", users can use this token to check the progress of the migration.
+   * The token used in the list options to get the next chunk of objects to migrate. When the .status.conditions indicates the migration is "Running", users can use this token to check the progress of the migration.
    */
   continueToken?: string;
   /**

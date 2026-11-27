@@ -2,7 +2,7 @@ import { type Scope, NamespacedResource, type NamespacedResourceMeta } from '@ku
 
 export interface ControllerRevisionArgs {
   readonly metadata?: NamespacedResourceMeta;
-  readonly data?: any;
+  readonly data?: { [key: string]: unknown };
   readonly revision: number;
 }
 
@@ -21,7 +21,7 @@ export class ControllerRevision extends NamespacedResource {
   /**
    * Data is the serialized representation of the state.
    */
-  declare readonly data?: any;
+  declare readonly data?: { [key: string]: unknown };
   /**
    * Revision indicates the revision of the state represented by Data.
    */

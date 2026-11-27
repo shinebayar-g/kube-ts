@@ -13,7 +13,7 @@ export interface SecurityContext {
    */
   allowPrivilegeEscalation?: boolean;
   /**
-   * appArmorProfile is the AppArmor options to use by this container. If set, this profile overrides the pod\'s appArmorProfile. Note that this field cannot be set when spec.os.name is windows.
+   * appArmorProfile is the AppArmor options to use by this container. If set, this profile overrides the pod's appArmorProfile. Note that this field cannot be set when spec.os.name is windows.
    */
   appArmorProfile?: AppArmorProfile;
   /**

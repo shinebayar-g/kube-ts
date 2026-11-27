@@ -50,7 +50,7 @@
     "vite-plus": "catalog:"
   },
   "dependencies": {
-    "json-schema-to-typescript": "^16.0.0",
+    "json-schema-to-typescript": "catalog:",
     "ts-morph": "catalog:",
     "yaml": "catalog:"
   }

@@ -5,11 +5,11 @@ import type { NodeSelectorRequirement } from './NodeSelectorRequirement.ts';
  */
 export interface NodeSelectorTerm {
   /**
-   * A list of node selector requirements by node\'s labels.
+   * A list of node selector requirements by node's labels.
    */
-  matchExpressions?: Array<NodeSelectorRequirement>;
+  matchExpressions?: NodeSelectorRequirement[];
   /**
-   * A list of node selector requirements by node\'s fields.
+   * A list of node selector requirements by node's fields.
    */
-  matchFields?: Array<NodeSelectorRequirement>;
+  matchFields?: NodeSelectorRequirement[];
 }

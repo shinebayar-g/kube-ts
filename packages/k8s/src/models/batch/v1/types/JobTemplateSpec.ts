@@ -6,7 +6,7 @@ import type { ObjectMeta } from '../../../meta/v1/types/ObjectMeta.ts';
  */
 export interface JobTemplateSpec {
   /**
-   * Standard object\'s metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+   * Standard object's metadata of the jobs created from this template. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
    */
   metadata?: ObjectMeta;
   /**

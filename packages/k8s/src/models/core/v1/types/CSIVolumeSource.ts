@@ -9,7 +9,7 @@ export interface CSIVolumeSource {
    */
   driver: string;
   /**
-   * fsType to mount. Ex. \"ext4\", \"xfs\", \"ntfs\". If not provided, the empty value is passed to the associated CSI driver which will determine the default filesystem to apply.
+   * fsType to mount. Ex. "ext4", "xfs", "ntfs". If not provided, the empty value is passed to the associated CSI driver which will determine the default filesystem to apply.
    */
   fsType?: string;
   /**
@@ -21,7 +21,9 @@ export interface CSIVolumeSource {
    */
   readOnly?: boolean;
   /**
-   * volumeAttributes stores driver-specific properties that are passed to the CSI driver. Consult your driver\'s documentation for supported values.
+   * volumeAttributes stores driver-specific properties that are passed to the CSI driver. Consult your driver's documentation for supported values.
    */
-  volumeAttributes?: { [key: string]: string };
+  volumeAttributes?: {
+    [key: string]: string;
+  };
 }

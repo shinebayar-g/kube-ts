@@ -11,5 +11,5 @@ export interface DeviceClaimConfiguration {
   /**
    * Requests lists the names of requests where the configuration applies. If empty, it applies to all requests.
    */
-  requests?: Array<string>;
+  requests?: string[];
 }

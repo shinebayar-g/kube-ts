@@ -9,13 +9,13 @@ export interface PolicyRulesWithSubjects {
   /**
    * `nonResourceRules` is a list of NonResourcePolicyRules that identify matching requests according to their verb and the target non-resource URL.
    */
-  nonResourceRules?: Array<NonResourcePolicyRule>;
+  nonResourceRules?: NonResourcePolicyRule[];
   /**
    * `resourceRules` is a slice of ResourcePolicyRules that identify matching requests according to their verb and the target resource. At least one of `resourceRules` and `nonResourceRules` has to be non-empty.
    */
-  resourceRules?: Array<ResourcePolicyRule>;
+  resourceRules?: ResourcePolicyRule[];
   /**
    * subjects is the list of normal user, serviceaccount, or group that this rule cares about. There must be at least one member in this slice. A slice that includes both the system:authenticated and system:unauthenticated user groups matches every request. Required.
    */
-  subjects: Array<Subject>;
+  subjects: Subject[];
 }

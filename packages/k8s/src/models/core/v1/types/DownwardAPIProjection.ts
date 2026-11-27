@@ -7,5 +7,5 @@ export interface DownwardAPIProjection {
   /**
    * Items is a list of DownwardAPIVolume file
    */
-  items?: Array<DownwardAPIVolumeFile>;
+  items?: DownwardAPIVolumeFile[];
 }

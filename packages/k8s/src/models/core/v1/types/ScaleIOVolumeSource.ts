@@ -5,7 +5,7 @@ import type { LocalObjectReference } from './LocalObjectReference.ts';
  */
 export interface ScaleIOVolumeSource {
   /**
-   * fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\". Default is \"xfs\".
+   * fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Default is "xfs".
    */
   fsType?: string;
   /**
