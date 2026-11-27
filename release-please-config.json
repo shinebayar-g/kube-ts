@@ -17,6 +17,11 @@
       "type": "fix",
       "hidden": false,
       "section": "Bug Fixes"
+    },
+    {
+      "type": "refactor",
+      "hidden": true,
+      "section": "Refactoring"
     }
   ],
   "bootstrap-sha": "42c96aeee69eb6082e45f373d452a2f15f8e96bb",
