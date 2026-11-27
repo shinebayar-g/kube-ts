@@ -29,6 +29,14 @@
       "enabled": false
     },
     {
+      "description": "vite-plus and the vite catalog alias (vite-plus-core) must move together",
+      "matchPackageNames": [
+        "vite-plus",
+        "@voidzero-dev/vite-plus-core"
+      ],
+      "groupName": "vite-plus"
+    },
+    {
       "matchManagers": [
         "github-actions"
       ],
