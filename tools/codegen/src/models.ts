@@ -1,4 +1,5 @@
 import { log } from 'node:console';
+import * as path from 'node:path';
 import { styleText } from 'node:util';
 import {
     type ConstructorDeclarationStructure,
@@ -12,38 +13,15 @@ import {
 } from 'ts-morph';
 import type { Schemas } from './spec.ts';
 
-function cleanupDeclaration(
-    sourceFile: SourceFile,
-    declaration: InterfaceDeclaration,
-    className: string,
-) {
+function cleanupDeclaration(sourceFile: SourceFile, declaration: InterfaceDeclaration) {
     declaration.getProperty('status')?.remove();
 
-    if (className === 'IoK8sApimachineryPkgApisMetaV1ObjectMeta') {
-        for (const field of [
-            'creationTimestamp',
-            'deletionGracePeriodSeconds',
-            'deletionTimestamp',
-            'generation',
-            'managedFields',
-            'resourceVersion',
-            'selfLink',
-            'uid',
-            /**
-             * ObjectMeta class is considered as cluster-scoped.
-             * NamespacedObjectMeta will be used for namespaced resources.
-             */
-            'namespace',
-        ]) {
-            declaration.getProperty(field)?.remove();
-        }
-    }
     removeUnusedImports(sourceFile);
 }
 
 /**
  * Drops imports whose names no longer appear in the file, e.g. `DeploymentStatus`
- * after `status` was removed, or `Time` after ObjectMeta's timestamps were.
+ * after `status` was removed.
  */
 function removeUnusedImports(sourceFile: SourceFile) {
     const used = new Set(
@@ -169,7 +147,7 @@ export function generateModels(project: Project, modelsPath: string, schemas: Sc
             const className = declaration?.getName();
             if (declaration && className) {
                 log(`Processing ${styleText('cyan', sourceFile.getBaseName())}`);
-                cleanupDeclaration(sourceFile, declaration, className);
+                cleanupDeclaration(sourceFile, declaration);
                 const resourceSchema = schemas.resources[className];
                 const typeSchema = schemas.types[className];
                 if (resourceSchema) {
@@ -281,4 +259,26 @@ export function generateModels(project: Project, modelsPath: string, schemas: Sc
             }
         }
     }
+
+    useCoreObjectMeta(project, modelsPath);
+}
+
+/**
+ * Nested metadata (e.g. a Deployment's pod template) uses @kube-ts/core's `ObjectMeta`,
+ * like the resources themselves, instead of a generated copy.
+ * Runs after the renames, so the referenced name is already `ObjectMeta`.
+ * The generated file is deleted; `OwnerReference` etc. are then dropped by removeUnused.
+ */
+function useCoreObjectMeta(project: Project, modelsPath: string) {
+    const objectMeta = project.getSourceFileOrThrow(
+        path.join(modelsPath, 'meta/v1/types/ObjectMeta.ts'),
+    );
+    for (const sourceFile of project.getSourceFiles()) {
+        for (const importDeclaration of sourceFile.getImportDeclarations()) {
+            if (importDeclaration.getModuleSpecifierSourceFile() === objectMeta) {
+                importDeclaration.setModuleSpecifier('@kube-ts/core');
+            }
+        }
+    }
+    objectMeta.delete();
 }

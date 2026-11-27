@@ -1,5 +1,5 @@
 import type { JobSpec } from './JobSpec.ts';
-import type { ObjectMeta } from '../../../meta/v1/types/ObjectMeta.ts';
+import type { ObjectMeta } from '@kube-ts/core';
 
 /**
  * JobTemplateSpec describes the data a Job should have when created from a template

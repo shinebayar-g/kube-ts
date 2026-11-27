@@ -1,5 +1,5 @@
 import type { PersistentVolumeClaimSpec } from './PersistentVolumeClaimSpec.ts';
-import type { ObjectMeta } from '../../../meta/v1/types/ObjectMeta.ts';
+import type { ObjectMeta } from '@kube-ts/core';
 
 /**
  * PersistentVolumeClaimTemplate is used to produce PersistentVolumeClaim objects as part of an EphemeralVolumeSource.
