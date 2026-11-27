@@ -1,1 +1,1 @@
-export * as v1alpha1 from './v1alpha1.ts';
+export * as v1alpha1 from './v1alpha1/index.ts';

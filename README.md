@@ -6,7 +6,7 @@ Packages
 
 - `@kube-ts/core` - Minimal core library that provides basic building blocks for organizing your kube-ts applications.
 - `@kube-ts/k8s` - Ready to use Kubernetes core schema in TypeScript.
-- `@kube-ts/cli` - CLI tool to generate TypeScript code for Kubernetes core schema and Custom Resource Definitions (CRDs).
+- `@kube-ts/cli` - CLI tool to generate TypeScript code for Custom Resource Definitions (CRDs).
 
 `@kube-ts/k8s` is versioned after Kubernetes (`1.32.x` contains the Kubernetes 1.32 API) and has `@kube-ts/core` as a peer dependency, so install both:
 
@@ -22,10 +22,6 @@ npm install -D @kube-ts/cli # only if you generate CRD types
 ```ts
 import { App } from '@kube-ts/core';
 import { Deployment } from '@kube-ts/k8s/apps/v1';
-// Or you can import like this:
-// import { apps } from '@kube-ts/k8s';
-// and then
-// new apps.v1.Deployment();
 
 const app = new App('my-k8s-app', { namespace: 'my-app' });
 
@@ -95,68 +91,75 @@ spec:
               name: http
 ```
 
+### Imports
+
+Each `<group>/<version>` exports its resources and their types:
+
+```ts
+import { Deployment, type DeploymentSpec } from '@kube-ts/k8s/apps/v1';
+import { ConfigMap } from '@kube-ts/k8s/core/v1';
+import type { LabelSelector } from '@kube-ts/k8s/meta/v1';
+```
+
+Or use the root namespaces:
+
+```ts
+import * as k8s from '@kube-ts/k8s';
+
+new k8s.apps.v1.Deployment(app, 'nginx', { ... });
+```
+
 ## @kube-ts/cli
 
-This package provides the command-line interface (CLI) for kube-ts.
-
-It has 2 main functionalities:
-
-- Generate TypeScript code for Kubernetes core schema
-- Generate TypeScript code for Kubernetes Custom Resource Definitions (CRDs)
-
-### CLI
+Generates TypeScript classes from Kubernetes Custom Resource Definitions (CRDs).
 
 ```sh
-npx @kube-ts/cli --help
-```
-
-Generate TypeScript code for Kubernetes core schema
-
-```sh
-npx @kube-ts/cli k8s@1.33
-```
-
-Generate TypeScript code for Kubernetes CRDs
-
-```sh
-# From a YAML file
+# From a YAML file or a URL, written to ./crds
 npx @kube-ts/cli path/to/crd.yaml
-
-# From a URL
 npx @kube-ts/cli https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml
 
+# Without an argument, reads ./kube-ts.yaml
+npx @kube-ts/cli
 ```
 
-### Configuration File
+### Configuration file
 
 ```yaml
 # kube-ts.yaml
+outDir: src/crds # default: ./crds
 crds:
   argocd:
     - https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml
-    - https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/applicationset-crd.yaml
     - https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/appproject-crd.yaml
-  external-secrets:
-    - https://raw.githubusercontent.com/external-secrets/external-secrets/refs/tags/v0.12.1/deploy/crds/bundle.yaml
   moco:
-    - moco/CustomResourceDefinition.mysqlclusters.moco.cybozu.com.yaml # local path to the yaml file
-
-k8sVersion: 1.33
-
-outDir:
-  crds: ./src/generated/crds
-  k8s: ./src/generated/k8s
-
-# CRD yaml files are downloaded to this directory
-cacheDir: ~/.cache/kube-ts
+    - moco/CustomResourceDefinition.mysqlclusters.moco.cybozu.com.yaml # local path
 ```
 
-Run
+Downloaded CRDs are cached in `~/.cache/kube-ts`.
+
+### Using generated CRDs
+
+The output follows the same layout as `@kube-ts/k8s`: `<outDir>/<name>/<version>/index.ts`.
+
+```ts
+import { Application } from './crds/argocd/v1alpha1/index.ts';
+```
+
+For shorter paths, add an `imports` entry to your `package.json`:
+
+```json
+{ "imports": { "#crds/*": "./src/crds/*/index.ts" } }
+```
+
+```ts
+import { Application } from '#crds/argocd/v1alpha1';
+```
+
+## Development
+
+`@kube-ts/k8s` is generated from the Kubernetes OpenAPI spec by `tools/codegen`. The Kubernetes version is `k8sVersion` in `tools/codegen/src/config.ts`.
 
 ```sh
-npx @kube-ts/cli # It will look for kube-ts.yaml in the current directory
-
-# or
-npx @kube-ts/cli -c path/to/kube-ts.yaml
-npx @kube-ts/cli --config path/to/kube-ts.yaml
+mise run download # download the spec
+mise run generate # regenerate packages/k8s
 ```

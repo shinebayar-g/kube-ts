@@ -9,5 +9,8 @@
     "@kube-ts/cli": "workspace:*",
     "@kube-ts/core": "workspace:*",
     "@kube-ts/k8s": "workspace:*"
+  },
+  "imports": {
+    "#crds/*": "./src/crds/*/index.ts"
   }
 }

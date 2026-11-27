@@ -1,1 +1,1 @@
-export * as v1 from './scheduling/v1.ts';
+export * as v1 from './scheduling/v1/index.ts';
