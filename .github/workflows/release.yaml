@@ -15,7 +15,7 @@ jobs:
     outputs:
       releases_created: ${{ steps.release.outputs.releases_created }}
       paths_released: ${{ steps.release.outputs.paths_released }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     steps:
       - uses: googleapis/release-please-action@v4
         id: release
@@ -28,7 +28,7 @@ jobs:
           echo "Paths released: ${{ steps.release.outputs.paths_released }}"
 
   publish:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     needs: release
     if: needs.release.outputs.releases_created == 'true'
     strategy:
