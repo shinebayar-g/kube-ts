@@ -1,6 +1,3 @@
-import type { ManagedFieldsEntry } from './ManagedFieldsEntry.ts';
-import type { OwnerReference } from './OwnerReference.ts';
-
 /**
  * ObjectMeta is metadata that all persisted resources must have, which includes all objects
  * users must create.
@@ -48,14 +45,6 @@ export interface ObjectMeta {
      */
     labels?: { [key: string]: string };
     /**
-     * ManagedFields maps workflow-id and version to the set of fields that are managed by that
-     * workflow. This is mostly for internal housekeeping, and users typically shouldn\'t need to
-     * set or understand this field. A workflow can be the user\'s name, a controller\'s name, or
-     * the name of a specific apply path like \"ci-cd\". The set of fields is always in the version
-     * that the workflow used when modifying the object.
-     */
-    managedFields?: ManagedFieldsEntry[];
-    /**
      * Name must be unique within a namespace. Is required when creating resources, although some
      * resources may allow a client to request the generation of an appropriate name automatically.
      * Name is primarily intended for creation idempotence and configuration definition.
@@ -66,11 +55,4 @@ export interface ObjectMeta {
      * Optional here: kube-ts fills it in from the resource's `name` argument.
      */
     name?: string;
-    /**
-     * List of objects depended by this object. If ALL objects in the list have been deleted,
-     * this object will be garbage collected. If this object is managed by a controller, then
-     * an entry in this list will point to this controller, with the controller field set to true.
-     * There cannot be more than one managing controller.
-     */
-    ownerReferences?: OwnerReference[];
 }

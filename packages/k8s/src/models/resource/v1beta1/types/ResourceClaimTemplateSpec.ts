@@ -1,5 +1,5 @@
 import type { ResourceClaimSpec } from './ResourceClaimSpec.ts';
-import type { ObjectMeta } from '../../../meta/v1/types/ObjectMeta.ts';
+import type { ObjectMeta } from '@kube-ts/core';
 
 /**
  * ResourceClaimTemplateSpec contains the metadata and fields for a ResourceClaim.

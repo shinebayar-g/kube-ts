@@ -1,5 +1,5 @@
 import type { PodSpec } from './PodSpec.ts';
-import type { ObjectMeta } from '../../../meta/v1/types/ObjectMeta.ts';
+import type { ObjectMeta } from '@kube-ts/core';
 
 /**
  * PodTemplateSpec describes the data a pod should have when created from a template
