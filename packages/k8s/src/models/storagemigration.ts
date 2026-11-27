@@ -1,1 +1,1 @@
-export * as v1alpha1 from './storagemigration/v1alpha1.ts';
+export * as v1alpha1 from './storagemigration/v1alpha1/index.ts';

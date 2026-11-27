@@ -34,8 +34,8 @@
         "import": "./dist/index.mjs"
       },
       "./*": {
-        "types": "./dist/models/*.d.mts",
-        "import": "./dist/models/*.mjs"
+        "types": "./dist/models/*/index.d.mts",
+        "import": "./dist/models/*/index.mjs"
       },
       "./package.json": "./package.json"
     }
@@ -43,7 +43,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
-    "./*": "./src/models/*.ts",
+    "./*": "./src/models/*/index.ts",
     "./package.json": "./package.json"
   },
   "scripts": {

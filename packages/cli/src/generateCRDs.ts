@@ -99,6 +99,9 @@ interface Output {
     [dir: string]: CRD[];
 }
 
+// Same order as `Array.prototype.sort()`: by UTF-16 code unit, not locale.
+const byCodeUnit = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
+
 export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig) {
     const project = new Project({
         manipulationSettings: {
@@ -107,6 +110,11 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
         },
     });
     const outDir = path.resolve(config?.outDir || './crds');
+    /**
+     * Kinds per version per package dir, for the barrel files.
+     * @example { "<outDir>/argocd": { v1alpha1: ["AppProject", "Application"] } }
+     */
+    const barrels = new Map<string, Map<string, string[]>>();
     fs.rmSync(outDir, { recursive: true, force: true });
     fs.mkdirSync(cacheHome, { recursive: true });
     const output: Output = {};
@@ -162,6 +170,13 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
                     const sourceFile = project.createSourceFile(fileLocation, compiledInterface, {
                         overwrite: true,
                     });
+                    const versions =
+                        barrels.get(path.join(outDir, pkg)) ?? new Map<string, string[]>();
+                    barrels.set(path.join(outDir, pkg), versions);
+                    versions.set(crdVersion.name, [
+                        ...(versions.get(crdVersion.name) ?? []),
+                        crd.spec.names.kind,
+                    ]);
                     const isNamespaced = crd.spec.scope === 'Namespaced';
 
                     const interfaceDecleration = sourceFile.getInterfaces()[0];
@@ -252,23 +267,27 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
         }
     }
 
+    /**
+     * Barrel files, the same layout as @kube-ts/k8s:
+     * - `<pkg>/<version>/index.ts`: `export * from './<Kind>.ts'`
+     * - `<pkg>/index.ts`: `export * as <version> from './<version>/index.ts'`
+     */
+    for (const [pkgDir, versions] of barrels) {
+        let indexFileContent = '';
+        for (const version of [...versions.keys()].sort(byCodeUnit)) {
+            const kinds = [...new Set(versions.get(version))].sort(byCodeUnit);
+            project.createSourceFile(
+                path.join(pkgDir, version, 'index.ts'),
+                kinds.map((kind) => `export * from './${kind}.ts';\n`).join(''),
+                { overwrite: true },
+            );
+            indexFileContent += `export * as ${version} from './${version}/index.ts';\n`;
+        }
+        project.createSourceFile(path.join(pkgDir, 'index.ts'), indexFileContent, {
+            overwrite: true,
+        });
+    }
+
     log(`Saving generated files to the ${styleText('yellowBright', outDir)} directory`);
     project.saveSync();
-
-    for (const crdDir of fs.readdirSync(outDir)) {
-        let indexFileContent = '';
-        for (const apiVersionDir of fs.readdirSync(path.join(outDir, crdDir))) {
-            let apiVersionFileContent = '';
-            for (const file of fs.readdirSync(path.join(outDir, crdDir, apiVersionDir))) {
-                apiVersionFileContent += `export * from './${apiVersionDir}/${file}';\n`;
-            }
-            fs.writeFileSync(
-                path.join(outDir, crdDir, `${apiVersionDir}.ts`),
-                apiVersionFileContent,
-                'utf-8',
-            );
-            indexFileContent += `export * as ${apiVersionDir} from './${apiVersionDir}.ts';\n`;
-        }
-        fs.writeFileSync(path.join(outDir, crdDir, 'index.ts'), indexFileContent, 'utf-8');
-    }
 }

@@ -1,7 +1,7 @@
 import { log } from 'node:console';
 import { Helm, App } from '@kube-ts/core';
-import { ConfigMap } from '@kube-ts/k8s/core/v1/ConfigMap';
-import { Deployment } from '@kube-ts/k8s/apps/v1/Deployment';
+import { ConfigMap } from '@kube-ts/k8s/core/v1';
+import { Deployment } from '@kube-ts/k8s/apps/v1';
 
 const app = new App('helm-example', { namespace: 'my-app-namespace', outputType: 'singleFile' });
 
