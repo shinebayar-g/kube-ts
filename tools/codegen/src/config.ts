@@ -14,6 +14,7 @@ export const packageDir = path.join(import.meta.dirname, '../../../packages/k8s'
  * rather than applied as manifests.
  */
 export const unpublishedResources = new Set([
+    'IoK8sApiCoreV1Binding',
     'IoK8sApiCoreV1Event',
     'IoK8sApiEventsV1Event',
     'IoK8sApiPolicyV1Eviction',
