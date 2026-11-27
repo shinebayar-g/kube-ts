@@ -3,7 +3,7 @@ import { type Scope, NamespacedResource, type NamespacedResourceMeta } from '@ku
 
 export interface RoleArgs {
   readonly metadata?: NamespacedResourceMeta;
-  readonly rules?: Array<PolicyRule>;
+  readonly rules?: PolicyRule[];
 }
 
 /**
@@ -21,7 +21,7 @@ export class Role extends NamespacedResource {
   /**
    * Rules holds all the PolicyRules for this Role
    */
-  declare readonly rules?: Array<PolicyRule>;
+  declare readonly rules?: PolicyRule[];
 
   constructor(scope: Scope, name: string, args: RoleArgs = {}) {
     super(scope, name, { apiVersion: 'rbac.authorization.k8s.io/v1', kind: 'Role', ...args });

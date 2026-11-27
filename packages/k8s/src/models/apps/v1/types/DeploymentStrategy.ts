@@ -9,7 +9,7 @@ export interface DeploymentStrategy {
    */
   rollingUpdate?: RollingUpdateDeployment;
   /**
-   * Type of deployment. Can be \"Recreate\" or \"RollingUpdate\". Default is RollingUpdate.
+   * Type of deployment. Can be "Recreate" or "RollingUpdate". Default is RollingUpdate.
    */
   type?: string;
 }

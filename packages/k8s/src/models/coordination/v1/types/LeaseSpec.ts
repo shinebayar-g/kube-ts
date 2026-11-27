@@ -5,7 +5,7 @@ export interface LeaseSpec {
   /**
    * acquireTime is a time when the current lease was acquired.
    */
-  acquireTime?: Date;
+  acquireTime?: string;
   /**
    * holderIdentity contains the identity of the holder of a current lease. If Coordinated Leader Election is used, the holder identity must be equal to the elected LeaseCandidate.metadata.name field.
    */
@@ -25,7 +25,7 @@ export interface LeaseSpec {
   /**
    * renewTime is a time when the current holder of a lease has last updated the lease.
    */
-  renewTime?: Date;
+  renewTime?: string;
   /**
    * Strategy indicates the strategy for picking the leader for coordinated leader election. If the field is not specified, there is no active coordination for this lease. (Alpha) Using this field requires the CoordinatedLeaderElection feature gate to be enabled.
    */

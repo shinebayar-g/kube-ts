@@ -5,7 +5,7 @@ import { type Scope, ClusterResource, type ClusterResourceMeta } from '@kube-ts/
 export interface ClusterRoleBindingArgs {
   readonly metadata?: ClusterResourceMeta;
   readonly roleRef: RoleRef;
-  readonly subjects?: Array<Subject>;
+  readonly subjects?: Subject[];
 }
 
 /**
@@ -27,7 +27,7 @@ export class ClusterRoleBinding extends ClusterResource {
   /**
    * Subjects holds references to the objects the role applies to.
    */
-  declare readonly subjects?: Array<Subject>;
+  declare readonly subjects?: Subject[];
 
   constructor(scope: Scope, name: string, args: ClusterRoleBindingArgs) {
     super(scope, name, { apiVersion: 'rbac.authorization.k8s.io/v1', kind: 'ClusterRoleBinding', ...args });

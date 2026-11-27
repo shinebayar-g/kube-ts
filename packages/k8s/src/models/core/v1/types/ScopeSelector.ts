@@ -7,5 +7,5 @@ export interface ScopeSelector {
   /**
    * A list of scope selector requirements by scope of the resources.
    */
-  matchExpressions?: Array<ScopedResourceSelectorRequirement>;
+  matchExpressions?: ScopedResourceSelectorRequirement[];
 }

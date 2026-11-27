@@ -3,7 +3,7 @@
  */
 export interface ParamKind {
   /**
-   * APIVersion is the API group version the resources belong to. In format of \"group/version\". Required.
+   * APIVersion is the API group version the resources belong to. In format of "group/version". Required.
    */
   apiVersion?: string;
   /**

@@ -7,5 +7,5 @@ export interface LimitRangeSpec {
   /**
    * Limits is the list of LimitRangeItem objects that are enforced.
    */
-  limits: Array<LimitRangeItem>;
+  limits: LimitRangeItem[];
 }

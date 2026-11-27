@@ -12,7 +12,7 @@ export interface EnvVarSource {
    */
   configMapKeyRef?: ConfigMapKeySelector;
   /**
-   * Selects a field of the pod: supports metadata.name, metadata.namespace, `metadata.labels[\'<KEY>\']`, `metadata.annotations[\'<KEY>\']`, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs.
+   * Selects a field of the pod: supports metadata.name, metadata.namespace, `metadata.labels['<KEY>']`, `metadata.annotations['<KEY>']`, spec.nodeName, spec.serviceAccountName, status.hostIP, status.podIP, status.podIPs.
    */
   fieldRef?: ObjectFieldSelector;
   /**
@@ -20,7 +20,7 @@ export interface EnvVarSource {
    */
   resourceFieldRef?: ResourceFieldSelector;
   /**
-   * Selects a key of a secret in the pod\'s namespace
+   * Selects a key of a secret in the pod's namespace
    */
   secretKeyRef?: SecretKeySelector;
 }

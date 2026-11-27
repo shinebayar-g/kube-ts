@@ -9,7 +9,7 @@ export interface DeviceAttribute {
   /**
    * IntValue is a number.
    */
-  _int?: number;
+  int?: number;
   /**
    * StringValue is a string. Must not be longer than 64 characters.
    */

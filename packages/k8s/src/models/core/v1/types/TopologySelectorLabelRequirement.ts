@@ -9,5 +9,5 @@ export interface TopologySelectorLabelRequirement {
   /**
    * An array of string values. One value must match the label to be selected. Each entry in Values is ORed.
    */
-  values: Array<string>;
+  values: string[];
 }

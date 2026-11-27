@@ -3,7 +3,7 @@
  */
 export interface ServiceAccountSubject {
   /**
-   * `name` is the name of matching ServiceAccount objects, or \"*\" to match regardless of name. Required.
+   * `name` is the name of matching ServiceAccount objects, or "*" to match regardless of name. Required.
    */
   name: string;
   /**

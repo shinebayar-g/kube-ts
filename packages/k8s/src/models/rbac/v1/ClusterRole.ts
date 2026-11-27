@@ -5,7 +5,7 @@ import { type Scope, ClusterResource, type ClusterResourceMeta } from '@kube-ts/
 export interface ClusterRoleArgs {
   readonly metadata?: ClusterResourceMeta;
   readonly aggregationRule?: AggregationRule;
-  readonly rules?: Array<PolicyRule>;
+  readonly rules?: PolicyRule[];
 }
 
 /**
@@ -27,7 +27,7 @@ export class ClusterRole extends ClusterResource {
   /**
    * Rules holds all the PolicyRules for this ClusterRole
    */
-  declare readonly rules?: Array<PolicyRule>;
+  declare readonly rules?: PolicyRule[];
 
   constructor(scope: Scope, name: string, args: ClusterRoleArgs = {}) {
     super(scope, name, { apiVersion: 'rbac.authorization.k8s.io/v1', kind: 'ClusterRole', ...args });

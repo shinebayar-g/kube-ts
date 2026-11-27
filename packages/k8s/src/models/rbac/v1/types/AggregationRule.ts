@@ -5,7 +5,7 @@ import type { LabelSelector } from '../../../meta/v1/types/LabelSelector.ts';
  */
 export interface AggregationRule {
   /**
-   * ClusterRoleSelectors holds a list of selectors which will be used to find ClusterRoles and create the rules. If any of the selectors match, then the ClusterRole\'s permissions will be added
+   * ClusterRoleSelectors holds a list of selectors which will be used to find ClusterRoles and create the rules. If any of the selectors match, then the ClusterRole's permissions will be added
    */
-  clusterRoleSelectors?: Array<LabelSelector>;
+  clusterRoleSelectors?: LabelSelector[];
 }

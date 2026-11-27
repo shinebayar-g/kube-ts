@@ -7,5 +7,5 @@ export interface EndpointHints {
   /**
    * forZones indicates the zone(s) this endpoint should be consumed by to enable topology aware routing.
    */
-  forZones?: Array<ForZone>;
+  forZones?: ForZone[];
 }

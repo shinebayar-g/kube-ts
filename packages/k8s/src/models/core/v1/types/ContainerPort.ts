@@ -3,7 +3,7 @@
  */
 export interface ContainerPort {
   /**
-   * Number of port to expose on the pod\'s IP address. This must be a valid port number, 0 < x < 65536.
+   * Number of port to expose on the pod's IP address. This must be a valid port number, 0 < x < 65536.
    */
   containerPort: number;
   /**
@@ -19,7 +19,7 @@ export interface ContainerPort {
    */
   name?: string;
   /**
-   * Protocol for port. Must be UDP, TCP, or SCTP. Defaults to \"TCP\".
+   * Protocol for port. Must be UDP, TCP, or SCTP. Defaults to "TCP".
    */
   protocol?: string;
 }

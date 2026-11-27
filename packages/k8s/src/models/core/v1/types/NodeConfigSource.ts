@@ -5,7 +5,7 @@ import type { ConfigMapNodeConfigSource } from './ConfigMapNodeConfigSource.ts';
  */
 export interface NodeConfigSource {
   /**
-   * ConfigMap is a reference to a Node\'s ConfigMap
+   * ConfigMap is a reference to a Node's ConfigMap
    */
   configMap?: ConfigMapNodeConfigSource;
 }

@@ -5,8 +5,8 @@ import { type Scope, NamespacedResource, type NamespacedResourceMeta } from '@ku
 export interface EndpointSliceArgs {
   readonly metadata?: NamespacedResourceMeta;
   readonly addressType: string;
-  readonly endpoints: Array<Endpoint>;
-  readonly ports?: Array<EndpointPort>;
+  readonly endpoints: Endpoint[];
+  readonly ports?: EndpointPort[];
 }
 
 /**
@@ -28,11 +28,11 @@ export class EndpointSlice extends NamespacedResource {
   /**
    * endpoints is a list of unique endpoints in this slice. Each slice may include a maximum of 1000 endpoints.
    */
-  declare readonly endpoints: Array<Endpoint>;
+  declare readonly endpoints: Endpoint[];
   /**
-   * ports specifies the list of network ports exposed by each endpoint in this slice. Each port must have a unique name. When ports is empty, it indicates that there are no defined ports. When a port is defined with a nil port value, it indicates \"all ports\". Each slice may include a maximum of 100 ports.
+   * ports specifies the list of network ports exposed by each endpoint in this slice. Each port must have a unique name. When ports is empty, it indicates that there are no defined ports. When a port is defined with a nil port value, it indicates "all ports". Each slice may include a maximum of 100 ports.
    */
-  declare readonly ports?: Array<EndpointPort>;
+  declare readonly ports?: EndpointPort[];
 
   constructor(scope: Scope, name: string, args: EndpointSliceArgs) {
     super(scope, name, { apiVersion: 'discovery.k8s.io/v1', kind: 'EndpointSlice', ...args });

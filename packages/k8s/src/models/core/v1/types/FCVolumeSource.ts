@@ -3,7 +3,7 @@
  */
 export interface FCVolumeSource {
   /**
-   * fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified.
+   * fsType is the filesystem type to mount. Must be a filesystem type supported by the host operating system. Ex. "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified.
    */
   fsType?: string;
   /**
@@ -17,9 +17,9 @@ export interface FCVolumeSource {
   /**
    * targetWWNs is Optional: FC target worldwide names (WWNs)
    */
-  targetWWNs?: Array<string>;
+  targetWWNs?: string[];
   /**
    * wwids Optional: FC volume world wide identifiers (wwids) Either wwids or combination of targetWWNs and lun must be set, but not both simultaneously.
    */
-  wwids?: Array<string>;
+  wwids?: string[];
 }

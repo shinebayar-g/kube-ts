@@ -11,7 +11,7 @@ export interface KeyToPath {
    */
   mode?: number;
   /**
-   * path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element \'..\'. May not start with the string \'..\'.
+   * path is the relative path of the file to map the key to. May not be an absolute path. May not contain the path element '..'. May not start with the string '..'.
    */
   path: string;
 }

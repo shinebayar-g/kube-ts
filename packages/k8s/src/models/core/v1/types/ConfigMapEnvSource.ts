@@ -1,5 +1,7 @@
 /**
- * ConfigMapEnvSource selects a ConfigMap to populate the environment variables with.  The contents of the target ConfigMap\'s Data field will represent the key-value pairs as environment variables.
+ * ConfigMapEnvSource selects a ConfigMap to populate the environment variables with.
+ *
+ * The contents of the target ConfigMap's Data field will represent the key-value pairs as environment variables.
  */
 export interface ConfigMapEnvSource {
   /**

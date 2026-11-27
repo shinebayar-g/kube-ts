@@ -1,5 +1,5 @@
 /**
- * The node this Taint is attached to has the \"effect\" on any pod that does not tolerate the Taint.
+ * The node this Taint is attached to has the "effect" on any pod that does not tolerate the Taint.
  */
 export interface Taint {
   /**
@@ -13,7 +13,7 @@ export interface Taint {
   /**
    * TimeAdded represents the time at which the taint was added. It is only written for NoExecute taints.
    */
-  timeAdded?: Date;
+  timeAdded?: string;
   /**
    * The taint value corresponding to the taint key.
    */

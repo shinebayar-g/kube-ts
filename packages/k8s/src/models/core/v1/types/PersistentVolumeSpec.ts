@@ -30,9 +30,9 @@ export interface PersistentVolumeSpec {
   /**
    * accessModes contains all ways the volume can be mounted. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#access-modes
    */
-  accessModes?: Array<string>;
+  accessModes?: string[];
   /**
-   * awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet\'s host machine and then exposed to the pod. Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
+   * awsElasticBlockStore represents an AWS Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Deprecated: AWSElasticBlockStore is deprecated. All operations for the in-tree awsElasticBlockStore type are redirected to the ebs.csi.aws.com CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#awselasticblockstore
    */
   awsElasticBlockStore?: AWSElasticBlockStoreVolumeSource;
   /**
@@ -44,11 +44,13 @@ export interface PersistentVolumeSpec {
    */
   azureFile?: AzureFilePersistentVolumeSource;
   /**
-   * capacity is the description of the persistent volume\'s resources and capacity. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity
+   * capacity is the description of the persistent volume's resources and capacity. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#capacity
    */
-  capacity?: { [key: string]: number | string };
+  capacity?: {
+    [key: string]: number | string;
+  };
   /**
-   * cephFS represents a Ceph FS mount on the host that shares a pod\'s lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.
+   * cephFS represents a Ceph FS mount on the host that shares a pod's lifetime. Deprecated: CephFS is deprecated and the in-tree cephfs type is no longer supported.
    */
   cephfs?: CephFSPersistentVolumeSource;
   /**
@@ -64,7 +66,7 @@ export interface PersistentVolumeSpec {
    */
   csi?: CSIPersistentVolumeSource;
   /**
-   * fc represents a Fibre Channel resource that is attached to a kubelet\'s host machine and then exposed to the pod.
+   * fc represents a Fibre Channel resource that is attached to a kubelet's host machine and then exposed to the pod.
    */
   fc?: FCVolumeSource;
   /**
@@ -72,11 +74,11 @@ export interface PersistentVolumeSpec {
    */
   flexVolume?: FlexPersistentVolumeSource;
   /**
-   * flocker represents a Flocker volume attached to a kubelet\'s host machine and exposed to the pod for its usage. This depends on the Flocker control service being running. Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.
+   * flocker represents a Flocker volume attached to a kubelet's host machine and exposed to the pod for its usage. This depends on the Flocker control service being running. Deprecated: Flocker is deprecated and the in-tree flocker type is no longer supported.
    */
   flocker?: FlockerVolumeSource;
   /**
-   * gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet\'s host machine and then exposed to the pod. Provisioned by an admin. Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
+   * gcePersistentDisk represents a GCE Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Provisioned by an admin. Deprecated: GCEPersistentDisk is deprecated. All operations for the in-tree gcePersistentDisk type are redirected to the pd.csi.storage.gke.io CSI driver. More info: https://kubernetes.io/docs/concepts/storage/volumes#gcepersistentdisk
    */
   gcePersistentDisk?: GCEPersistentDiskVolumeSource;
   /**
@@ -88,7 +90,7 @@ export interface PersistentVolumeSpec {
    */
   hostPath?: HostPathVolumeSource;
   /**
-   * iscsi represents an ISCSI Disk resource that is attached to a kubelet\'s host machine and then exposed to the pod. Provisioned by an admin.
+   * iscsi represents an ISCSI Disk resource that is attached to a kubelet's host machine and then exposed to the pod. Provisioned by an admin.
    */
   iscsi?: ISCSIPersistentVolumeSource;
   /**
@@ -96,9 +98,9 @@ export interface PersistentVolumeSpec {
    */
   local?: LocalVolumeSource;
   /**
-   * mountOptions is the list of mount options, e.g. [\"ro\", \"soft\"]. Not validated - mount will simply fail if one is invalid. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#mount-options
+   * mountOptions is the list of mount options, e.g. ["ro", "soft"]. Not validated - mount will simply fail if one is invalid. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#mount-options
    */
-  mountOptions?: Array<string>;
+  mountOptions?: string[];
   /**
    * nfs represents an NFS mount on the host. Provisioned by an admin. More info: https://kubernetes.io/docs/concepts/storage/volumes#nfs
    */
@@ -120,11 +122,11 @@ export interface PersistentVolumeSpec {
    */
   portworxVolume?: PortworxVolumeSource;
   /**
-   * quobyte represents a Quobyte mount on the host that shares a pod\'s lifetime. Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
+   * quobyte represents a Quobyte mount on the host that shares a pod's lifetime. Deprecated: Quobyte is deprecated and the in-tree quobyte type is no longer supported.
    */
   quobyte?: QuobyteVolumeSource;
   /**
-   * rbd represents a Rados Block Device mount on the host that shares a pod\'s lifetime. Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported. More info: https://examples.k8s.io/volumes/rbd/README.md
+   * rbd represents a Rados Block Device mount on the host that shares a pod's lifetime. Deprecated: RBD is deprecated and the in-tree rbd type is no longer supported. More info: https://examples.k8s.io/volumes/rbd/README.md
    */
   rbd?: RBDPersistentVolumeSource;
   /**
@@ -136,7 +138,7 @@ export interface PersistentVolumeSpec {
    */
   storageClassName?: string;
   /**
-   * storageOS represents a StorageOS volume that is attached to the kubelet\'s host machine and mounted into the pod. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. More info: https://examples.k8s.io/volumes/storageos/README.md
+   * storageOS represents a StorageOS volume that is attached to the kubelet's host machine and mounted into the pod. Deprecated: StorageOS is deprecated and the in-tree storageos type is no longer supported. More info: https://examples.k8s.io/volumes/storageos/README.md
    */
   storageos?: StorageOSPersistentVolumeSource;
   /**

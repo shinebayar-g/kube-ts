@@ -3,11 +3,11 @@
  */
 export interface PodDNSConfigOption {
   /**
-   * Name is this DNS resolver option\'s name. Required.
+   * Name is this DNS resolver option's name. Required.
    */
   name?: string;
   /**
-   * Value is this DNS resolver option\'s value.
+   * Value is this DNS resolver option's value.
    */
   value?: string;
 }

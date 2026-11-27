@@ -7,5 +7,5 @@ export interface NodeSelector {
   /**
    * Required. A list of node selector terms. The terms are ORed.
    */
-  nodeSelectorTerms: Array<NodeSelectorTerm>;
+  nodeSelectorTerms: NodeSelectorTerm[];
 }

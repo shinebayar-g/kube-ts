@@ -7,7 +7,7 @@ export interface ResourceFieldSelector {
    */
   containerName?: string;
   /**
-   * Specifies the output format of the exposed resources, defaults to \"1\"
+   * Specifies the output format of the exposed resources, defaults to "1"
    */
   divisor?: number | string;
   /**

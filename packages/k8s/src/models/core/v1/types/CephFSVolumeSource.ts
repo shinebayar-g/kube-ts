@@ -7,7 +7,7 @@ export interface CephFSVolumeSource {
   /**
    * monitors is Required: Monitors is a collection of Ceph monitors More info: https://examples.k8s.io/volumes/cephfs/README.md#how-to-use-it
    */
-  monitors: Array<string>;
+  monitors: string[];
   /**
    * path is Optional: Used as the mounted root, rather than the full Ceph tree, default is /
    */

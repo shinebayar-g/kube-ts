@@ -13,7 +13,7 @@ export interface ISCSIPersistentVolumeSource {
    */
   chapAuthSession?: boolean;
   /**
-   * fsType is the filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: \"ext4\", \"xfs\", \"ntfs\". Implicitly inferred to be \"ext4\" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#iscsi
+   * fsType is the filesystem type of the volume that you want to mount. Tip: Ensure that the filesystem type is supported by the host operating system. Examples: "ext4", "xfs", "ntfs". Implicitly inferred to be "ext4" if unspecified. More info: https://kubernetes.io/docs/concepts/storage/volumes#iscsi
    */
   fsType?: string;
   /**
@@ -25,7 +25,7 @@ export interface ISCSIPersistentVolumeSource {
    */
   iqn: string;
   /**
-   * iscsiInterface is the interface Name that uses an iSCSI transport. Defaults to \'default\' (tcp).
+   * iscsiInterface is the interface Name that uses an iSCSI transport. Defaults to 'default' (tcp).
    */
   iscsiInterface?: string;
   /**
@@ -35,7 +35,7 @@ export interface ISCSIPersistentVolumeSource {
   /**
    * portals is the iSCSI Target Portal List. The Portal is either an IP or ip_addr:port if the port is other than default (typically TCP ports 860 and 3260).
    */
-  portals?: Array<string>;
+  portals?: string[];
   /**
    * readOnly here will force the ReadOnly setting in VolumeMounts. Defaults to false.
    */

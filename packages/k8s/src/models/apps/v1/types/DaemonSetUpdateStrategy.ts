@@ -5,11 +5,11 @@ import type { RollingUpdateDaemonSet } from './RollingUpdateDaemonSet.ts';
  */
 export interface DaemonSetUpdateStrategy {
   /**
-   * Rolling update config params. Present only if type = \"RollingUpdate\".
+   * Rolling update config params. Present only if type = "RollingUpdate".
    */
   rollingUpdate?: RollingUpdateDaemonSet;
   /**
-   * Type of daemon set update. Can be \"RollingUpdate\" or \"OnDelete\". Default is RollingUpdate.
+   * Type of daemon set update. Can be "RollingUpdate" or "OnDelete". Default is RollingUpdate.
    */
   type?: string;
 }

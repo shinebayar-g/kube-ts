@@ -27,7 +27,7 @@ export interface DeploymentSpec {
    */
   revisionHistoryLimit?: number;
   /**
-   * Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template\'s labels.
+   * Label selector for pods. Existing ReplicaSets whose pods are selected by this will be the ones affected by this deployment. It must match the pod template's labels.
    */
   selector: LabelSelector;
   /**
@@ -35,7 +35,7 @@ export interface DeploymentSpec {
    */
   strategy?: DeploymentStrategy;
   /**
-   * Template describes the pods that will be created. The only allowed template.spec.restartPolicy value is \"Always\".
+   * Template describes the pods that will be created. The only allowed template.spec.restartPolicy value is "Always".
    */
   template: PodTemplateSpec;
 }

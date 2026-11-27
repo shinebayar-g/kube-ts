@@ -5,13 +5,13 @@ import type { HTTPHeader } from './HTTPHeader.ts';
  */
 export interface HTTPGetAction {
   /**
-   * Host name to connect to, defaults to the pod IP. You probably want to set \"Host\" in httpHeaders instead.
+   * Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead.
    */
   host?: string;
   /**
    * Custom headers to set in the request. HTTP allows repeated headers.
    */
-  httpHeaders?: Array<HTTPHeader>;
+  httpHeaders?: HTTPHeader[];
   /**
    * Path to access on the HTTP server.
    */

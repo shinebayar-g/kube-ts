@@ -3,7 +3,7 @@
  */
 export interface ScopedResourceSelectorRequirement {
   /**
-   * Represents a scope\'s relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist.
+   * Represents a scope's relationship to a set of values. Valid operators are In, NotIn, Exists, DoesNotExist.
    */
   operator: string;
   /**
@@ -13,5 +13,5 @@ export interface ScopedResourceSelectorRequirement {
   /**
    * An array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch.
    */
-  values?: Array<string>;
+  values?: string[];
 }

@@ -11,5 +11,5 @@ export interface DownwardAPIVolumeSource {
   /**
    * Items is a list of downward API volume file
    */
-  items?: Array<DownwardAPIVolumeFile>;
+  items?: DownwardAPIVolumeFile[];
 }

@@ -7,7 +7,9 @@ export interface ResourceClaimTemplateArgs {
 }
 
 /**
- * ResourceClaimTemplate is used to produce ResourceClaim objects.  This is an alpha type and requires enabling the DynamicResourceAllocation feature gate.
+ * ResourceClaimTemplate is used to produce ResourceClaim objects.
+ *
+ * This is an alpha type and requires enabling the DynamicResourceAllocation feature gate.
  */
 export class ResourceClaimTemplate extends NamespacedResource {
   /**
@@ -19,7 +21,9 @@ export class ResourceClaimTemplate extends NamespacedResource {
    */
   declare readonly kind: 'ResourceClaimTemplate';
   /**
-   * Describes the ResourceClaim that is to be generated.  This field is immutable. A ResourceClaim will get created by the control plane for a Pod when needed and then not get updated anymore.
+   * Describes the ResourceClaim that is to be generated.
+   *
+   * This field is immutable. A ResourceClaim will get created by the control plane for a Pod when needed and then not get updated anymore.
    */
   declare readonly spec: ResourceClaimTemplateSpec;
 

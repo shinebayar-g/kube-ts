@@ -11,5 +11,5 @@ export interface ProjectedVolumeSource {
   /**
    * sources is the list of volume projections. Each entry in this list handles one source.
    */
-  sources?: Array<VolumeProjection>;
+  sources?: VolumeProjection[];
 }

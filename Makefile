@@ -22,13 +22,9 @@ download-schema:
 	@cd tools/codegen/openapi-spec/$(k8sVersion)/ && rm -f $(k8sUnusedOpenApiFiles)
 
 
-# Requires java to run openapi-generator
 # Reads tools/codegen/openapi-spec/$(k8sVersion)/*.json files
-# Generates tools/codegen/gen/$(k8sVersion)/models/*.ts files
-# For each schema JSON file, every entry in components.schemas.<key> is generated as a separate
-# TypeScript class in its own file (no interfaces).
-# However, the number of schemas does not exactly match the number of generated .ts files,
-# because some schemas do not have any properties and therefore do not have a corresponding TypeScript class generated.
+# Generates tools/codegen/gen/$(k8sVersion)/models/*.ts files (json-schema-to-typescript):
+# one interface or type per schema in components.schemas, one file each.
 .PHONY: models
 models:
 	@echo "Generating Kubernetes models"

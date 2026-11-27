@@ -4,16 +4,20 @@ import { type Scope, ClusterResource, type ClusterResourceMeta } from '@kube-ts/
 export interface StorageClassArgs {
   readonly metadata?: ClusterResourceMeta;
   readonly allowVolumeExpansion?: boolean;
-  readonly allowedTopologies?: Array<TopologySelectorTerm>;
-  readonly mountOptions?: Array<string>;
-  readonly parameters?: { [key: string]: string };
+  readonly allowedTopologies?: TopologySelectorTerm[];
+  readonly mountOptions?: string[];
+  readonly parameters?: {
+    [key: string]: string;
+  };
   readonly provisioner: string;
   readonly reclaimPolicy?: string;
   readonly volumeBindingMode?: string;
 }
 
 /**
- * StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.  StorageClasses are non-namespaced; the name of the storage class according to etcd is in ObjectMeta.Name.
+ * StorageClass describes the parameters for a class of storage for which PersistentVolumes can be dynamically provisioned.
+ *
+ * StorageClasses are non-namespaced; the name of the storage class according to etcd is in ObjectMeta.Name.
  */
 export class StorageClass extends ClusterResource {
   /**
@@ -31,15 +35,17 @@ export class StorageClass extends ClusterResource {
   /**
    * allowedTopologies restrict the node topologies where volumes can be dynamically provisioned. Each volume plugin defines its own supported topology specifications. An empty TopologySelectorTerm list means there is no topology restriction. This field is only honored by servers that enable the VolumeScheduling feature.
    */
-  declare readonly allowedTopologies?: Array<TopologySelectorTerm>;
+  declare readonly allowedTopologies?: TopologySelectorTerm[];
   /**
-   * mountOptions controls the mountOptions for dynamically provisioned PersistentVolumes of this storage class. e.g. [\"ro\", \"soft\"]. Not validated - mount of the PVs will simply fail if one is invalid.
+   * mountOptions controls the mountOptions for dynamically provisioned PersistentVolumes of this storage class. e.g. ["ro", "soft"]. Not validated - mount of the PVs will simply fail if one is invalid.
    */
-  declare readonly mountOptions?: Array<string>;
+  declare readonly mountOptions?: string[];
   /**
    * parameters holds the parameters for the provisioner that should create volumes of this storage class.
    */
-  declare readonly parameters?: { [key: string]: string };
+  declare readonly parameters?: {
+    [key: string]: string;
+  };
   /**
    * provisioner indicates the type of the provisioner.
    */
