@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.2.0](https://github.com/shinebayar-g/kube-ts/compare/@kube-ts/cli@0.1.0...@kube-ts/cli@0.2.0) (2026-11-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* **cli:** only replace generated package dirs, never the whole outDir ([#336](https://github.com/shinebayar-g/kube-ts/issues/336))
+
+### Bug Fixes
+
+* **cli:** only replace generated package dirs, never the whole outDir ([#336](https://github.com/shinebayar-g/kube-ts/issues/336)) ([1d52a6a](https://github.com/shinebayar-g/kube-ts/commit/1d52a6a3c4ca558aa7f1bafee8b9ef60c3c23f86))
+
 ## 0.1.0 (2026-11-27)
 
 
