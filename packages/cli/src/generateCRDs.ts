@@ -53,7 +53,7 @@ function isK8sList(o: unknown): o is K8sList {
     return typeof o === 'object' && o !== null && 'kind' in o && o.kind === 'List';
 }
 
-interface KubeTsConfig {
+export interface KubeTsConfig {
     /**
      * @default "./crds"
      */
@@ -102,45 +102,93 @@ interface Output {
 // Same order as `Array.prototype.sort()`: by UTF-16 code unit, not locale.
 const byCodeUnit = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
 
-export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig) {
+/**
+ * Resolves `outDir` and refuses anything outside the current directory,
+ * so a bad config can't point the package replacement at `..`, `/` or `~`.
+ */
+function resolveOutDir(outDir: string) {
+    const cwd = process.cwd();
+    const resolved = path.resolve(cwd, outDir);
+    const relative = path.relative(cwd, resolved);
+    if (relative === '' || relative.startsWith('..') || path.isAbsolute(relative)) {
+        throw new Error(
+            `outDir must be a subdirectory of the current directory (${cwd}), got "${outDir}"`,
+        );
+    }
+    return resolved;
+}
+
+/** Package names become a single directory under `outDir`, nothing else. */
+function assertPackageName(pkg: string) {
+    if (!/^[A-Za-z0-9_-][A-Za-z0-9._-]*$/.test(pkg)) {
+        throw new Error(
+            `invalid package name "${pkg}": use letters, digits, ".", "_" and "-", without path separators`,
+        );
+    }
+}
+
+export async function generateCRDs(config: KubeTsConfig) {
     const project = new Project({
         manipulationSettings: {
             indentationText: IndentationText.TwoSpaces,
             quoteKind: QuoteKind.Single,
         },
     });
-    const outDir = path.resolve(config?.outDir || './crds');
+    const outDir = resolveOutDir(config.outDir || './crds');
+    const packages = Object.entries(config.crds || {});
+    for (const [pkg] of packages) assertPackageName(pkg);
     /**
      * Kinds per version per package dir, for the barrel files.
-     * @example { "<outDir>/argocd": { v1alpha1: ["AppProject", "Application"] } }
+     * @example { "<tmpDir>/argocd": { v1alpha1: ["AppProject", "Application"] } }
      */
     const barrels = new Map<string, Map<string, string[]>>();
-    fs.rmSync(outDir, { recursive: true, force: true });
     fs.mkdirSync(cacheHome, { recursive: true });
-    const output: Output = {};
-
-    if (crdPathOrUrl) {
-        output[''] = [];
-        try {
-            const url = new URL(crdPathOrUrl);
-            await fetchAndParseCRDs(output[''], url.toString(), cacheHome);
-        } catch {
-            log(`Reading CRDs from ${styleText('yellowBright', crdPathOrUrl)}`);
-            parseCRDs(output[''], fs.readFileSync(crdPathOrUrl, 'utf-8'));
+    fs.mkdirSync(outDir, { recursive: true });
+    /**
+     * Files are generated here, then each package dir is swapped into `outDir`
+     * only after everything succeeded.
+     */
+    const tmpDir = fs.mkdtempSync(path.join(outDir, '.kube-ts-'));
+    try {
+        await generateInto(tmpDir, packages, project, barrels);
+        for (const [pkg] of packages) {
+            const generated = path.join(tmpDir, pkg);
+            const target = path.join(outDir, pkg);
+            fs.rmSync(target, { recursive: true, force: true });
+            if (fs.existsSync(generated)) {
+                fs.renameSync(generated, target);
+            } else {
+                log(
+                    styleText(
+                        'yellow',
+                        `No CRD with a schema found for "${pkg}", nothing generated`,
+                    ),
+                );
+            }
         }
-    } else if (config) {
-        for (const [pkg, urls] of Object.entries(config.crds || {})) {
-            output[pkg] = [];
-            const cacheDir = path.join(cacheHome, pkg);
-            fs.mkdirSync(cacheDir, { recursive: true });
-            for (const url of urls) {
-                try {
-                    new URL(url);
-                    await fetchAndParseCRDs(output[pkg], url, cacheDir);
-                } catch {
-                    log(`Reading CRDs from ${styleText('yellowBright', url)} (local)`);
-                    parseCRDs(output[pkg], fs.readFileSync(url, 'utf-8'));
-                }
+    } finally {
+        fs.rmSync(tmpDir, { recursive: true, force: true });
+    }
+}
+
+async function generateInto(
+    outDir: string,
+    packages: [string, string[]][],
+    project: Project,
+    barrels: Map<string, Map<string, string[]>>,
+) {
+    const output: Output = {};
+    for (const [pkg, urls] of packages) {
+        output[pkg] = [];
+        const cacheDir = path.join(cacheHome, pkg);
+        fs.mkdirSync(cacheDir, { recursive: true });
+        for (const url of urls) {
+            try {
+                new URL(url);
+                await fetchAndParseCRDs(output[pkg], url, cacheDir);
+            } catch {
+                log(`Reading CRDs from ${styleText('yellowBright', url)} (local)`);
+                parseCRDs(output[pkg], fs.readFileSync(url, 'utf-8'));
             }
         }
     }
@@ -288,6 +336,8 @@ export async function generateCRDs(crdPathOrUrl?: string, config?: KubeTsConfig)
         });
     }
 
-    log(`Saving generated files to the ${styleText('yellowBright', outDir)} directory`);
+    log(
+        `Saving generated files to the ${styleText('yellowBright', path.dirname(outDir))} directory`,
+    );
     project.saveSync();
 }
