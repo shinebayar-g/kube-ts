@@ -114,9 +114,12 @@ new k8s.apps.v1.Deployment(app, 'nginx', { ... });
 Generates TypeScript classes from Kubernetes Custom Resource Definitions (CRDs).
 
 ```sh
-# From a YAML file or a URL, written to ./crds
-npx @kube-ts/cli path/to/crd.yaml
-npx @kube-ts/cli https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml
+# From a YAML file or a URL, written to ./crds/<name>
+npx @kube-ts/cli path/to/crd.yaml --name moco
+npx @kube-ts/cli https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml --name argocd
+
+# --out-dir changes the output directory, here to ./src/crds/argocd
+npx @kube-ts/cli path/to/crd.yaml --name argocd --out-dir src/crds
 
 # Without an argument, reads ./kube-ts.yaml
 npx @kube-ts/cli
@@ -126,7 +129,7 @@ npx @kube-ts/cli
 
 ```yaml
 # kube-ts.yaml
-outDir: src/crds # default: ./crds
+outDir: src/crds # default: ./crds, must be inside the current directory
 crds:
   argocd:
     - https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.13.2/manifests/crds/application-crd.yaml

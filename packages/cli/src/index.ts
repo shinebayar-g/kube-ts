@@ -9,11 +9,13 @@ const usage = `Usage: kube-ts [options] [crd-path-or-url]
 Generates TypeScript classes from CRDs. Without an argument, reads ./kube-ts.yaml.
 
 Arguments:
-  crd-path-or-url  CRD path or URL
+  crd-path-or-url      CRD path or URL, written to <out-dir>/<name>
 
 Options:
-  -V, --version    output the version number
-  -h, --help       display help for command`;
+  -n, --name <name>    package directory name, required with crd-path-or-url
+  -o, --out-dir <dir>  output directory (default: ./crds)
+  -V, --version        output the version number
+  -h, --help           display help for command`;
 
 async function main() {
     const { values, positionals } = parseArgs({
@@ -21,6 +23,8 @@ async function main() {
         options: {
             version: { type: 'boolean', short: 'V' },
             help: { type: 'boolean', short: 'h' },
+            name: { type: 'string', short: 'n' },
+            'out-dir': { type: 'string', short: 'o' },
         },
     });
     if (values.help) {
@@ -36,13 +40,16 @@ async function main() {
         usageError(`expected at most one CRD path or URL, got ${positionals.length}`);
     }
 
-    const crdPathOrUrl = positionals[0];
-    if (crdPathOrUrl) {
-        await generateCRDs(crdPathOrUrl);
-    } else {
+    const [crdPathOrUrl] = positionals;
+    const { name, 'out-dir': outDir } = values;
+
+    if (!crdPathOrUrl) {
+        if (name) usageError('--name only applies with a CRD path or URL');
         const config = readConfig('./kube-ts.yaml');
-        await generateCRDs(crdPathOrUrl, config);
+        return generateCRDs({ ...config, outDir: outDir ?? config.outDir });
     }
+    if (!name) usageError('--name is required with a CRD path or URL');
+    await generateCRDs({ outDir, crds: { [name]: [crdPathOrUrl] } });
 }
 
 function usageError(message: string): never {
